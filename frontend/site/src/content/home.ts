@@ -1,33 +1,28 @@
 /**
  * Copy e dados da página Início.
  * Fontes: mockup "REII_Pagina_Inicio_Mockup.pdf" e ecrãs da app "REII_Ecras.pdf".
- * Todos os números são VALORES DE DEMONSTRAÇÃO até serem validados.
+ * Todos os números são valores de demonstração do exemplo T2 Coimbra, até serem validados.
+ * Imagens geradas a partir de site/docs/prompts-imagens.md.
  */
-import casaDeBanho from "@/assets/photos/casa-de-banho.jpg";
-import cozinha from "@/assets/photos/cozinha.jpg";
-import fachadaAzulejo from "@/assets/photos/fachada-azulejo.jpg";
-import fachadaPortaVerde from "@/assets/photos/fachada-porta-verde.jpg";
-import lisboaTelhados from "@/assets/photos/lisboa-telhados.jpg";
-import portoCasa from "@/assets/photos/porto-casa.jpg";
-import salaEstar from "@/assets/photos/sala-estar.jpg";
-import salaJantar from "@/assets/photos/sala-jantar.jpg";
-import salaVazia from "@/assets/photos/sala-vazia-2560.jpg";
-import t2Fachada from "@/assets/photos/t2-coimbra-fachada.jpg";
-import t2Sala from "@/assets/photos/t2-coimbra-sala.jpg";
+import capa from "@/assets/photos/capa-lisboa.jpg";
+import t2Cozinha from "@/assets/photos/exemplo-t2-cozinha.jpg";
+import t2Fachada from "@/assets/photos/exemplo-t2-fachada.jpg";
+import t2Sala from "@/assets/photos/exemplo-t2-sala.jpg";
+import fecho from "@/assets/photos/fecho-sala.jpg";
+import palco from "@/assets/photos/palco-passos.jpg";
+import herdei from "@/assets/photos/situacao-herdei.jpg";
+import vazio from "@/assets/photos/situacao-imovel-vazio.jpg";
+import investidor from "@/assets/photos/situacao-investidor.jpg";
+import segundaCasa from "@/assets/photos/situacao-segunda-casa.jpg";
 import t3Fachada from "@/assets/photos/t3-lisboa-fachada.jpg";
 
 export const photos = {
-  lisboaTelhados,
-  fachadaAzulejo,
-  portoCasa,
-  salaVazia,
-  fachadaPortaVerde,
-  salaJantar,
-  casaDeBanho,
-  salaEstar,
-  cozinha,
+  capa,
+  palco,
+  fecho,
   t2Fachada,
   t2Sala,
+  t2Cozinha,
   t3Fachada,
 };
 
@@ -47,32 +42,6 @@ export const demo = {
   npv: 41_800,
 } as const;
 
-/** Imóveis da conta de demonstração ("Os meus imóveis", na app). */
-export const portfolio = [
-  {
-    name: "T2 · Coimbra",
-    place: "Sé Nova, Coimbra",
-    specs: "88 m² · 2 quartos",
-    date: "Última análise: 06 mai 2026",
-    image: t2Fachada,
-    sell: 372_000,
-    sellGain: "+52 000 € (+16,3 %)",
-    rent: 1_200,
-    rentTotal: "72 000 €",
-  },
-  {
-    name: "T3 · Lisboa",
-    place: "Arroios, Lisboa",
-    specs: "120 m² · 3 quartos",
-    date: "Última análise: 28 abr 2026",
-    image: t3Fachada,
-    sell: 735_000,
-    sellGain: "+115 000 € (+18,5 %)",
-    rent: 2_300,
-    rentTotal: "138 000 €",
-  },
-] as const;
-
 export const hero = {
   title: "Vender ou arrendar? Veja os dois caminhos lado a lado.",
   subtitle:
@@ -83,7 +52,7 @@ export const hero = {
 
 export const problem = {
   title: "Toda a gente tem uma opinião sobre a sua casa.",
-  lead: "Quase ninguém compara as duas opções com os mesmos números. E quase todos ganham alguma coisa com a sua escolha.",
+  lead: "Quase ninguém compara as duas opções com os mesmos números. E muitos ganham alguma coisa com a sua escolha.",
   voices: [
     {
       who: "O agente imobiliário",
@@ -93,7 +62,7 @@ export const problem = {
     {
       who: "A família e os amigos",
       says: "“O meu primo arrendou e está a ganhar bem.”",
-      note: "Ninguém conta as despesas, nem os meses sem inquilino.",
+      note: "Quase nunca se contam as despesas nem os meses sem inquilino.",
     },
     {
       who: "Os anúncios",
@@ -102,7 +71,8 @@ export const problem = {
     },
   ],
   answer: "O REII põe vender e arrendar lado a lado, com o mesmo prazo e as mesmas regras.",
-  answerMuted: "Cobramos a análise, não a decisão: paga o mesmo, venda ou arrende. Não recebemos comissões de agentes nem de gestores de arrendamento.",
+  answerMuted:
+    "Cobramos a análise, não a decisão: paga o mesmo, venda ou arrende. Não recebemos comissões de agentes nem de gestores de arrendamento.",
 };
 
 export const audience = {
@@ -111,41 +81,41 @@ export const audience = {
     {
       title: "Herdei uma casa",
       text: "Vender e dividir, ou arrendar e ter um rendimento todos os meses? Fica com uma análise que pode mostrar ao resto da família.",
-      image: salaJantar,
-      alt: "Sala de jantar de família com mesa de madeira",
+      image: herdei,
+      alt: "Sala de jantar de família com caixas por arrumar e chaves em cima da mesa",
     },
     {
       title: "Tenho uma segunda habitação",
       text: "Uma casa que usa pouco. Perceba quanto lhe custa mantê-la e quanto poderia render se a arrendasse.",
-      image: portoCasa,
-      alt: "Casa com azulejo junto ao rio",
+      image: segundaCasa,
+      alt: "Casa de férias caiada, com portadas azuis fechadas e um limoeiro",
     },
     {
       title: "Tenho um imóvel vazio",
       text: "Uma casa parada também custa dinheiro: IMI, condomínio e manutenção. Veja quanto está a deixar de ganhar.",
-      image: fachadaPortaVerde,
-      alt: "Fachada de azulejo com porta verde fechada",
+      image: vazio,
+      alt: "Apartamento vazio com chaves e cartas por abrir no parapeito",
     },
     {
       title: "Sou investidor",
       text: "Compare a rentabilidade de cada imóvel com os mesmos critérios e veja por onde começar.",
-      image: fachadaAzulejo,
-      alt: "Prédio com fachada de azulejo e varandas",
+      image: investidor,
+      alt: "Três prédios vizinhos com fachadas diferentes numa rua inclinada",
     },
   ],
 };
 
 export const steps = {
   title: "Da morada à resposta, em três passos.",
-  lead: "Não precisa de saber o que é uma taxa de desconto. Responde ao que sabe sobre a casa; o REII trata das contas.",
+  lead: "Não precisa de saber o que é uma taxa de desconto. Basta responder ao que sabe sobre a casa; o REII faz as contas.",
   items: [
     {
       title: "Conte-nos a sua situação",
-      text: "Herdou, tem uma segunda casa, um imóvel parado ou vários. A análise começa pelo que mais lhe interessa.",
+      text: "Herdou uma casa, tem uma segunda habitação, um imóvel parado ou vários. A análise começa pelo que mais lhe interessa.",
     },
     {
       title: "Descreva a casa",
-      text: "Tipologia, área, estado e morada. O que não souber, o REII estima e diz-lhe que estimou.",
+      text: "Tipologia, área, estado e morada. Se não souber algum dado, o REII estima-o e assinala que é uma estimativa.",
     },
     {
       title: "Veja os dois caminhos",
@@ -156,7 +126,7 @@ export const steps = {
 
 export const product = {
   title: "Uma resposta clara, num só ecrã.",
-  lead: "Todos os seus imóveis num sítio, cada um com os dois caminhos lado a lado. Pode rever, comparar e partilhar quando quiser.",
+  lead: "Todos os seus imóveis num só sítio, cada um com os dois caminhos lado a lado. Pode rever, comparar e partilhar quando quiser.",
   screens: [
     { label: "Os meus imóveis", text: "Todos os imóveis, cada um com os dois caminhos." },
     { label: "Mercado comparativo", text: "As casas parecidas que sustentam o valor." },
@@ -175,7 +145,7 @@ export const explain = {
       tone: "sell",
       question: "Como chegaram aos 372 000 €?",
       answer:
-        "Partimos do valor de hoje, 320 000 €, estimado a partir de 6 imóveis comparáveis na Sé Nova e em Celas. Aplicámos uma valorização de 3,1 % ao ano, estimada a partir da evolução da zona.",
+        "Partimos do valor de hoje, 320 000 €, estimado a partir de 6 imóveis comparáveis num raio de 1,2 km. Aplicámos uma valorização de 3,1 % ao ano, estimada a partir da evolução da zona.",
       source: "SIR e INE · 6 de maio de 2026",
     },
     {
@@ -185,7 +155,7 @@ export const explain = {
       tone: "rent",
       question: "Como chegaram aos 1 200 € de renda?",
       answer:
-        "É a renda mais comum de T2 com 80 a 95 m² arrendados na Sé Nova e em Celas nos últimos 6 meses, entre 1 150 € e 1 350 €. Ajustámos porque tem garagem e certificado B.",
+        "É a renda mais comum de T2 com 80 a 95 m² arrendados na Sé Nova e em Celas nos últimos 6 meses, entre 1 150 € e 1 350 €. Ajustámos ao seu imóvel porque tem garagem e certificado energético B.",
       source: "Idealista e INE · 6 de maio de 2026",
     },
     {
@@ -195,8 +165,8 @@ export const explain = {
       tone: "ink",
       question: "O que quer dizer o ganho de 41 800 €?",
       answer:
-        "É quanto vale hoje arrendar durante 5 anos e vender no fim, já descontando o que o dinheiro renderia noutro lado, a 5 % ao ano. Positivo quer dizer que, nestes pressupostos, arrendar rende mais.",
-      source: "Motor financeiro REII · pressupostos editáveis",
+        "É quanto vale hoje arrendar durante 5 anos e vender no fim, já descontando o que o dinheiro renderia noutra aplicação, a 5 % ao ano. Como é positivo, nestes pressupostos arrendar rende mais.",
+      source: "Motor financeiro REII · pressupostos que pode alterar",
     },
   ],
   guarantees: ["Fonte e data em todos os valores", "Aviso claro quando os dados da zona são poucos", "O que fica de fora, dito por escrito"],
@@ -215,29 +185,30 @@ export const sources = {
 
 export const example = {
   title: "A Francisca herdou um T2 em Coimbra. Foi isto que o REII lhe mostrou.",
-  lead: "Herdou um T2 com 88 m² na Sé Nova e não sabia se o devia vender ou arrendar. Estes foram os números que viu, com a mesma análise que recebe para a sua casa.",
+  lead: "Um apartamento de 88 m² na Sé Nova, num prédio de 2008. Não sabia se o devia vender ou arrendar. Estes foram os números que viu, com a mesma análise que recebe para a sua casa.",
   cta: { label: "Analisar o meu imóvel", note: "Quer ver estes números para a sua casa?" },
   gallery: [
-    { image: salaEstar, alt: "Sala de estar com varanda" },
-    { image: cozinha, alt: "Cozinha com janela" },
-    { image: casaDeBanho, alt: "Casa de banho com janela" },
+    { image: t2Sala, alt: "Sala do T2 com varanda e vista para a torre da Universidade de Coimbra" },
+    { image: t2Cozinha, alt: "Cozinha do T2 com janela sobre os telhados" },
+    { image: t2Fachada, alt: "Fachada do prédio do T2, com varandas e garagem" },
   ],
   figures: [
-    { label: "Valor hoje", value: "320 000 €" },
-    { label: "Vender, daqui a 5 anos", value: "372 000 €" },
-    { label: "Arrendar", value: "1 200 €/mês" },
-    { label: "A resposta muda abaixo de", value: "1 050 €/mês" },
+    { label: "Valor hoje", value: "320 000 €" },
+    { label: "Vender, daqui a 5 anos", value: "372 000 €" },
+    { label: "Arrendar", value: "1 200 €/mês" },
+    { label: "A resposta muda abaixo de", value: "1 050 €/mês" },
   ],
 };
 
 export const faq = {
   title: "Perguntas frequentes",
   lead: "Não encontra a sua? Escreva-nos para",
+  // TODO(equipa): confirmar o endereço de apoio.
   email: "ajuda@reii.pt",
   items: [
     {
       q: "Como funcionam os créditos?",
-      a: "Compra um pacote de créditos e usa-os quando precisar, sem mensalidades. Antes de cada análise vê quantos créditos vai gastar.",
+      a: "Compra um pacote de créditos e usa-os quando precisar, sem mensalidades. O custo de cada operação está na página Preços.",
     },
     {
       q: "O REII substitui a avaliação de um perito?",
@@ -249,7 +220,7 @@ export const faq = {
     },
     {
       q: "O que acontece aos dados do meu imóvel?",
-      a: "Ficam guardados na sua conta para poder rever e partilhar a análise. Nunca os vendemos nem os passamos a agentes ou imobiliárias.",
+      a: "Ficam guardados na sua conta, para poder rever e partilhar a análise. Nunca os vendemos nem os passamos a agentes ou imobiliárias.",
     },
     {
       q: "O REII diz-me o que devo fazer?",
@@ -260,7 +231,7 @@ export const faq = {
 
 export const finalCta = {
   title: "A casa é sua. A decisão também.",
-  lead: "Veja os dois caminhos com números claros, e decida com calma.",
-  image: salaVazia,
-  alt: "Sala vazia com janelas altas, uma cadeira e luz de fim de tarde",
+  lead: "Veja os dois caminhos com números claros e decida com calma.",
+  image: fecho,
+  alt: "Sala vazia com janelas altas, uma cadeira e a sombra das árvores no chão",
 };

@@ -17,7 +17,7 @@ export function Hero() {
     <section data-hero-dark className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-rent-deep text-white">
       <HeroBackdrop>
         <Image
-          src={photos.lisboaTelhados}
+          src={photos.capa}
           alt=""
           fill
           priority

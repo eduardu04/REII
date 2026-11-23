@@ -81,7 +81,7 @@ export function Steps() {
 
           <Reveal className="lg:col-span-8">
             <div className="relative overflow-hidden rounded-[1.75rem] bg-rent-deep">
-              <Image src={photos.fachadaAzulejo} alt="" fill placeholder="blur" sizes="66vw" className="object-cover opacity-70" />
+              <Image src={photos.palco} alt="" fill placeholder="blur" sizes="66vw" className="object-cover opacity-70" />
               <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-rent-deep/70 via-rent-deep/25 to-transparent" />
               <div className="relative grid place-items-center p-3 sm:p-8">
                 <AnimatePresence mode="wait">

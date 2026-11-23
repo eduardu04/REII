@@ -26,8 +26,6 @@ import {
 } from "lucide-react";
 
 import { Logo } from "@/components/brand/logo";
-import cozinha2 from "@/assets/photos/t2-cozinha-2.jpg";
-import cozinha from "@/assets/photos/t2-cozinha.jpg";
 import quarto from "@/assets/photos/t2-quarto.jpg";
 import wc from "@/assets/photos/t2-wc.jpg";
 import metrobus from "@/assets/photos/coimbra-metrobus.jpg";
@@ -457,7 +455,7 @@ export function ReportScreen() {
         <div className="w-[344px] shrink-0">
           <Thumb src={photos.t2Fachada} className="h-[186px] w-full" sizes="344px" />
           <div className="mt-2.5 grid grid-cols-4 gap-2.5">
-            {[photos.t2Sala, cozinha, quarto].map((src, i) => (
+            {[photos.t2Cozinha, quarto, wc].map((src, i) => (
               <Thumb key={i} src={src} className="h-[64px]" sizes="80px" />
             ))}
             <span className="grid h-[64px] place-items-center rounded-[10px] bg-ink text-[16px] font-semibold text-white">+8</span>
@@ -649,10 +647,10 @@ export function CharacterizationScreen() {
               <span className="absolute top-3 left-3 rounded-full bg-black/55 px-2.5 py-1 text-[12px] font-semibold text-white">1 / 6</span>
             </div>
             <div className="grid flex-1 grid-cols-3 gap-4">
-              {[quarto, cozinha, cozinha2, wc, photos.t2Fachada].map((src, i) => (
+              {[quarto, photos.t2Cozinha, wc, photos.t2Fachada].map((src, i) => (
                 <Thumb key={i} src={src} className="h-[140px]" sizes="120px" />
               ))}
-              <span data-cursor="1" className="grid h-[140px] place-items-center rounded-[10px] border border-dashed border-ink-3/40 bg-white text-center text-[14px] font-semibold text-rent">
+              <span data-cursor="1" className="col-span-2 grid h-[140px] place-items-center rounded-[10px] border border-dashed border-ink-3/40 bg-white text-center text-[14px] font-semibold text-rent">
                 <span>
                   <Plus className="mx-auto mb-1.5 size-6" />
                   Adicionar
