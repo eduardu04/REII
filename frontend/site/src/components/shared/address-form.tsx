@@ -42,7 +42,7 @@ export function AddressForm({ tone = "light", className }: AddressFormProps) {
           name="local"
           type="text"
           autoComplete="street-address"
-          placeholder="Morada ou freguesia do imóvel"
+          placeholder="Morada ou freguesia"
           className={cn(
             "h-12 w-full min-w-0 bg-transparent text-[1rem] outline-none",
             dark ? "text-white placeholder:text-white/65" : "text-ink placeholder:text-ink-3",

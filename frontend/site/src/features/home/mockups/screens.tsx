@@ -45,8 +45,12 @@ import { LineChart, PriceBars, ZoneMap } from "./charts";
 
 /* ——— peças comuns ——— */
 
-function Card({ className, children }: { className?: string; children: React.ReactNode }) {
-  return <div className={cn("rounded-[14px] bg-white shadow-[0_1px_2px_rgb(0_0_0/0.04)] ring-1 ring-line", className)}>{children}</div>;
+function Card({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={cn("rounded-[14px] bg-white shadow-[0_1px_2px_rgb(0_0_0/0.04)] ring-1 ring-line", className)} {...props}>
+      {children}
+    </div>
+  );
 }
 
 function Pill({ children, tone = "rent" }: { children: React.ReactNode; tone?: "rent" | "sell" | "neutral" | "amber" }) {
@@ -154,6 +158,7 @@ function AnalysisTabs({ active }: { active: string }) {
       {tabs.map(({ label, icon: Icon }) => (
         <span
           key={label}
+          data-cursor={label === active ? "1" : undefined}
           className={cn(
             "flex items-center gap-2 rounded-[10px] px-4 py-2.5 text-[15px]",
             label === active ? "bg-rent font-semibold text-white" : "text-ink",
@@ -184,7 +189,7 @@ export function MyPropertiesScreen() {
           <h3 className="text-[34px] font-semibold tracking-[-0.02em]">Os meus imóveis</h3>
           <p className="mt-2 text-[16px] text-ink-2">Acompanhe, analise e compare as opções de venda ou arrendamento.</p>
         </div>
-        <span className="flex items-center gap-2 rounded-[10px] bg-rent px-5 py-3 text-[16px] font-semibold text-white">
+        <span data-cursor="1" className="flex items-center gap-2 rounded-[10px] bg-rent px-5 py-3 text-[16px] font-semibold text-white">
           <Plus className="size-5" /> Nova análise
         </span>
       </div>
@@ -211,7 +216,7 @@ export function MyPropertiesScreen() {
       </div>
 
       <div className="mt-5 space-y-5">
-        {PORTFOLIO.map((p) => (
+        {PORTFOLIO.map((p, pi) => (
           <Card key={p.name} className="flex items-center gap-7 p-5">
             <Thumb src={p.image} className="h-[166px] w-[208px] shrink-0" sizes="210px" />
             <div className="w-[250px] text-[14px] text-ink-2">
@@ -226,7 +231,7 @@ export function MyPropertiesScreen() {
                 <Calendar className="size-4" /> {p.date}
               </p>
             </div>
-            <div className="flex-1 rounded-[12px] bg-sell-soft p-5 ring-1 ring-sell/10">
+            <div data-cursor={pi === 0 ? "2" : undefined} className="flex-1 rounded-[12px] bg-sell-soft p-5 ring-1 ring-sell/10">
               <Pill tone="sell">Vender</Pill>
               <p className="mt-3 text-[14px] text-ink-2">Daqui a 5 anos</p>
               <p className="mt-1 flex items-center gap-2 text-[26px] font-semibold tracking-[-0.02em]">
@@ -236,7 +241,7 @@ export function MyPropertiesScreen() {
                 <TrendingUp className="size-3.5" /> {p.gain}
               </span>
             </div>
-            <div className="flex-1 rounded-[12px] bg-rent-soft p-5 ring-1 ring-rent/10">
+            <div data-cursor={pi === 0 ? "3" : undefined} className="flex-1 rounded-[12px] bg-rent-soft p-5 ring-1 ring-rent/10">
               <Pill>Arrendar</Pill>
               <p className="mt-3 text-[14px] text-ink-2">Renda estimada</p>
               <p className="mt-1 flex items-center gap-2 text-[26px] font-semibold tracking-[-0.02em]">
@@ -246,7 +251,7 @@ export function MyPropertiesScreen() {
                 Rendimento em 5 anos: <b className="text-ink">{p.total}</b>
               </p>
             </div>
-            <span className="grid size-11 place-items-center rounded-[10px] ring-1 ring-line">
+            <span data-cursor={pi === 1 ? "4" : undefined} className="grid size-11 place-items-center rounded-[10px] ring-1 ring-line">
               <MoreHorizontal className="size-5 text-ink-2" />
             </span>
           </Card>
@@ -307,7 +312,7 @@ export function ComparablesScreen() {
           { k: "Variação (últ. 12 meses)", v: "+6,8 %", icon: TrendingUp, tone: "rent" as const, green: true },
           { k: "N.º de comparáveis", v: "6 imóveis", icon: Building2, tone: "neutral" as const },
         ].map(({ k, v, icon: Icon, tone, green }) => (
-          <Card key={k} className="flex gap-4 p-6">
+          <Card key={k} data-cursor={k.startsWith("Valor") ? "2" : undefined} className="flex gap-4 p-6">
             <IconBox tone={tone}>
               <Icon className="size-5" />
             </IconBox>
@@ -322,7 +327,7 @@ export function ComparablesScreen() {
       </div>
 
       <div className="mt-5 flex gap-5">
-        <Card className="w-[280px] shrink-0 p-3">
+        <Card data-cursor="4" className="w-[280px] shrink-0 p-3">
           <div className="relative">
             <ZoneMap width={254} height={380} />
             <span className="absolute top-3 left-3 rounded-full bg-white px-3 py-1.5 text-[13px] font-semibold shadow-sm">Coimbra</span>
@@ -354,7 +359,7 @@ export function ComparablesScreen() {
               </thead>
               <tbody>
                 {COMPARABLES.map((r, ri) => (
-                  <tr key={ri} className={cn("border-t border-line", ri === 0 && "bg-surface/60 font-semibold")}>
+                  <tr key={ri} data-cursor={ri === 1 ? "3" : undefined} className={cn("border-t border-line", ri === 0 && "bg-surface/60 font-semibold")}>
                     {r.map((c, ci) => (
                       <td key={ci} className={cn("px-4 py-3.5 tabular-nums", ci < 2 ? "text-left" : "text-right")}>
                         {ci === 0 && ri === 0 ? (
@@ -442,7 +447,7 @@ export function ReportScreen() {
           <span className="flex items-center gap-2 rounded-[10px] bg-white px-5 py-3 text-[16px] font-semibold text-rent ring-1 ring-rent/50">
             <Share2 className="size-4" /> Partilhar
           </span>
-          <span className="flex items-center gap-2 rounded-[10px] bg-rent px-5 py-3 text-[16px] font-semibold text-white">
+          <span data-cursor="1" className="flex items-center gap-2 rounded-[10px] bg-rent px-5 py-3 text-[16px] font-semibold text-white">
             <Download className="size-4" /> Exportar PDF
           </span>
         </div>
@@ -473,7 +478,7 @@ export function ReportScreen() {
             <Calendar className="size-4" /> Analisado em 06 mai 2026
           </p>
         </div>
-        <div className="flex-1 rounded-[14px] bg-rent-soft/70 p-6 ring-1 ring-rent/10">
+        <div data-cursor="2" className="flex-1 rounded-[14px] bg-rent-soft/70 p-6 ring-1 ring-rent/10">
           <p className="flex items-center gap-2 text-[16px] font-semibold text-rent">
             <BarChart3 className="size-4" /> O que os números mostram
           </p>
@@ -493,7 +498,7 @@ export function ReportScreen() {
           { l: "Projeções", icon: TrendingUp },
           { l: "Riscos e notas", icon: ShieldCheck },
         ].map(({ l, icon: Icon }, i) => (
-          <span key={l} className={cn("flex items-center gap-2 rounded-[10px] px-4 py-2.5 text-[15px]", i === 0 ? "bg-rent font-semibold text-white" : "text-ink")}>
+          <span key={l} data-cursor={l === "Projeções" ? "3" : undefined} className={cn("flex items-center gap-2 rounded-[10px] px-4 py-2.5 text-[15px]", i === 0 ? "bg-rent font-semibold text-white" : "text-ink")}>
             <Icon className="size-4" /> {l}
           </span>
         ))}
@@ -647,7 +652,7 @@ export function CharacterizationScreen() {
               {[quarto, cozinha, cozinha2, wc, photos.t2Fachada].map((src, i) => (
                 <Thumb key={i} src={src} className="h-[140px]" sizes="120px" />
               ))}
-              <span className="grid h-[140px] place-items-center rounded-[10px] border border-dashed border-ink-3/40 bg-white text-center text-[14px] font-semibold text-rent">
+              <span data-cursor="1" className="grid h-[140px] place-items-center rounded-[10px] border border-dashed border-ink-3/40 bg-white text-center text-[14px] font-semibold text-rent">
                 <span>
                   <Plus className="mx-auto mb-1.5 size-6" />
                   Adicionar
@@ -667,7 +672,7 @@ export function CharacterizationScreen() {
                   <p className="text-[14px] font-semibold">
                     {label} {req && <span className="text-sell">*</span>}
                   </p>
-                  <p className="mt-2 flex items-center justify-between rounded-[8px] bg-white px-4 py-3 text-[16px] ring-1 ring-line">
+                  <p data-cursor={label === "Tipologia" ? "2" : label === "Quartos" ? "3" : undefined} className="mt-2 flex items-center justify-between rounded-[8px] bg-white px-4 py-3 text-[16px] ring-1 ring-line">
                     {value} {unit && <span className="text-[14px] text-ink-3">{unit}</span>}
                   </p>
                 </div>
@@ -781,7 +786,7 @@ export function ResultsScreen() {
             <p className="text-[19px] font-semibold">Cenário de análise</p>
             <div className="mt-4 grid grid-cols-3 rounded-[10px] bg-surface p-1 text-[14px]">
               {["Conservador", "Central", "Otimista"].map((s) => (
-                <span key={s} className={cn("rounded-[8px] py-2 text-center", s === "Central" ? "bg-white font-semibold shadow-sm ring-1 ring-ink" : "text-ink-2")}>
+                <span key={s} data-cursor={s === "Otimista" ? "1" : undefined} className={cn("rounded-[8px] py-2 text-center", s === "Central" ? "bg-white font-semibold shadow-sm ring-1 ring-ink" : "text-ink-2")}>
                   {s}
                 </span>
               ))}
@@ -790,7 +795,7 @@ export function ResultsScreen() {
           </Card>
           <Card className="p-6">
             <p className="text-[19px] font-semibold">Indicadores principais</p>
-            <div className="mt-4 rounded-[12px] bg-sell-soft p-4">
+            <div data-cursor="2" className="mt-4 rounded-[12px] bg-sell-soft p-4">
               <p className="text-[15px] font-semibold text-sell">Venda</p>
               {[
                 ["Valor estimado", "372 000 €"],
@@ -802,7 +807,7 @@ export function ResultsScreen() {
                 </p>
               ))}
             </div>
-            <div className="mt-3 rounded-[12px] bg-rent-soft p-4">
+            <div data-cursor="3" className="mt-3 rounded-[12px] bg-rent-soft p-4">
               <p className="text-[15px] font-semibold text-rent">Arrendamento</p>
               {[
                 ["Renda mensal", "1 200 €"],
@@ -864,6 +869,7 @@ export function OnboardingScreen() {
           {situations.map((s, i) => (
             <span
               key={s}
+              data-cursor={i === 0 ? "1" : undefined}
               className={cn(
                 "flex items-center gap-4 rounded-[12px] px-6 py-6 text-[17px] font-semibold ring-1",
                 i === 0 ? "bg-rent-soft/60 ring-rent" : "bg-white ring-line",
@@ -881,7 +887,7 @@ export function OnboardingScreen() {
         <p className="mt-2 text-[15px] text-ink-2">Não há resposta certa. Usamos isto só para mostrar primeiro a informação que mais lhe interessa.</p>
         <div className="mt-6 grid grid-cols-3 gap-4">
           {priorities.map(([t, d], i) => (
-            <span key={t} className={cn("rounded-[12px] p-6 ring-1", i === 0 ? "bg-rent-soft/60 ring-rent" : "bg-white ring-line")}>
+            <span key={t} data-cursor={i === 2 ? "2" : undefined} className={cn("rounded-[12px] p-6 ring-1", i === 0 ? "bg-rent-soft/60 ring-rent" : "bg-white ring-line")}>
               <IconBox>{[<ShoppingBag key="s" className="size-5" />, <Calendar key="c" className="size-5" />, <Eye key="e" className="size-5" />][i]}</IconBox>
               <span className="mt-5 block text-[18px] font-semibold">{t}</span>
               <span className="mt-2 block text-[14px] text-ink-2">{d}</span>
@@ -890,7 +896,7 @@ export function OnboardingScreen() {
         </div>
         <div className="mt-12 flex items-center justify-between">
           <span className="text-[16px] font-semibold text-rent">Já tenho conta · Entrar</span>
-          <span className="flex items-center gap-2 rounded-[10px] bg-rent px-7 py-4 text-[16px] font-semibold text-white">
+          <span data-cursor="3" className="flex items-center gap-2 rounded-[10px] bg-rent px-7 py-4 text-[16px] font-semibold text-white">
             Continuar <ArrowRight className="size-4" />
           </span>
         </div>

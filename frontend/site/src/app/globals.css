@@ -176,6 +176,14 @@
   text-transform: uppercase;
 }
 
+/* Realce do elemento onde o cursor animado dos ecrãs da app pousa. */
+[data-cursor] {
+  transition: box-shadow 0.4s ease;
+}
+[data-cursor][data-hover] {
+  box-shadow: 0 0 0 3px rgb(15 76 69 / 0.28);
+}
+
 @keyframes reii-fill {
   from {
     transform: scaleX(0);

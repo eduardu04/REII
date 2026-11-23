@@ -57,7 +57,7 @@ export function Result() {
                   exit={{ opacity: 0, transition: { duration: 0.25 } }}
                   transition={{ duration: 0.5, ease: EASE }}
                 >
-                  <ScaledScreen viewport={860} play duration={8}>
+                  <ScaledScreen viewport={860} cursor>
                     <Screen />
                   </ScaledScreen>
                 </m.div>

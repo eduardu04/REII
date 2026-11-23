@@ -78,7 +78,7 @@ export const hero = {
   subtitle:
     "Diga-nos onde fica o imóvel e como é. O REII estima quanto vale hoje, quanto pode render em renda e como fica cada opção daqui a 5 ou 10 anos, com a fonte de cada número.",
   // TODO(equipa): condição de entrada (ex.: primeira análise grátis) ainda por definir.
-  notes: ["Sem compromisso", "Não precisa de saber de finanças", "A decisão é sempre sua"],
+  notes: ["Sem mensalidades", "Não precisa de saber de finanças", "A decisão é sempre sua"],
 };
 
 export const problem = {
@@ -102,7 +102,7 @@ export const problem = {
     },
   ],
   answer: "O REII põe vender e arrendar lado a lado, com o mesmo prazo e as mesmas regras.",
-  answerMuted: "Não recebemos comissões de ninguém. Não ganhamos nada com a sua escolha.",
+  answerMuted: "Cobramos a análise, não a decisão: paga o mesmo, venda ou arrende. Não recebemos comissões de agentes nem de gestores de arrendamento.",
 };
 
 export const audience = {
@@ -166,7 +166,7 @@ export const product = {
 
 export const explain = {
   title: "Cada número explica-se.",
-  lead: "Toque num valor e o REII diz como lá chegou, de onde vieram os dados e quando foram recolhidos. Explica; não decide por si.",
+  lead: "Escolha um valor e o REII diz como lá chegou, de onde vieram os dados e quando foram recolhidos. Explica; não decide por si.",
   numbers: [
     {
       key: "sell",
@@ -175,7 +175,7 @@ export const explain = {
       tone: "sell",
       question: "Como chegaram aos 372 000 €?",
       answer:
-        "Partimos do valor de hoje, 320 000 €, estimado a partir de 6 vendas de T2 semelhantes na zona. Aplicámos a valorização média da Sé Nova nos últimos 5 anos, 3,1 % ao ano.",
+        "Partimos do valor de hoje, 320 000 €, estimado a partir de 6 imóveis comparáveis na Sé Nova e em Celas. Aplicámos uma valorização de 3,1 % ao ano, estimada a partir da evolução da zona.",
       source: "SIR e INE · 6 de maio de 2026",
     },
     {
@@ -215,8 +215,8 @@ export const sources = {
 
 export const example = {
   title: "A Francisca herdou um T2 em Coimbra. Foi isto que o REII lhe mostrou.",
-  lead: "Uma análise completa, aberta a qualquer pessoa, sem criar conta. É exatamente o que recebe quando analisa o seu imóvel.",
-  cta: { label: "Abrir a análise completa", href: "/exemplo" },
+  lead: "Herdou um T2 com 88 m² na Sé Nova e não sabia se o devia vender ou arrendar. Estes foram os números que viu, com a mesma análise que recebe para a sua casa.",
+  cta: { label: "Analisar o meu imóvel", note: "Quer ver estes números para a sua casa?" },
   gallery: [
     { image: salaEstar, alt: "Sala de estar com varanda" },
     { image: cozinha, alt: "Cozinha com janela" },

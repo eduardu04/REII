@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ImageReveal } from "@/components/motion/editorial";
 import { Reveal } from "@/components/motion/reveal";
 import { ButtonLink } from "@/components/shared/button-link";
+import { siteConfig } from "@/config/site";
 import { example } from "@/content/home";
 
 /**
@@ -38,15 +39,15 @@ export function Example() {
             {example.figures.map((f) => (
               <div key={f.label}>
                 <dt className="text-[0.85rem] text-ink-2">{f.label}</dt>
-                <dd className="mt-2 text-[1.6rem] font-semibold tracking-[-0.04em] text-ink tabular sm:text-[2.1rem]">{f.value}</dd>
+                <dd className="mt-2 text-[1.3rem] font-semibold tracking-[-0.04em] whitespace-nowrap text-ink tabular sm:text-[2.1rem]">{f.value}</dd>
               </div>
             ))}
           </dl>
-          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
-            <ButtonLink href={example.cta.href} size="lg" arrow>
+          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 rounded-[1.25rem] bg-surface p-5 sm:p-6">
+            <span className="text-[1.05rem] font-semibold tracking-[-0.01em] text-ink">{example.cta.note}</span>
+            <ButtonLink href={siteConfig.appUrl} size="lg" arrow className="sm:ml-auto">
               {example.cta.label}
             </ButtonLink>
-            <span className="text-[0.88rem] text-ink-3">Sem criar conta · valores de demonstração</span>
           </div>
         </Reveal>
       </div>

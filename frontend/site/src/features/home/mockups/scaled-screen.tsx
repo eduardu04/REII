@@ -1,38 +1,38 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { m, useReducedMotion } from "motion/react";
 
 import { cn } from "@/lib/utils";
+
+import { FakeCursor } from "./fake-cursor";
 
 /** Largura a que os ecrãs da app são desenhados (igual ao ficheiro da dashboard). */
 export const DESIGN_W = 1440;
 
 /**
  * Mostra um ecrã da app à largura do desenho original e reduz tudo em proporção ao espaço
- * disponível. Assim os cartões ficam alinhados exatamente como na dashboard, em qualquer ecrã.
+ * disponível, para os cartões ficarem alinhados exatamente como na dashboard.
  *
- * Com `viewport` (altura visível, em px do desenho), ecrãs compridos deslizam devagar de cima
- * a baixo enquanto estão ativos (`play`), como uma captura a percorrer a página.
+ * Com `viewport` (altura visível, em px do desenho) o ecrã fica parado no topo e pode ser
+ * percorrido com a roda do rato ou com o dedo. Com `cursor`, um cursor animado (padrão Libra)
+ * passa pelos elementos marcados com `data-cursor`; some quando a pessoa põe o rato em cima.
  */
 export function ScaledScreen({
   children,
   viewport,
-  play = false,
-  duration = 8,
+  cursor = false,
   className,
 }: {
   children: React.ReactNode;
   viewport?: number;
-  play?: boolean;
-  duration?: number;
+  cursor?: boolean;
   className?: string;
 }) {
   const outer = useRef<HTMLDivElement>(null);
   const inner = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
   const [scale, setScale] = useState(0);
   const [contentH, setContentH] = useState(0);
+  const [hover, setHover] = useState(false);
 
   useEffect(() => {
     const o = outer.current;
@@ -40,7 +40,7 @@ export function ScaledScreen({
     if (!o || !i) return;
     const ro = new ResizeObserver(() => {
       setScale(o.clientWidth / DESIGN_W);
-      setContentH(i.scrollHeight);
+      setContentH(i.offsetHeight);
     });
     ro.observe(o);
     ro.observe(i);
@@ -48,24 +48,29 @@ export function ScaledScreen({
   }, []);
 
   const visibleH = viewport ? Math.min(viewport, contentH || viewport) : contentH;
-  const travel = Math.max(0, contentH - visibleH);
-  const shouldScroll = !!viewport && play && !reduce && travel > 0;
+  const scrollable = !!viewport && contentH > viewport;
 
   return (
     <div
       ref={outer}
-      className={cn("relative w-full overflow-hidden", className)}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      className={cn(
+        "relative w-full",
+        scrollable ? "overflow-x-hidden overflow-y-auto [scrollbar-width:thin]" : "overflow-hidden",
+        className,
+      )}
       style={{ height: scale ? visibleH * scale : undefined, aspectRatio: scale ? undefined : `${DESIGN_W} / ${viewport ?? 900}` }}
+      tabIndex={scrollable ? 0 : undefined}
+      aria-label={scrollable ? "Ecrã da app (pode percorrer)" : undefined}
     >
-      <div className="absolute top-0 left-0 origin-top-left" style={{ width: DESIGN_W, transform: `scale(${scale || 0.0001})` }}>
-        <m.div
-          ref={inner}
-          initial={{ y: 0 }}
-          animate={{ y: shouldScroll ? -travel : 0 }}
-          transition={shouldScroll ? { duration, delay: 1.4, ease: [0.45, 0, 0.55, 1] } : { duration: 0.6 }}
-        >
-          {children}
-        </m.div>
+      <div className="relative" style={{ height: scale ? contentH * scale : undefined }}>
+        <div className="absolute top-0 left-0 origin-top-left" style={{ width: DESIGN_W, transform: `scale(${scale || 0.0001})` }}>
+          <div ref={inner} className="relative">
+            {children}
+            {cursor && scale > 0 && <FakeCursor container={inner} paused={hover} />}
+          </div>
+        </div>
       </div>
     </div>
   );

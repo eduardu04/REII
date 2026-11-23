@@ -93,7 +93,7 @@ export function Steps() {
                     exit={{ opacity: 0, transition: { duration: 0.25 } }}
                     transition={{ duration: 0.6, ease: EASE }}
                   >
-                    <ScaledScreen viewport={900} play duration={6}>
+                    <ScaledScreen viewport={900} cursor>
                       <Screen />
                     </ScaledScreen>
                   </m.div>
