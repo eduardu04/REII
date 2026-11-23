@@ -1,35 +1,32 @@
-import { Check } from "lucide-react";
-
 import { Reveal } from "@/components/motion/reveal";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { ai } from "@/content/home";
 
 import { AiChat } from "../mockups/ai-chat";
 
-/** 7 · IA que explica: explicadora, não oráculo. */
+/** 7 · IA que explica. Secção escura (o único contraste forte da página antes do fecho). */
 export function AiExplains() {
   return (
-    <section className="bg-cream-deep/60 py-20 sm:py-28">
-      <div className="container-page grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-        <div>
-          <SectionHeading eyebrow={ai.eyebrow} title={ai.title} lead={ai.lead} />
-          <ul className="mt-8 space-y-3">
+    <section className="bg-rent-deep py-24 text-white sm:py-32">
+      <div className="shell">
+        <SectionHeading index="05" label={ai.label} title={ai.title} lead={ai.lead} tone="light" />
+
+        <div className="mt-14 grid gap-10 lg:mt-20 lg:grid-cols-12 lg:gap-8">
+          <ul className="border-t border-white/15 lg:col-span-4 lg:col-start-4 lg:self-end">
             {ai.points.map((point, i) => (
-              <li key={point}>
-                <Reveal index={i + 3} className="flex items-center gap-3 text-base text-ink">
-                  <span className="grid size-6 place-items-center rounded-full bg-rent text-white">
-                    <Check aria-hidden className="size-3.5" />
-                  </span>
-                  {point}
+              <li key={point} className="border-b border-white/15">
+                <Reveal index={i} className="flex items-baseline gap-4 py-5">
+                  <span className="text-[0.8rem] font-semibold text-mint tabular">0{i + 1}</span>
+                  <span className="text-[1.05rem] font-medium tracking-[-0.015em] text-white/90">{point}</span>
                 </Reveal>
               </li>
             ))}
           </ul>
-        </div>
 
-        <Reveal y={40}>
-          <AiChat />
-        </Reveal>
+          <Reveal y={48} className="lg:col-span-5">
+            <AiChat />
+          </Reveal>
+        </div>
       </div>
     </section>
   );

@@ -35,20 +35,20 @@ export function AiChat() {
   }, [inView, reduce]);
 
   return (
-    <div ref={ref} className="rounded-2xl bg-card p-4 shadow-lift ring-1 ring-line sm:p-6">
+    <div ref={ref} className="rounded-2xl bg-white p-4 shadow-float ring-1 ring-black/5 sm:p-6">
       <div className="flex items-center gap-2 border-b border-line pb-3">
         <span className="grid size-7 place-items-center rounded-lg bg-rent text-white">
           <Sparkles aria-hidden className="size-3.5" />
         </span>
         <p className="text-sm font-medium text-ink">Agente REII</p>
-        <span className="ml-auto truncate text-xs text-ink-soft">{demo.property.title}</span>
+        <span className="ml-auto truncate text-xs text-ink-2">{demo.property.title}</span>
       </div>
 
       <div className="flex min-h-[20rem] flex-col gap-3 pt-4" aria-live="polite">
         {shown >= 1 && (
           <m.div
             {...enter}
-            className="max-w-[85%] self-end rounded-2xl rounded-br-md bg-ink px-4 py-2.5 text-sm text-white"
+            className="max-w-[85%] self-end rounded-2xl rounded-br-md bg-rent px-4 py-2.5 text-sm text-white"
           >
             {ai.question}
           </m.div>
@@ -60,14 +60,14 @@ export function AiChat() {
               key="typing"
               {...enter}
               exit={{ opacity: 0, transition: { duration: 0.2 } }}
-              className="flex w-16 items-center justify-center gap-1 self-start rounded-2xl rounded-bl-md bg-cream px-4 py-3.5"
+              className="flex w-16 items-center justify-center gap-1 self-start rounded-2xl rounded-bl-md bg-surface px-4 py-3.5"
               role="status"
               aria-label="O agente está a escrever"
             >
               {[0, 1, 2].map((i) => (
                 <m.span
                   key={i}
-                  className="size-1.5 rounded-full bg-ink-soft"
+                  className="size-1.5 rounded-full bg-ink-3"
                   animate={{ opacity: [0.3, 1, 0.3] }}
                   transition={{ duration: 1, repeat: Infinity, delay: i * 0.15 }}
                 />
@@ -78,14 +78,14 @@ export function AiChat() {
             <m.div
               key="answer"
               {...enter}
-              className="max-w-[92%] self-start rounded-2xl rounded-bl-md bg-cream px-4 py-3 ring-1 ring-line"
+              className="max-w-[92%] self-start rounded-2xl rounded-bl-md bg-surface px-4 py-3 ring-1 ring-line"
             >
               <p className="text-sm leading-relaxed text-ink">{ai.answer}</p>
               <ul className="mt-3 flex flex-wrap gap-1.5" aria-label="Fontes">
                 {ai.sources.map((s) => (
                   <li
                     key={s}
-                    className="inline-flex items-center gap-1 rounded-md bg-white px-2 py-1 text-[0.7rem] text-ink-soft ring-1 ring-line"
+                    className="inline-flex items-center gap-1 rounded-md bg-white px-2 py-1 text-[0.7rem] text-ink-2 ring-1 ring-line"
                   >
                     <FileText aria-hidden className="size-3" />
                     {s}

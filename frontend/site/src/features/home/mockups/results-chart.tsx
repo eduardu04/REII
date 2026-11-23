@@ -93,7 +93,7 @@ export function ResultsChart({ horizon = 5 }: { horizon?: number }) {
         {TICKS.map((t) => (
           <g key={t}>
             <line x1={PAD.left} x2={W - PAD.right} y1={y(t)} y2={y(t)} stroke="var(--line)" strokeDasharray="2 4" />
-            <text x={PAD.left - 8} y={y(t)} dy="0.32em" textAnchor="end" className="fill-ink-soft text-[11px] tabular">
+            <text x={PAD.left - 8} y={y(t)} dy="0.32em" textAnchor="end" className="fill-ink-3 text-[11px] tabular">
               {t} k€
             </text>
           </g>
@@ -105,7 +105,7 @@ export function ResultsChart({ horizon = 5 }: { horizon?: number }) {
               key={yr}
               x={x(i)}
               y={H - 8}
-              textAnchor={i === 0 ? "start" : i === years.length - 1 ? "end" : "middle"} className="fill-ink-soft text-[11px] tabular">
+              textAnchor={i === 0 ? "start" : i === years.length - 1 ? "end" : "middle"} className="fill-ink-3 text-[11px] tabular">
               {yr === 0 ? "Hoje" : `${yr} anos`}
             </text>
           ) : null;
@@ -118,7 +118,7 @@ export function ResultsChart({ horizon = 5 }: { horizon?: number }) {
           width={28}
           height={H - PAD.top - PAD.bottom}
           rx={6}
-          fill="var(--cream-deep)"
+          fill="var(--surface-2)"
           opacity={0.7}
         />
 

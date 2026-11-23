@@ -5,11 +5,11 @@ export function DemoBadge({ className, children = "Valores de demonstração" }:
   return (
     <span
       className={cn(
-        "inline-flex shrink-0 items-center gap-1.5 rounded-full whitespace-nowrap bg-cream-deep px-2.5 py-1 text-[0.7rem] font-medium text-ink-soft",
+        "inline-flex shrink-0 items-center gap-1.5 rounded-full bg-surface px-2.5 py-1 text-[0.7rem] font-medium whitespace-nowrap text-ink-2",
         className,
       )}
     >
-      <span aria-hidden className="size-1.5 rounded-full bg-ink-soft/60" />
+      <span aria-hidden className="size-1.5 rounded-full bg-ink-3" />
       {children}
     </span>
   );

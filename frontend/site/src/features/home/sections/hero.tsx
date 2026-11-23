@@ -1,50 +1,68 @@
-import { Check } from "lucide-react";
+import Image from "next/image";
 
 import { Reveal } from "@/components/motion/reveal";
 import { AddressForm } from "@/components/shared/address-form";
-import { Eyebrow } from "@/components/shared/section-heading";
-import { hero } from "@/content/home";
+import { SectionLabel } from "@/components/shared/section-heading";
+import { siteConfig } from "@/config/site";
+import { hero, photos } from "@/content/home";
 
-import { DecisionCards } from "../mockups/decision-cards";
+import { DecisionCard } from "../mockups/decision-card";
 
-/** 1 · Hero: o benefício e o produto em 5 segundos. Pede só a localização. */
+/**
+ * 1 · Hero (como no mockup): à esquerda, a pergunta e o primeiro passo (só a morada);
+ * à direita, uma casa portuguesa real com os cartões Vender e Arrendar do T2 Coimbra por cima.
+ */
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24 lg:pt-20">
-      {/* Luz quente de fundo, muito subtil */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[36rem] bg-[radial-gradient(60%_50%_at_70%_30%,#fcf4ee_0%,transparent_70%),radial-gradient(50%_45%_at_20%_20%,#e8f0ee_0%,transparent_70%)]"
-      />
-      <div className="container-page grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
-        <div>
+    <section className="relative overflow-hidden bg-cream">
+      <div className="shell grid items-center gap-12 pt-10 pb-16 sm:pt-14 lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-12 lg:gap-8 lg:py-16">
+        <div className="lg:col-span-6 lg:pr-8">
           <Reveal>
-            <Eyebrow>{hero.eyebrow}</Eyebrow>
+            <SectionLabel>Para proprietários em Portugal</SectionLabel>
           </Reveal>
           <Reveal index={1}>
-            <h1 className="mt-4 text-[2.5rem] leading-[1.02] font-normal tracking-[-0.025em] text-ink sm:text-[3.5rem] lg:text-[4.1rem]">
-              <span className="pr-[0.06em] text-sell italic">Vender</span> {hero.titleStart}{" "}
-              <span className="pr-[0.04em] text-rent italic">arrendar</span>
-              {hero.titleEnd}
+            <h1 className="type-display mt-7 text-ink">
+              <span className="text-sell">Vender</span> ou <span className="text-rent">arrendar</span>? {hero.titleLines.slice(1).join(" ")}
             </h1>
           </Reveal>
           <Reveal index={2}>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">{hero.subtitle}</p>
+            <p className="type-lead mt-7 max-w-lg text-ink-2">{hero.subtitle}</p>
           </Reveal>
-          <Reveal index={3} className="mt-8 max-w-xl">
+          <Reveal index={3} className="mt-9 max-w-xl">
             <AddressForm />
-            <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-ink-soft">
-              {hero.reassurance.map((item) => (
-                <li key={item} className="inline-flex items-center gap-1.5">
-                  <Check aria-hidden className="size-4 text-rent" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+            <p className="mt-3 pl-5 text-[0.85rem] text-ink-3">{hero.reassurance}</p>
+          </Reveal>
+          <Reveal index={4} className="mt-12 border-t border-line pt-5">
+            <p className="text-[0.8rem] text-ink-3">
+              Dados de <span className="text-ink-2">{siteConfig.sources.join(" · ")}</span>
+            </p>
           </Reveal>
         </div>
 
-        <DecisionCards />
+        <div className="relative lg:col-span-6">
+          <Reveal y={24} className="relative ml-auto aspect-[4/5] w-full overflow-hidden rounded-[1.75rem] sm:w-[85%] lg:w-[88%]">
+            <Image
+              src={photos.portoCasa}
+              alt="Casa portuguesa com azulejo e porta verde, junto ao rio"
+              fill
+              priority
+              placeholder="blur"
+              sizes="(min-width: 1024px) 45vw, (min-width: 640px) 85vw, 100vw"
+              className="object-cover"
+            />
+            <span className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1.5 text-[0.75rem] font-medium text-ink backdrop-blur">
+              {"Sé Nova, Coimbra"}
+            </span>
+          </Reveal>
+
+          <Reveal
+            index={3}
+            y={24}
+            className="relative z-10 -mt-28 w-[92%] sm:absolute sm:bottom-10 sm:left-0 sm:mt-0 sm:w-[24rem] lg:-left-10 lg:w-[25rem]"
+          >
+            <DecisionCard />
+          </Reveal>
+        </div>
       </div>
     </section>
   );

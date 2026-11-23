@@ -8,7 +8,7 @@ Landing pages do REII (vender ou arrendar, lado a lado). A estrutura e o copy se
 - **Tailwind CSS 4** com os tokens da marca em `src/app/globals.css`
 - **shadcn/ui** (base-ui) em `src/components/ui`
 - **Motion** (`motion/react`, carregado com `LazyMotion`) para entradas e scroll
-- **GSAP** (só onde há desenho de gráficos, carregado no cliente)
+- **GSAP** + ScrollTrigger só no gráfico vender vs. arrendar
 - **lucide-react** para ícones
 
 ## Começar
@@ -39,11 +39,14 @@ src/
 ```
 
 ## Regras
-- **Cores com significado:** terracota (`sell`) = Vender, verde-escuro (`rent`) = Arrendar. Nunca ao contrário.
-- **Títulos** em Fraunces (`font-heading`); **números** sempre em Inter com `tabular`.
-- **Números em pt-PT:** usar `formatEuro` / `formatPercent` de `src/lib/format.ts` (372 000 €, 16,3 %).
-- **Movimento editorial:** só `transform`, `opacity`, `filter`; curva `cubic-bezier(.22,1,.36,1)`; respeitar `prefers-reduced-motion`.
+- **Cores:** branco e creme (`cream`) alternados por secção; verde-escuro (`rent`, `rent-deep`) é a cor da marca (botões, secção da IA, rodapé).
+- **Cores com significado nos dados:** terracota (`sell`) = Vender, verde (`rent`) = Arrendar. Nunca ao contrário.
+- **Tipografia:** Manrope em tudo (a do logótipo). Escala em `globals.css`: `type-display`, `type-h2`, `type-h3`, `type-lead`, `type-label`.
+- **Logótipo:** `components/brand/logo.tsx` (vetorizado do ficheiro da marca, `public/brand/reii-logo.svg`); usa `currentColor`.
+- **Fotografias:** em `src/assets/photos`, sempre com `next/image` (otimização e blur automáticos).
+- **Movimento contido:** entradas com fade + 16 px; um único momento ligado ao scroll (a frase do problema); só `transform` e `opacity`; respeitar `prefers-reduced-motion`.
 - **Dentro do `MotionProvider` usar `m.*`**, não `motion.*` (modo `strict`).
+- **Números em pt-PT:** `formatEuro` / `formatPercent` de `src/lib/format.ts`.
 - **Nada inventado:** sem testemunhos, logótipos de clientes ou estatísticas de utilizadores. Valores de exemplo levam a etiqueta "valores de demonstração".
 - **Responsivo primeiro no telemóvel** (margem lateral de 16 px, sem scroll horizontal).
 

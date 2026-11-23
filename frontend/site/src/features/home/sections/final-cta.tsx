@@ -1,23 +1,28 @@
+import Image from "next/image";
+
 import { Reveal } from "@/components/motion/reveal";
 import { AddressForm } from "@/components/shared/address-form";
 import { finalCta } from "@/content/home";
 
-/** 11 · CTA final: fecha com a promessa central e repete o primeiro passo. */
+/** 11 · CTA final: a sala vazia, a luz, e a promessa central. */
 export function FinalCta() {
   return (
-    <section className="bg-rent text-white">
-      <div className="container-page py-20 text-center sm:py-28">
+    <section className="relative isolate overflow-hidden bg-rent-deep text-white">
+      <Image src={finalCta.image} alt={finalCta.alt} fill placeholder="blur" sizes="100vw" className="-z-10 object-cover" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-rent-deep/55 via-rent-deep/35 to-rent-deep/85" />
+
+      <div className="shell flex min-h-[80vh] flex-col justify-end py-20 sm:py-28">
         <Reveal>
-          <h2 className="mx-auto max-w-3xl text-[2.3rem] leading-[1.05] font-normal tracking-[-0.02em] sm:text-[3.2rem] lg:text-[3.8rem]">
-            {finalCta.title}
-          </h2>
+          <h2 className="type-display max-w-[14ch] text-white">{finalCta.title}</h2>
         </Reveal>
-        <Reveal index={1}>
-          <p className="mx-auto mt-5 max-w-xl text-base text-white/75 sm:text-lg">{finalCta.lead}</p>
-        </Reveal>
-        <Reveal index={2} className="mx-auto mt-10 max-w-xl">
-          <AddressForm tone="dark" />
-        </Reveal>
+        <div className="mt-10 grid gap-6 lg:grid-cols-12 lg:items-end">
+          <Reveal index={1} className="lg:col-span-5">
+            <p className="type-lead text-white/80">{finalCta.lead}</p>
+          </Reveal>
+          <Reveal index={2} className="lg:col-span-6 lg:col-start-7">
+            <AddressForm tone="dark" />
+          </Reveal>
+        </div>
       </div>
     </section>
   );

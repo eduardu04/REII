@@ -1,29 +1,49 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+"use client";
+
+import { Accordion } from "@base-ui/react/accordion";
+import { Plus } from "lucide-react";
+
 import { Reveal } from "@/components/motion/reveal";
-import { SectionHeading } from "@/components/shared/section-heading";
+import { SectionLabel } from "@/components/shared/section-heading";
 import { faq } from "@/content/home";
 
-/** 10 · Perguntas frequentes: responde às objeções antes do botão final. */
+/** 10 · Perguntas frequentes: linhas finas, "+" que roda para "×". */
 export function Faq() {
   return (
-    <section className="bg-cream-deep/60 py-20 sm:py-28">
-      <div className="container-page grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
-        <SectionHeading eyebrow={faq.eyebrow} title={faq.title} />
-
-        <Reveal index={1}>
-          <Accordion className="rounded-2xl bg-card px-5 shadow-card ring-1 ring-line sm:px-7">
-            {faq.items.map((item) => (
-              <AccordionItem key={item.q} value={item.q} className="border-line">
-                <AccordionTrigger className="py-5 font-sans text-base font-medium text-ink hover:no-underline">
-                  {item.q}
-                </AccordionTrigger>
-                <AccordionContent className="pb-5 text-base leading-relaxed text-ink-soft">
-                  {item.a}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </Reveal>
+    <section className="py-24 sm:py-32">
+      <div className="shell grid gap-10 lg:grid-cols-12 lg:gap-8">
+        <div className="lg:col-span-3">
+          <Reveal>
+            <SectionLabel index="08">{faq.label}</SectionLabel>
+          </Reveal>
+        </div>
+        <div className="lg:col-span-9">
+          <Reveal>
+            <h2 className="type-h2 text-ink">{faq.title}</h2>
+          </Reveal>
+          <Reveal index={1} className="mt-12">
+            <Accordion.Root className="border-t border-line">
+              {faq.items.map((item) => (
+                <Accordion.Item key={item.q} value={item.q} className="border-b border-line">
+                  <Accordion.Header>
+                    <Accordion.Trigger className="group flex w-full items-center justify-between gap-6 py-6 text-left focus-visible:outline-2 focus-visible:outline-offset-4">
+                      <span className="text-[1.15rem] font-medium tracking-[-0.02em] text-ink sm:text-[1.3rem]">{item.q}</span>
+                      <span className="grid size-9 shrink-0 place-items-center rounded-full ring-1 ring-line transition-colors group-hover:bg-surface">
+                        <Plus
+                          aria-hidden
+                          className="size-4 text-ink transition-transform duration-500 ease-out-soft group-data-[panel-open]:rotate-45"
+                        />
+                      </span>
+                    </Accordion.Trigger>
+                  </Accordion.Header>
+                  <Accordion.Panel className="h-(--accordion-panel-height) overflow-hidden transition-[height] duration-500 ease-out-soft data-[ending-style]:h-0 data-[starting-style]:h-0">
+                    <p className="max-w-2xl pb-7 text-[1rem] leading-relaxed text-ink-2">{item.a}</p>
+                  </Accordion.Panel>
+                </Accordion.Item>
+              ))}
+            </Accordion.Root>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
