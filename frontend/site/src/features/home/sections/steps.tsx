@@ -11,9 +11,10 @@ import { SectionIntro } from "@/components/shared/section-heading";
 import { photos, steps } from "@/content/home";
 import { cn } from "@/lib/utils";
 
-import { CharacterizationScreen, OnboardingScreen, TwoPathsScreen } from "../mockups/screens";
+import { ScaledScreen } from "../mockups/scaled-screen";
+import { CharacterizationScreen, OnboardingScreen, ResultsScreen } from "../mockups/screens";
 
-const SCREENS = [OnboardingScreen, CharacterizationScreen, TwoPathsScreen];
+const SCREENS = [OnboardingScreen, CharacterizationScreen, ResultsScreen];
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 /**
@@ -21,7 +22,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
  * ao lado, o ecrã real da app correspondente sobe para um palco fotográfico.
  */
 export function Steps() {
-  const { active, setActive, running, paused, setPaused, reduce, bind, duration } = useAutoAdvance(steps.items.length, 6500);
+  const { active, setActive, running, paused, setPaused, reduce, bind, duration } = useAutoAdvance(steps.items.length, 9000);
   const Screen = SCREENS[active];
 
   return (
@@ -82,17 +83,19 @@ export function Steps() {
             <div className="relative overflow-hidden rounded-[1.75rem] bg-rent-deep">
               <Image src={photos.fachadaAzulejo} alt="" fill placeholder="blur" sizes="66vw" className="object-cover opacity-70" />
               <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-rent-deep/70 via-rent-deep/25 to-transparent" />
-              <div className="relative grid min-h-[30rem] place-items-center p-4 sm:min-h-[34rem] sm:p-10">
+              <div className="relative grid place-items-center p-3 sm:p-8">
                 <AnimatePresence mode="wait">
                   <m.div
                     key={active}
-                    className="w-full max-w-[46rem] shadow-[0_40px_80px_-30px_rgb(0_0_0/0.55)]"
+                    className="w-full overflow-hidden rounded-[1rem] shadow-[0_40px_80px_-30px_rgb(0_0_0/0.55)] ring-1 ring-black/10"
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, transition: { duration: 0.25 } }}
                     transition={{ duration: 0.6, ease: EASE }}
                   >
-                    <Screen />
+                    <ScaledScreen viewport={900} play duration={6}>
+                      <Screen />
+                    </ScaledScreen>
                   </m.div>
                 </AnimatePresence>
               </div>

@@ -7,7 +7,7 @@ import { sources } from "@/content/home";
  */
 export function Sources() {
   return (
-    <section className="bg-white pb-24 sm:pb-32">
+    <section className="bg-white py-24 sm:py-32">
       <div className="shell">
         <Reveal className="grid gap-6 pb-12 lg:grid-cols-12 lg:items-end lg:gap-8 lg:pb-16">
           <h2 className="type-h2 text-ink lg:col-span-7">{sources.title}</h2>

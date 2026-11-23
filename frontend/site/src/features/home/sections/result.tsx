@@ -9,6 +9,7 @@ import { SectionIntro } from "@/components/shared/section-heading";
 import { product } from "@/content/home";
 import { cn } from "@/lib/utils";
 
+import { ScaledScreen } from "../mockups/scaled-screen";
 import { ComparablesScreen, MyPropertiesScreen, ReportScreen } from "../mockups/screens";
 
 const SCREENS = [MyPropertiesScreen, ComparablesScreen, ReportScreen];
@@ -19,7 +20,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
  * (Os meus imóveis → Mercado comparativo → Relatório), com separadores e progresso.
  */
 export function Result() {
-  const { active, setActive, running, reduce, bind, duration } = useAutoAdvance(SCREENS.length, 7000);
+  const { active, setActive, running, reduce, bind, duration } = useAutoAdvance(SCREENS.length, 11000);
   const Screen = SCREENS[active];
 
   return (
@@ -46,7 +47,8 @@ export function Result() {
           </div>
 
           <Reveal className="mt-6">
-            <div className="relative overflow-hidden rounded-[1.5rem] bg-cream/5 p-2 ring-1 ring-white/10 sm:p-3">
+            <div className="relative overflow-hidden rounded-[1.5rem] bg-white/5 p-2 ring-1 ring-white/10 sm:p-3">
+              <div className="overflow-hidden rounded-[1rem]">
               <AnimatePresence mode="wait" initial={false}>
                 <m.div
                   key={active}
@@ -55,9 +57,12 @@ export function Result() {
                   exit={{ opacity: 0, transition: { duration: 0.25 } }}
                   transition={{ duration: 0.5, ease: EASE }}
                 >
-                  <Screen />
+                  <ScaledScreen viewport={860} play duration={8}>
+                    <Screen />
+                  </ScaledScreen>
                 </m.div>
               </AnimatePresence>
+              </div>
             </div>
           </Reveal>
         </div>

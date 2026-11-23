@@ -1,268 +1,835 @@
-import Image from "next/image";
-import { ArrowRight, Check, MapPin, Plus } from "lucide-react";
+import Image, { type StaticImageData } from "next/image";
+import {
+  ArrowRight,
+  BarChart3,
+  Building2,
+  Bus,
+  Calendar,
+  Check,
+  Download,
+  Eye,
+  FileText,
+  GraduationCap,
+  Home,
+  Info,
+  Landmark,
+  MapPin,
+  MoreHorizontal,
+  Plus,
+  Ruler,
+  Share2,
+  ShieldCheck,
+  ShoppingBag,
+  Store,
+  Trees,
+  TrendingUp,
+} from "lucide-react";
 
 import { Logo } from "@/components/brand/logo";
-import { demo, photos, portfolio } from "@/content/home";
-import { formatEuro, formatEuroMonth } from "@/lib/format";
+import cozinha2 from "@/assets/photos/t2-cozinha-2.jpg";
+import cozinha from "@/assets/photos/t2-cozinha.jpg";
+import quarto from "@/assets/photos/t2-quarto.jpg";
+import wc from "@/assets/photos/t2-wc.jpg";
+import metrobus from "@/assets/photos/coimbra-metrobus.jpg";
+import { photos } from "@/content/home";
 import { cn } from "@/lib/utils";
 
 import { AppShell } from "./app-shell";
+import { LineChart, PriceBars, ZoneMap } from "./charts";
+
 
 /*
- * Ecrãs da app REII recriados a partir de REII_Ecras.pdf, para a página Início.
- * Conteúdo estático com valores de demonstração; servem para mostrar o produto real.
+ * Ecrãs da app REII, recriados de REII_Ecras.pdf à largura de 1440 px (ver <ScaledScreen>).
+ * Valores de demonstração do T2 Coimbra. Sem classes responsivas, de propósito.
  */
 
+/* ——— peças comuns ——— */
+
 function Card({ className, children }: { className?: string; children: React.ReactNode }) {
-  return <div className={cn("rounded-xl bg-white ring-1 ring-line", className)}>{children}</div>;
+  return <div className={cn("rounded-[14px] bg-white shadow-[0_1px_2px_rgb(0_0_0/0.04)] ring-1 ring-line", className)}>{children}</div>;
 }
 
-function PageTitle({ eyebrow, title, text, action }: { eyebrow?: string; title: string; text: string; action?: React.ReactNode }) {
+function Pill({ children, tone = "rent" }: { children: React.ReactNode; tone?: "rent" | "sell" | "neutral" | "amber" }) {
+  const t = {
+    rent: "bg-rent-soft text-rent",
+    sell: "bg-sell-soft text-sell",
+    neutral: "bg-white text-ink ring-1 ring-line",
+    amber: "bg-[#f8ecd2] text-[#8a5a00]",
+  }[tone];
+  return <span className={cn("inline-flex items-center rounded-full px-2.5 py-1 text-[12px] font-semibold", t)}>{children}</span>;
+}
+
+function IconBox({ children, tone = "rent" }: { children: React.ReactNode; tone?: "rent" | "sell" | "neutral" }) {
+  const t = { rent: "bg-rent-soft text-rent", sell: "bg-sell-soft text-sell", neutral: "bg-surface text-ink-2" }[tone];
+  return <span className={cn("grid size-11 shrink-0 place-items-center rounded-[10px]", t)}>{children}</span>;
+}
+
+const I = ({ className }: { className?: string }) => <Info className={cn("size-[15px] text-ink-3", className)} strokeWidth={2} />;
+
+function Thumb({ src, className, sizes = "200px" }: { src: StaticImageData; className?: string; sizes?: string }) {
   return (
-    <div className="flex flex-wrap items-end justify-between gap-3">
-      <div>
-        {eyebrow && <span className="rounded-full bg-rent-soft px-2 py-0.5 text-[0.62rem] font-semibold text-rent">{eyebrow}</span>}
-        <p className="mt-1.5 text-[1.15rem] font-semibold tracking-[-0.02em] text-ink sm:text-[1.35rem]">{title}</p>
-        <p className="mt-0.5 text-[0.72rem] text-ink-2">{text}</p>
-      </div>
-      {action}
+    <span className={cn("relative block overflow-hidden rounded-[10px]", className)}>
+      <Image src={src} alt="" fill sizes={sizes} className="object-cover" />
+    </span>
+  );
+}
+
+function SellCard({ big = false, label = "Vender" }: { big?: boolean; label?: string }) {
+  return (
+    <div className="rounded-[14px] bg-sell-soft p-7 ring-1 ring-sell/10">
+      <p className="flex items-center gap-2.5 text-[17px] font-semibold text-sell">
+        <span className="size-4 rounded-[4px] bg-sell" /> {label}
+      </p>
+      <p className="mt-3 text-[14px] text-ink-2">Daqui a 5 anos</p>
+      <p className={cn("mt-2 flex items-center gap-2 font-semibold tracking-[-0.02em]", big ? "text-[44px]" : "text-[36px]")}>
+        372 000 € <I />
+      </p>
+      <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#e3f1e7] px-3 py-1 text-[14px] font-semibold text-success">
+        <TrendingUp className="size-4" /> +52 000 € (+16,3 %)
+      </span>
     </div>
   );
 }
 
-/* ——— Os meus imóveis ——— */
+function RentCard({ big = false }: { big?: boolean }) {
+  return (
+    <div className="rounded-[14px] bg-rent-soft p-7 ring-1 ring-rent/10">
+      <p className="flex items-center gap-2.5 text-[17px] font-semibold text-rent">
+        <span className="size-4 rounded-[4px] bg-rent" /> Arrendar
+      </p>
+      <p className="mt-3 text-[14px] text-ink-2">Renda estimada</p>
+      <p className={cn("mt-2 flex items-center gap-2 font-semibold tracking-[-0.02em]", big ? "text-[44px]" : "text-[36px]")}>
+        1 200 €/mês <I />
+      </p>
+      <p className="mt-3 flex items-center gap-2 text-[14px] text-ink-2">
+        <Calendar className="size-4" /> Total em 5 anos: <b className="text-ink">72 000 €</b>
+      </p>
+    </div>
+  );
+}
+
+function AiNotice({ title, text, action }: { title: string; text: string; action?: string }) {
+  return (
+    <div className="flex items-center gap-5 rounded-[14px] bg-rent-soft/70 px-7 py-5 ring-1 ring-rent/10">
+      <IconBox>
+        <ShieldCheck className="size-5" />
+      </IconBox>
+      <div className="flex-1">
+        <p className="text-[16px] font-semibold">{title}</p>
+        <p className="mt-1 text-[14px] leading-relaxed text-ink-2">{text}</p>
+      </div>
+      {action && (
+        <span className="rounded-[10px] bg-white px-4 py-2.5 text-[14px] font-semibold text-rent ring-1 ring-rent/40">{action}</span>
+      )}
+    </div>
+  );
+}
+
+function PropertyMini({ date = "Analisado em 06 mai 2026" }: { date?: string }) {
+  return (
+    <Card className="flex items-center gap-4 p-3 pr-6">
+      <Thumb src={photos.t2Fachada} className="h-[70px] w-[100px]" />
+      <div className="text-[13px] text-ink-2">
+        <p className="text-[16px] font-semibold text-ink">T2 · Coimbra</p>
+        <p className="mt-1 flex items-center gap-1.5">
+          <MapPin className="size-3.5" /> Sé Nova · 88 m² · 2 quartos
+        </p>
+        <p className="mt-0.5 flex items-center gap-1.5">
+          <Calendar className="size-3.5" /> {date}
+        </p>
+      </div>
+    </Card>
+  );
+}
+
+function AnalysisTabs({ active }: { active: string }) {
+  const tabs = [
+    { label: "Visão detalhada", icon: Eye },
+    { label: "Cálculos financeiros", icon: BarChart3 },
+    { label: "Zona e valorização", icon: MapPin },
+    { label: "Mercado comparativo", icon: Building2 },
+  ];
+  return (
+    <Card className="flex items-center gap-2 p-2">
+      {tabs.map(({ label, icon: Icon }) => (
+        <span
+          key={label}
+          className={cn(
+            "flex items-center gap-2 rounded-[10px] px-4 py-2.5 text-[15px]",
+            label === active ? "bg-rent font-semibold text-white" : "text-ink",
+          )}
+        >
+          <Icon className="size-4" /> {label}
+        </span>
+      ))}
+      <span className="ml-auto flex items-center gap-2 px-4 py-2.5 text-[15px]">
+        <FileText className="size-4" /> Relatório
+      </span>
+    </Card>
+  );
+}
+
+/* ——— Os meus imóveis (REII_Ecras p. 2) ——— */
+
+const PORTFOLIO = [
+  { name: "T2 · Coimbra", place: "Sé Nova, Coimbra", specs: "88 m² · 2 quartos", date: "Última análise: 06 mai 2026", image: photos.t2Fachada, sell: "372 000 €", gain: "+52 000 € (+16,3 %)", rent: "1 200 €/mês", total: "72 000 €" },
+  { name: "T3 · Lisboa", place: "Arroios, Lisboa", specs: "120 m² · 3 quartos", date: "Última análise: 28 abr 2026", image: photos.t3Fachada, sell: "735 000 €", gain: "+115 000 € (+18,5 %)", rent: "2 300 €/mês", total: "138 000 €" },
+];
+
 export function MyPropertiesScreen() {
   return (
-    <AppShell nav="Os meus imóveis" header={{ kind: "greeting", text: "Bom dia, Francisca" }}>
-      <PageTitle
-        title="Os meus imóveis"
-        text="Acompanhe, analise e compare as opções de venda ou arrendamento."
-        action={
-          <span className="inline-flex items-center gap-1.5 rounded-lg bg-rent px-3 py-2 text-[0.72rem] font-semibold text-white">
-            <Plus className="size-3.5" /> Nova análise
-          </span>
-        }
-      />
-      <div className="mt-4 grid grid-cols-3 gap-3">
-        {[
-          ["Imóveis analisados", "2"],
-          ["Potencial de valorização (5 anos)", "+167 000 €"],
-          ["Análises guardadas", "2"],
-        ].map(([k, v]) => (
-          <Card key={k} className="p-3.5">
-            <p className="text-[0.62rem] leading-tight text-ink-2">{k}</p>
-            <p className="mt-1.5 text-[1.05rem] font-semibold tracking-[-0.02em] text-ink tabular">{v}</p>
-          </Card>
-        ))}
-      </div>
-      <div className="mt-3 space-y-3">
-        {portfolio.map((p) => (
-          <Card key={p.name} className="flex flex-wrap items-center gap-3 p-3 sm:flex-nowrap sm:gap-4">
-            <span className="relative hidden h-20 w-28 shrink-0 overflow-hidden rounded-lg sm:block">
-              <Image src={p.image} alt="" fill sizes="112px" className="object-cover" />
-            </span>
-            <div className="min-w-0 basis-full sm:flex-1 sm:basis-auto">
-              <p className="text-[0.85rem] font-semibold text-ink">{p.name}</p>
-              <p className="mt-0.5 text-[0.65rem] text-ink-2">{p.place}</p>
-              <p className="text-[0.65rem] text-ink-2">{p.specs}</p>
-              <p className="text-[0.65rem] text-ink-3">{p.date}</p>
-            </div>
-            <div className="w-[calc(50%-0.375rem)] rounded-lg bg-sell-soft p-2.5 sm:w-[34%]">
-              <p className="text-[0.6rem] font-semibold text-sell">Vender · daqui a 5 anos</p>
-              <p className="mt-0.5 text-[0.95rem] font-semibold tracking-[-0.02em] text-ink tabular">{formatEuro(p.sell)}</p>
-              <p className="text-[0.6rem] font-semibold text-success">{p.sellGain}</p>
-            </div>
-            <div className="w-[calc(50%-0.375rem)] rounded-lg bg-rent-soft p-2.5 sm:w-[34%]">
-              <p className="text-[0.6rem] font-semibold text-rent">Arrendar · renda estimada</p>
-              <p className="mt-0.5 text-[0.95rem] font-semibold tracking-[-0.02em] text-ink tabular">{formatEuroMonth(p.rent)}</p>
-              <p className="text-[0.6rem] text-ink-2">5 anos: {p.rentTotal}</p>
-            </div>
-          </Card>
-        ))}
-      </div>
-      <p className="mt-3 text-[0.6rem] text-ink-3">Fonte: SIR, Confidencial Imobiliário e INE · Atualizado em 06 mai 2026</p>
-    </AppShell>
-  );
-}
-
-/* ——— Caracterização ——— */
-export function CharacterizationScreen() {
-  const fields = [
-    ["Tipologia", "T2"],
-    ["Área útil", "88 m²"],
-    ["Ano de construção", "2008"],
-    ["Estado", "Bom"],
-    ["Certificado energético", "B"],
-    ["Garagem", "Sim"],
-  ];
-  return (
-    <AppShell nav="Nova análise" header={{ kind: "stepper", current: 0 }}>
-      <PageTitle eyebrow="Passo 1 de 4" title="Caracterização do imóvel" text="Comece por adicionar as fotos e os principais dados do imóvel." />
-      <div className="mt-4 grid gap-3 sm:grid-cols-[1.5fr_1fr]">
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl">
-          <Image src={photos.t2Sala} alt="" fill sizes="40vw" className="object-cover" />
-          <span className="absolute top-2 left-2 rounded-md bg-black/50 px-1.5 py-0.5 text-[0.6rem] text-white">1/6</span>
+    <AppShell nav="Os meus imóveis" top={{ kind: "greeting", text: "Bom dia, Francisca" }}>
+      <div className="flex items-end justify-between">
+        <div>
+          <h3 className="text-[34px] font-semibold tracking-[-0.02em]">Os meus imóveis</h3>
+          <p className="mt-2 text-[16px] text-ink-2">Acompanhe, analise e compare as opções de venda ou arrendamento.</p>
         </div>
-        <div className="grid grid-cols-2 gap-2">
-          {[photos.cozinha, photos.casaDeBanho, photos.t2Fachada].map((src, i) => (
-            <span key={i} className="relative overflow-hidden rounded-lg">
-              <Image src={src} alt="" fill sizes="12vw" className="object-cover" />
-            </span>
-          ))}
-          <span className="grid place-items-center rounded-lg bg-rent-soft text-center text-[0.6rem] font-semibold text-rent">
-            <span>
-              <Plus className="mx-auto mb-1 size-4" />
-              Adicionar fotos
-            </span>
-          </span>
-        </div>
-      </div>
-      <Card className="mt-3 p-4">
-        <p className="text-[0.8rem] font-semibold text-ink">Dados principais</p>
-        <div className="mt-3 grid grid-cols-3 gap-2.5">
-          {fields.map(([k, v]) => (
-            <div key={k}>
-              <p className="text-[0.6rem] text-ink-2">{k}</p>
-              <p className="mt-1 rounded-md px-2.5 py-1.5 text-[0.72rem] text-ink ring-1 ring-line">{v}</p>
-            </div>
-          ))}
-        </div>
-        <p className="mt-3 text-[0.6rem] text-ink-2">Morada ou freguesia</p>
-        <p className="mt-1 flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[0.72rem] text-ink ring-1 ring-line">
-          <MapPin className="size-3 text-rent" /> Sé Nova, Coimbra
-          <span className="ml-auto text-[0.6rem] font-semibold text-rent">Dentro da zona-piloto</span>
-        </p>
-      </Card>
-      <div className="mt-3 flex justify-end">
-        <span className="inline-flex items-center gap-1.5 rounded-lg bg-rent px-3 py-2 text-[0.72rem] font-semibold text-white">
-          Continuar para os pressupostos <ArrowRight className="size-3.5" />
+        <span className="flex items-center gap-2 rounded-[10px] bg-rent px-5 py-3 text-[16px] font-semibold text-white">
+          <Plus className="size-5" /> Nova análise
         </span>
       </div>
-    </AppShell>
-  );
-}
 
-/* ——— Mercado comparativo ——— */
-export function ComparablesScreen() {
-  const rows = [
-    ["Este imóvel", "Sé Nova", "88 m²", "372 000 €", "4 227 €", "—", "Ref."],
-    ["T2", "Sé Nova", "90 m²", "380 000 €", "4 222 €", "0,3 km", "96 %"],
-    ["T2", "Celas", "85 m²", "365 000 €", "4 294 €", "0,6 km", "92 %"],
-    ["T2", "Sé Nova", "92 m²", "390 000 €", "4 239 €", "0,4 km", "91 %"],
-    ["T2", "S. António", "87 m²", "360 000 €", "4 138 €", "0,9 km", "88 %"],
-    ["T2", "Celas", "89 m²", "375 000 €", "4 213 €", "1,1 km", "86 %"],
-  ];
-  return (
-    <AppShell nav="Análises" header={{ kind: "breadcrumb", items: ["Análises", "T2 · Coimbra", "Mercado comparativo"] }}>
-      <PageTitle eyebrow="Detalhes da análise" title="Mercado comparativo" text="Imóveis semelhantes na mesma zona, usados para estimar o valor de mercado." />
-      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="mt-7 grid grid-cols-3 gap-5">
         {[
-          ["Valor pelos comparáveis", "372 000 €"],
-          ["Preço médio da zona", "4 230 €/m²"],
-          ["Variação (últ. 12 meses)", "+6,8 %"],
-          ["N.º de comparáveis", "6 imóveis"],
-        ].map(([k, v], i) => (
-          <Card key={k} className="p-3">
-            <p className="text-[0.6rem] text-ink-2">{k}</p>
-            <p className={cn("mt-1 text-[0.95rem] font-semibold tracking-[-0.02em] tabular", i === 2 ? "text-success" : "text-ink")}>{v}</p>
+          { k: "Imóveis analisados", v: "2", icon: Home },
+          { k: "Potencial de valorização (5 anos)", v: "+167 000 €", s: "Soma dos dois imóveis, cenário central", icon: TrendingUp },
+          { k: "Análises guardadas", v: "2", icon: FileText },
+        ].map(({ k, v, s, icon: Icon }) => (
+          <Card key={k} className="flex gap-4 p-6">
+            <IconBox>
+              <Icon className="size-5" />
+            </IconBox>
+            <div>
+              <p className="flex items-center gap-2 text-[14px] text-ink-2">
+                {k} {s && <I />}
+              </p>
+              <p className="mt-1.5 text-[26px] font-semibold tracking-[-0.02em]">{v}</p>
+              {s && <p className="mt-1 text-[12px] text-ink-2">{s}</p>}
+            </div>
           </Card>
         ))}
       </div>
-      <Card className="mt-3 overflow-hidden">
-        <p className="px-4 pt-3.5 text-[0.8rem] font-semibold text-ink">Imóveis comparáveis</p>
-        <table className="mt-2 w-full text-left text-[0.68rem]">
-          <thead className="bg-surface text-ink-2">
-            <tr>
-              {["Imóvel", "Localização", "Área", "Preço", "€/m²", "Distância", "Semelhança"].map((h, i) => (
-                <th key={h} className={cn("px-3 py-2 font-medium", i > 2 && "hidden sm:table-cell")}>
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r, ri) => (
-              <tr key={ri} className={cn("border-t border-line", ri === 0 && "bg-rent-soft/50 font-semibold")}>
-                {r.map((c, ci) => (
-                  <td key={ci} className={cn("px-3 py-2 text-ink tabular", ci > 2 && "hidden sm:table-cell")}>
-                    {ci === 6 && ri > 0 ? <span className="rounded-full bg-rent-soft px-2 py-0.5 text-rent">{c}</span> : c}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <p className="border-t border-line px-4 py-2.5 text-[0.6rem] text-ink-3">Fonte: SIR, Confidencial Imobiliário · Atualizado em 06 mai 2026</p>
+
+      <div className="mt-5 space-y-5">
+        {PORTFOLIO.map((p) => (
+          <Card key={p.name} className="flex items-center gap-7 p-5">
+            <Thumb src={p.image} className="h-[166px] w-[208px] shrink-0" sizes="210px" />
+            <div className="w-[250px] text-[14px] text-ink-2">
+              <p className="text-[21px] font-semibold text-ink">{p.name}</p>
+              <p className="mt-3 flex items-center gap-2">
+                <MapPin className="size-4" /> {p.place}
+              </p>
+              <p className="mt-1.5 flex items-center gap-2">
+                <Ruler className="size-4" /> {p.specs}
+              </p>
+              <p className="mt-1.5 flex items-center gap-2">
+                <Calendar className="size-4" /> {p.date}
+              </p>
+            </div>
+            <div className="flex-1 rounded-[12px] bg-sell-soft p-5 ring-1 ring-sell/10">
+              <Pill tone="sell">Vender</Pill>
+              <p className="mt-3 text-[14px] text-ink-2">Daqui a 5 anos</p>
+              <p className="mt-1 flex items-center gap-2 text-[26px] font-semibold tracking-[-0.02em]">
+                {p.sell} <I />
+              </p>
+              <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#e3f1e7] px-3 py-1 text-[13px] font-semibold text-success">
+                <TrendingUp className="size-3.5" /> {p.gain}
+              </span>
+            </div>
+            <div className="flex-1 rounded-[12px] bg-rent-soft p-5 ring-1 ring-rent/10">
+              <Pill>Arrendar</Pill>
+              <p className="mt-3 text-[14px] text-ink-2">Renda estimada</p>
+              <p className="mt-1 flex items-center gap-2 text-[26px] font-semibold tracking-[-0.02em]">
+                {p.rent} <I />
+              </p>
+              <p className="mt-2 text-[13px] text-ink-2">
+                Rendimento em 5 anos: <b className="text-ink">{p.total}</b>
+              </p>
+            </div>
+            <span className="grid size-11 place-items-center rounded-[10px] ring-1 ring-line">
+              <MoreHorizontal className="size-5 text-ink-2" />
+            </span>
+          </Card>
+        ))}
+      </div>
+
+      <p className="mt-5 flex items-center gap-2 text-[13px] text-ink-2">
+        <Info className="size-4" /> Fonte: <b className="text-ink">SIR – Confidencial Imobiliário e INE</b> · Atualizado em 06 mai 2026
+      </p>
+
+      <Card className="mt-6 flex items-center gap-5 px-7 py-6">
+        <IconBox>
+          <Eye className="size-5" />
+        </IconBox>
+        <div className="flex-1">
+          <p className="text-[19px] font-semibold">Ainda não tem análises suficientes?</p>
+          <p className="mt-1 text-[15px] text-ink-2">Veja um exemplo completo e perceba como funciona a análise.</p>
+        </div>
+        <span className="flex items-center gap-2 rounded-[10px] px-5 py-3 text-[15px] font-semibold text-rent ring-1 ring-rent/50">
+          Ver exemplo T2 Coimbra <ArrowRight className="size-4" />
+        </span>
       </Card>
     </AppShell>
   );
 }
 
-/* ——— Relatório ——— */
-export function ReportScreen() {
+/* ——— Mercado comparativo (REII_Ecras p. 10) ——— */
+
+const COMPARABLES = [
+  ["Este imóvel", "Sé Nova", "88 m²", "2", "372 000 €", "4 227 €", "—", "Ref."],
+  ["T2", "Sé Nova", "90 m²", "2", "380 000 €", "4 222 €", "0,3 km", "96 %"],
+  ["T2", "Celas", "85 m²", "2", "365 000 €", "4 294 €", "0,6 km", "92 %"],
+  ["T2", "Sé Nova", "92 m²", "2", "390 000 €", "4 239 €", "0,4 km", "91 %"],
+  ["T2", "S. António", "87 m²", "2", "360 000 €", "4 138 €", "0,9 km", "88 %"],
+  ["T2", "Celas", "89 m²", "2", "375 000 €", "4 213 €", "1,1 km", "86 %"],
+];
+
+export function ComparablesScreen() {
   return (
-    <AppShell nav="Relatórios" header={{ kind: "breadcrumb", items: ["Relatórios", "T2 · Coimbra"] }}>
-      <PageTitle
-        title="Relatório de análise"
-        text="Avaliação completa do imóvel, projeções e fatores que influenciam o seu valor."
-        action={
-          <span className="flex gap-2">
-            <span className="rounded-lg px-3 py-2 text-[0.7rem] font-semibold text-rent ring-1 ring-rent/30">Partilhar</span>
-            <span className="rounded-lg bg-rent px-3 py-2 text-[0.7rem] font-semibold text-white">Exportar PDF</span>
-          </span>
-        }
-      />
-      <Card className="mt-4 grid gap-4 p-4 sm:grid-cols-[1fr_1.1fr]">
-        <div className="flex gap-3">
-          <span className="relative h-24 w-32 shrink-0 overflow-hidden rounded-lg">
-            <Image src={photos.t2Fachada} alt="" fill sizes="128px" className="object-cover" />
-          </span>
-          <div>
-            <p className="text-[1rem] font-semibold tracking-[-0.02em] text-ink">T2 · Coimbra</p>
-            <p className="mt-1 text-[0.65rem] leading-relaxed text-ink-2">
-              Coimbra, Sé Nova
-              <br />
-              88 m² · 2 quartos
-              <br />
-              Analisado em 06 mai 2026
+    <AppShell nav="Análises" top={{ kind: "breadcrumb", items: ["Análises", "T2 · Coimbra", "Mercado comparativo"] }}>
+      <div className="flex items-start justify-between gap-8">
+        <div>
+          <Pill>Detalhes da análise</Pill>
+          <h3 className="mt-3 text-[34px] font-semibold tracking-[-0.02em]">Mercado comparativo</h3>
+          <p className="mt-2 text-[16px] text-ink-2">Imóveis semelhantes na mesma zona, usados para estimar o valor de mercado.</p>
+        </div>
+        <PropertyMini />
+      </div>
+
+      <div className="mt-6">
+        <AnalysisTabs active="Mercado comparativo" />
+      </div>
+
+      <div className="mt-5 grid grid-cols-4 gap-5">
+        {[
+          { k: "Valor pelos comparáveis", v: "372 000 €", icon: Landmark, tone: "rent" as const },
+          { k: "Preço médio da zona", v: "4 230 €/m²", icon: MapPin, tone: "sell" as const },
+          { k: "Variação (últ. 12 meses)", v: "+6,8 %", icon: TrendingUp, tone: "rent" as const, green: true },
+          { k: "N.º de comparáveis", v: "6 imóveis", icon: Building2, tone: "neutral" as const },
+        ].map(({ k, v, icon: Icon, tone, green }) => (
+          <Card key={k} className="flex gap-4 p-6">
+            <IconBox tone={tone}>
+              <Icon className="size-5" />
+            </IconBox>
+            <div className="min-w-0 flex-1">
+              <p className="flex items-start justify-between gap-2 text-[14px] leading-snug text-ink-2">
+                {k} <I className="mt-0.5 shrink-0" />
+              </p>
+              <p className={cn("mt-2 text-[26px] font-semibold tracking-[-0.02em]", green && "text-success")}>{v}</p>
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      <div className="mt-5 flex gap-5">
+        <Card className="w-[280px] shrink-0 p-3">
+          <div className="relative">
+            <ZoneMap width={254} height={380} />
+            <span className="absolute top-3 left-3 rounded-full bg-white px-3 py-1.5 text-[13px] font-semibold shadow-sm">Coimbra</span>
+            <span className="absolute bottom-3 left-3 rounded-[10px] bg-white px-3 py-2 text-[13px] shadow-sm">
+              <b className="block">Coimbra, Sé Nova</b>
+              <span className="text-[11px] text-ink-2">Raio de 1,2 km</span>
+            </span>
+          </div>
+        </Card>
+        <Card className="min-w-0 flex-1 p-6">
+          <div className="flex items-center justify-between">
+            <p className="flex items-center gap-2 text-[19px] font-semibold">
+              Imóveis comparáveis <I />
+            </p>
+            <p className="text-[12px] text-ink-2">
+              Fonte: <b className="text-ink">SIR – Confidencial Imobiliário</b> · Atualizado em 06 mai 2026
             </p>
           </div>
+          <div className="mt-4 overflow-hidden rounded-[12px] ring-1 ring-line">
+            <table className="w-full text-[14px]">
+              <thead className="bg-surface text-[13px] text-ink-2">
+                <tr>
+                  {["Imóvel", "Localização", "Área", "Quartos", "Preço", "€/m²", "Distância", "Semelhança"].map((h, i) => (
+                    <th key={h} className={cn("px-4 py-3 font-medium", i < 2 ? "text-left" : "text-right")}>
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {COMPARABLES.map((r, ri) => (
+                  <tr key={ri} className={cn("border-t border-line", ri === 0 && "bg-surface/60 font-semibold")}>
+                    {r.map((c, ci) => (
+                      <td key={ci} className={cn("px-4 py-3.5 tabular-nums", ci < 2 ? "text-left" : "text-right")}>
+                        {ci === 0 && ri === 0 ? (
+                          <span className="flex items-center gap-2">
+                            <span className="size-3 rounded-[3px] bg-ink" /> {c}
+                          </span>
+                        ) : ci === 7 ? (
+                          <span className={cn("rounded-full px-2.5 py-1 text-[12px] font-semibold", ri === 0 ? "bg-rent-soft text-rent" : "bg-surface text-ink")}>{c}</span>
+                        ) : (
+                          c
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Card>
+      </div>
+
+      <div className="mt-5 grid grid-cols-3 gap-5">
+        <Card className="p-6">
+          <p className="flex items-start justify-between text-[19px] font-semibold">
+            Comparação de preço por m² <I className="mt-1" />
+          </p>
+          <PriceBars />
+          <p className="mt-4 text-[12px] text-ink-2">Eixo a começar em 0 €: as três barras são praticamente iguais.</p>
+        </Card>
+        <Card className="p-6">
+          <p className="text-[19px] font-semibold">O que mostram os comparáveis?</p>
+          <p className="mt-4 text-[15px] leading-relaxed text-ink-2">
+            Imóveis semelhantes, na mesma zona e com características próximas, estão à venda entre <b className="text-ink">4 138 €</b> e{" "}
+            <b className="text-ink">4 294 €/m²</b>, com uma média de <b className="text-ink">4 221 €/m²</b>. Com base nestes dados, o valor estimado de{" "}
+            <b className="text-ink">372 000 €</b> está em linha com o mercado.
+          </p>
+          <div className="mt-4">
+            <Pill>Explicação da IA</Pill>
+          </div>
+        </Card>
+        <Card className="p-6">
+          <p className="text-[19px] font-semibold">Origem e fiabilidade dos dados</p>
+          <div className="mt-4 space-y-4">
+            {[
+              { t: "Dados confirmados", d: "Anúncios ativos e registos de transações (SIR).", tone: "rent" as const, icon: Check },
+              { t: "Estimativas (IA)", d: "Valor estimado, variação e projeção.", tone: "sell" as const, icon: TrendingUp },
+              { t: "A validar", d: "Estado do imóvel, obras e características não visíveis nos anúncios.", tone: "neutral" as const, icon: Info },
+            ].map(({ t, d, tone, icon: Icon }) => (
+              <div key={t} className="flex gap-4">
+                <IconBox tone={tone}>
+                  <Icon className="size-5" />
+                </IconBox>
+                <div>
+                  <p className="text-[15px] font-semibold">{t}</p>
+                  <p className="mt-0.5 text-[13px] leading-snug text-ink-2">{d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+
+      <div className="mt-5">
+        <AiNotice
+          title="Análise gerada por IA"
+          text="Os resultados são estimativas, podem conter erros e não são uma avaliação oficial. Confirme os dados (estado do imóvel, documentação e mercado) antes de tomar uma decisão."
+          action="Ver metodologia e fontes"
+        />
+      </div>
+    </AppShell>
+  );
+}
+
+/* ——— Relatório (REII_Ecras p. 11) ——— */
+
+export function ReportScreen() {
+  return (
+    <AppShell nav="Relatórios" top={{ kind: "breadcrumb", items: ["Relatórios", "T2 · Coimbra"] }}>
+      <div className="flex items-end justify-between">
+        <div>
+          <h3 className="text-[34px] font-semibold tracking-[-0.02em]">Relatório de análise</h3>
+          <p className="mt-2 text-[16px] text-ink-2">Avaliação completa do imóvel, projeções e fatores que influenciam o seu valor.</p>
         </div>
-        <div className="rounded-lg bg-rent-soft p-3">
-          <p className="text-[0.62rem] font-semibold text-rent">O que os números mostram</p>
-          <p className="mt-1 text-[0.85rem] font-semibold tracking-[-0.01em] text-ink">Potencial de valorização de 16,3 % em 5 anos.</p>
-          <p className="mt-1 text-[0.62rem] leading-relaxed text-ink-2">
-            A valorização estimada da zona é superior à média de Coimbra. A IA resume os dados; a decisão é sua.
+        <div className="flex gap-3">
+          <span className="flex items-center gap-2 rounded-[10px] bg-white px-5 py-3 text-[16px] font-semibold text-rent ring-1 ring-rent/50">
+            <Share2 className="size-4" /> Partilhar
+          </span>
+          <span className="flex items-center gap-2 rounded-[10px] bg-rent px-5 py-3 text-[16px] font-semibold text-white">
+            <Download className="size-4" /> Exportar PDF
+          </span>
+        </div>
+      </div>
+
+      <Card className="mt-7 flex gap-7 p-6">
+        <div className="w-[344px] shrink-0">
+          <Thumb src={photos.t2Fachada} className="h-[186px] w-full" sizes="344px" />
+          <div className="mt-2.5 grid grid-cols-4 gap-2.5">
+            {[photos.t2Sala, cozinha, quarto].map((src, i) => (
+              <Thumb key={i} src={src} className="h-[64px]" sizes="80px" />
+            ))}
+            <span className="grid h-[64px] place-items-center rounded-[10px] bg-ink text-[16px] font-semibold text-white">+8</span>
+          </div>
+        </div>
+        <div className="w-[300px] text-[15px] text-ink-2">
+          <p className="text-[34px] font-semibold tracking-[-0.02em] text-ink">T2 · Coimbra</p>
+          <p className="mt-4 flex items-center gap-2.5">
+            <MapPin className="size-4" /> Coimbra, Sé Nova
+          </p>
+          <p className="mt-2 flex items-center gap-2.5">
+            <Ruler className="size-4" /> 88 m²
+          </p>
+          <p className="mt-2 flex items-center gap-2.5">
+            <Home className="size-4" /> 2 quartos
+          </p>
+          <p className="mt-2 flex items-center gap-2.5">
+            <Calendar className="size-4" /> Analisado em 06 mai 2026
+          </p>
+        </div>
+        <div className="flex-1 rounded-[14px] bg-rent-soft/70 p-6 ring-1 ring-rent/10">
+          <p className="flex items-center gap-2 text-[16px] font-semibold text-rent">
+            <BarChart3 className="size-4" /> O que os números mostram
+          </p>
+          <p className="mt-3 text-[25px] leading-tight font-semibold tracking-[-0.02em]">Potencial de valorização de 16,3 % em 5 anos.</p>
+          <p className="mt-3 text-[14px] leading-relaxed text-ink-2">
+            Com base nos dados de mercado, no contexto urbano e nas infraestruturas previstas, a valorização estimada da zona é superior à média de
+            Coimbra. A IA resume os dados; a decisão é sua.
           </p>
         </div>
       </Card>
-      <div className="mt-3 grid grid-cols-2 gap-3">
-        <Card className="bg-sell-soft p-4 ring-0">
-          <p className="text-[0.7rem] font-semibold text-sell">Vender · daqui a 5 anos</p>
-          <p className="mt-1 text-[1.4rem] font-semibold tracking-[-0.03em] text-ink tabular">{formatEuro(demo.sell.value)}</p>
-          <p className="text-[0.62rem] font-semibold text-success">+52 000 € (+16,3 %)</p>
-        </Card>
-        <Card className="bg-rent-soft p-4 ring-0">
-          <p className="text-[0.7rem] font-semibold text-rent">Arrendar · renda estimada</p>
-          <p className="mt-1 text-[1.4rem] font-semibold tracking-[-0.03em] text-ink tabular">{formatEuroMonth(demo.rent.monthly)}</p>
-          <p className="text-[0.62rem] text-ink-2">Total em 5 anos: 72 000 €</p>
-        </Card>
-      </div>
-      <Card className="mt-3 p-4">
-        <p className="text-[0.8rem] font-semibold text-ink">A zona em destaque</p>
-        <ul className="mt-2 grid gap-2 text-[0.68rem] sm:grid-cols-2">
-          {["Escolas e Universidade de Coimbra", "Autocarros e estação CP próximos", "Comércio e serviços a pé", "Nova ligação Metrobus prevista para 2028"].map((t) => (
-            <li key={t} className="flex items-center gap-2 text-ink">
-              <Check className="size-3 text-rent" /> {t}
-            </li>
-          ))}
-        </ul>
+
+      <Card className="mt-5 flex items-center gap-2 p-2">
+        {[
+          { l: "Visão geral", icon: Eye },
+          { l: "Cálculos e metodologia", icon: BarChart3 },
+          { l: "Mercado e zona", icon: MapPin },
+          { l: "Projeções", icon: TrendingUp },
+          { l: "Riscos e notas", icon: ShieldCheck },
+        ].map(({ l, icon: Icon }, i) => (
+          <span key={l} className={cn("flex items-center gap-2 rounded-[10px] px-4 py-2.5 text-[15px]", i === 0 ? "bg-rent font-semibold text-white" : "text-ink")}>
+            <Icon className="size-4" /> {l}
+          </span>
+        ))}
       </Card>
+
+      <div className="mt-6 flex gap-5">
+        <div className="min-w-0 flex-1">
+          <p className="text-[25px] font-semibold tracking-[-0.02em]">Cenários de investimento</p>
+          <p className="mt-1 text-[15px] text-ink-2">Comparação entre vender e arrendar, com projeções do cenário central.</p>
+          <div className="mt-5 grid grid-cols-2 gap-5">
+            <SellCard big />
+            <RentCard big />
+          </div>
+          <div className="mt-5 flex gap-5">
+            <Card className="min-w-0 flex-1 p-6">
+              <p className="flex items-center gap-2 text-[19px] font-semibold">
+                Projeção do valor do imóvel <I />
+              </p>
+              <div className="mt-4">
+                <LineChart
+                  width={420}
+                  height={200}
+                  min={300000}
+                  max={400000}
+                  ticks={[300000, 325000, 350000, 375000, 400000]}
+                  series={[{ values: [320000, 330000, 340000, 350000, 361000, 372000], color: "var(--rent)", fill: true }]}
+                  badge={{ title: "372 000 €", sub: "+16,3 %" }}
+                />
+              </div>
+              <p className="mt-3 text-[12px] text-ink-2">
+                Fonte: <b className="text-ink">INE e SIR</b> · Atualizado em 06 mai 2026
+              </p>
+            </Card>
+            <Card className="w-[300px] shrink-0 p-6">
+              <p className="text-[19px] font-semibold">Principais indicadores</p>
+              {[
+                { k: "Rentabilidade anual (TIR)", v: "5,6 %", icon: TrendingUp },
+                { k: "Risco", v: "Médio", icon: ShieldCheck },
+                { k: "Horizonte em análise", v: "5 anos", icon: Calendar },
+              ].map(({ k, v, icon: Icon }, i) => (
+                <div key={k} className={cn("flex items-center gap-4 py-4", i > 0 && "border-t border-line")}>
+                  <IconBox>
+                    <Icon className="size-5" />
+                  </IconBox>
+                  <div>
+                    <p className="text-[13px] text-ink-2">{k}</p>
+                    <p className="mt-0.5 text-[21px] font-semibold">{v}</p>
+                  </div>
+                </div>
+              ))}
+            </Card>
+          </div>
+          <Card className="mt-5 p-6">
+            <div className="flex items-center gap-4">
+              <IconBox>
+                <FileText className="size-5" />
+              </IconBox>
+              <div>
+                <p className="text-[17px] font-semibold">Principais cálculos realizados</p>
+                <p className="text-[14px] text-ink-2">Métodos de avaliação financeira e de mercado utilizados:</p>
+              </div>
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2.5">
+              {[
+                ["VAL", "Valor atual líquido"],
+                ["TIR", "Taxa interna de rentabilidade"],
+                ["Payback", "Tempo de retorno"],
+                ["Projeção", "de valorização"],
+              ].map(([a, b]) => (
+                <span key={a} className="rounded-full px-4 py-2 text-[14px] ring-1 ring-line">
+                  <b>{a}</b> <span className="text-ink-2">{b}</span>
+                </span>
+              ))}
+            </div>
+          </Card>
+        </div>
+
+        <div className="w-[340px] shrink-0 space-y-5">
+          <Card className="p-6">
+            <p className="text-[19px] font-semibold">A zona em destaque</p>
+            {[
+              { t: "Escolas e universidades", d: "Ex.: Universidade de Coimbra", icon: GraduationCap },
+              { t: "Transportes", d: "Autocarros e estação CP próximos", icon: Bus },
+              { t: "Comércio e serviços", d: "Supermercados, farmácia, restauração", icon: Store },
+              { t: "Espaços verdes", d: "Parque Verde do Mondego", icon: Trees },
+            ].map(({ t, d, icon: Icon }, i) => (
+              <div key={t} className={cn("flex gap-3 py-3.5", i > 0 && "border-t border-line")}>
+                <Icon className="mt-0.5 size-5 text-rent" />
+                <div>
+                  <p className="text-[15px] font-semibold">{t}</p>
+                  <p className="text-[13px] text-ink-2">{d}</p>
+                </div>
+              </div>
+            ))}
+          </Card>
+          <Card className="p-6">
+            <p className="flex items-start justify-between text-[19px] leading-snug font-semibold">
+              Projetos e notícias da zona <I className="mt-1" />
+            </p>
+            <Thumb src={metrobus} className="mt-4 h-[150px] w-full" sizes="300px" />
+            <p className="mt-4 text-[17px] leading-snug font-semibold">Nova ligação de transportes em Coimbra em fase de construção</p>
+            <p className="mt-2 text-[14px] leading-relaxed text-ink-2">
+              A nova ligação vai melhorar a mobilidade na zona e aumentar a procura imobiliária, contribuindo para a valorização dos imóveis.
+            </p>
+            <p className="mt-3 text-[12px] text-ink-2">
+              Fonte: <b className="text-ink">CM Coimbra</b> · Atualizado em abr 2026
+            </p>
+          </Card>
+          <div className="rounded-[14px] bg-rent-soft/70 p-6 ring-1 ring-rent/10">
+            <p className="flex items-center gap-2 text-[16px] font-semibold">
+              <ShieldCheck className="size-5 text-rent" /> Análise realizada por IA
+            </p>
+            <p className="mt-2 text-[14px] leading-relaxed text-ink-2">
+              Gerada com modelos de IA, dados de mercado e fontes públicas. Os resultados são estimativas e podem conter imprecisões. Confirme
+              sempre a informação antes de decidir.
+            </p>
+          </div>
+        </div>
+      </div>
     </AppShell>
   );
 }
 
-/* ——— Passo 1: situação (onboarding, ecrã inteiro) ——— */
+/* ——— Caracterização (REII_Ecras p. 3) ——— */
+
+export function CharacterizationScreen() {
+  const fields = [
+    ["Tipologia", "T2", true],
+    ["Área útil", "88", true, "m²"],
+    ["Ano de construção", "2008", false],
+    ["Estado de conservação", "Bom", true],
+    ["Certificado energético", "B", false],
+    ["Garagem", "Sim", false],
+    ["Elevador", "Sim", false],
+    ["Quartos", "2", true],
+  ] as const;
+  return (
+    <AppShell nav="Nova análise" top={{ kind: "stepper", current: 0, subtitle: "Caracterização e dados do imóvel" }}>
+      <div className="flex gap-6">
+        <div className="min-w-0 flex-1">
+          <span className="rounded-full bg-white px-3 py-1 text-[13px] font-semibold ring-1 ring-line">Passo 1 de 4</span>
+          <h3 className="mt-3 text-[34px] font-semibold tracking-[-0.02em]">Caracterização do imóvel</h3>
+          <p className="mt-2 text-[16px] text-ink-2">Comece por adicionar as fotos e os principais dados do imóvel.</p>
+
+          <div className="mt-7 flex gap-4">
+            <div className="relative h-[296px] w-[432px] shrink-0 overflow-hidden rounded-[12px]">
+              <Image src={photos.t2Sala} alt="" fill sizes="432px" className="object-cover" />
+              <span className="absolute top-3 left-3 rounded-full bg-black/55 px-2.5 py-1 text-[12px] font-semibold text-white">1 / 6</span>
+            </div>
+            <div className="grid flex-1 grid-cols-3 gap-4">
+              {[quarto, cozinha, cozinha2, wc, photos.t2Fachada].map((src, i) => (
+                <Thumb key={i} src={src} className="h-[140px]" sizes="120px" />
+              ))}
+              <span className="grid h-[140px] place-items-center rounded-[10px] border border-dashed border-ink-3/40 bg-white text-center text-[14px] font-semibold text-rent">
+                <span>
+                  <Plus className="mx-auto mb-1.5 size-6" />
+                  Adicionar
+                  <br />
+                  fotos
+                </span>
+              </span>
+            </div>
+          </div>
+          <p className="mt-3 text-[13px] text-ink-2">Opcional. As fotos ajudam a IA a confirmar o estado de conservação; não entram no cálculo do preço.</p>
+
+          <Card className="mt-5 p-7">
+            <p className="text-[21px] font-semibold">Dados principais</p>
+            <div className="mt-5 grid grid-cols-4 gap-x-5 gap-y-5">
+              {fields.map(([label, value, req, unit]) => (
+                <div key={label}>
+                  <p className="text-[14px] font-semibold">
+                    {label} {req && <span className="text-sell">*</span>}
+                  </p>
+                  <p className="mt-2 flex items-center justify-between rounded-[8px] bg-white px-4 py-3 text-[16px] ring-1 ring-line">
+                    {value} {unit && <span className="text-[14px] text-ink-3">{unit}</span>}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-6 flex items-center gap-2 text-[16px] font-semibold">
+              <MapPin className="size-5 text-rent" /> Localização
+            </p>
+            <p className="mt-4 text-[14px] font-semibold">
+              Morada ou freguesia <span className="text-sell">*</span>
+            </p>
+            <div className="mt-2 flex gap-4">
+              <p className="flex-1 rounded-[8px] bg-white px-4 py-3 text-[16px] ring-1 ring-line">Sé Nova, Coimbra</p>
+              <span className="flex items-center gap-2 rounded-[8px] px-5 py-3 text-[15px] font-semibold text-rent ring-1 ring-rent/60">
+                <MapPin className="size-4" /> Ver no mapa
+              </span>
+            </div>
+          </Card>
+
+          <div className="mt-6 flex items-center justify-between">
+            <span className="text-[16px] font-semibold text-rent">Guardar rascunho</span>
+            <span className="flex items-center gap-2 rounded-[10px] bg-rent px-6 py-3.5 text-[16px] font-semibold text-white">
+              Continuar para os pressupostos <ArrowRight className="size-4" />
+            </span>
+          </div>
+        </div>
+
+        <div className="w-[320px] shrink-0 space-y-5 pt-[118px]">
+          <Card className="p-6">
+            <p className="flex justify-between text-[17px] font-semibold">
+              Dados preenchidos <span>60 %</span>
+            </p>
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-surface-2">
+              <div className="h-full w-[60%] rounded-full bg-rent" />
+            </div>
+            <p className="mt-3 text-[12px] leading-relaxed text-ink-2">Faltam: estado da cozinha e número de casas de banho (opcionais).</p>
+          </Card>
+          <Card className="p-6">
+            <p className="text-[21px] font-semibold">Resumo do imóvel</p>
+            <Thumb src={photos.t2Fachada} className="mt-4 h-[150px] w-full" sizes="280px" />
+            <p className="mt-4 text-[16px] font-semibold">T2 · Coimbra</p>
+            <ul className="mt-3 space-y-2 text-[14px] text-ink-2">
+              {["Sé Nova, Coimbra", "88 m² · 2 quartos", "2008", "Classe energética B", "Garagem", "Elevador"].map((t) => (
+                <li key={t} className="flex items-center gap-2">
+                  <Check className="size-4 text-rent" /> {t}
+                </li>
+              ))}
+            </ul>
+          </Card>
+          <div className="flex gap-3 rounded-[14px] bg-rent-soft/70 p-5 ring-1 ring-rent/10">
+            <ShieldCheck className="size-6 shrink-0 text-rent" />
+            <div>
+              <p className="text-[16px] font-semibold">Dentro da zona-piloto</p>
+              <p className="mt-1 text-[14px] leading-relaxed text-ink-2">Este imóvel está numa zona com dados de mercado suficientes para a análise.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </AppShell>
+  );
+}
+
+/* ——— Resultados (REII_Ecras p. 6) ——— */
+
+export function ResultsScreen() {
+  return (
+    <AppShell nav="Análises" top={{ kind: "stepper", current: 3, subtitle: "Sé Nova, Coimbra · 88 m²" }}>
+      <Pill>Resultados da análise</Pill>
+      <h3 className="mt-3 text-[34px] font-semibold tracking-[-0.02em]">Projeção do seu imóvel a 5 anos</h3>
+      <p className="mt-2 text-[16px] text-ink-2">Os dois caminhos, lado a lado, com os pressupostos que definiu. A IA explica cada número; a decisão é sua.</p>
+
+      <div className="mt-6 flex gap-5">
+        <div className="min-w-0 flex-1 space-y-5">
+          <div className="grid grid-cols-2 gap-5">
+            <SellCard />
+            <RentCard />
+          </div>
+          <Card className="p-6">
+            <p className="flex items-center gap-2 text-[21px] font-semibold">
+              Valor estimado ao longo do tempo <I />
+            </p>
+            <div className="mt-2 flex gap-6 text-[13px] text-ink-2">
+              <span className="flex items-center gap-2">
+                <span className="size-3 rounded-[3px] bg-sell" /> Vender: valor do imóvel
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="size-3 rounded-[3px] bg-rent" /> Arrendar: valor + rendas líquidas
+              </span>
+            </div>
+            <div className="mt-3">
+              <LineChart
+                width={720}
+                height={250}
+                min={300000}
+                max={450000}
+                ticks={[300000, 350000, 400000, 450000]}
+                series={[
+                  { values: [320000, 343000, 366000, 389000, 412000, 435700], color: "var(--rent)", fill: true },
+                  { values: [320000, 330000, 340000, 350000, 361000, 372000], color: "var(--sell)" },
+                ]}
+              />
+            </div>
+            <p className="mt-3 text-[12px] text-ink-2">
+              Fonte: <b className="text-ink">Motor financeiro REII · INE · SIR</b> · Atualizado em 06 mai 2026
+            </p>
+          </Card>
+        </div>
+
+        <div className="w-[330px] shrink-0 space-y-5">
+          <Card className="p-6">
+            <p className="text-[19px] font-semibold">Cenário de análise</p>
+            <div className="mt-4 grid grid-cols-3 rounded-[10px] bg-surface p-1 text-[14px]">
+              {["Conservador", "Central", "Otimista"].map((s) => (
+                <span key={s} className={cn("rounded-[8px] py-2 text-center", s === "Central" ? "bg-white font-semibold shadow-sm ring-1 ring-ink" : "text-ink-2")}>
+                  {s}
+                </span>
+              ))}
+            </div>
+            <p className="mt-3 text-[12px] text-ink-2">Conservador e otimista mudam a valorização anual (±1 p.p.) e a ocupação.</p>
+          </Card>
+          <Card className="p-6">
+            <p className="text-[19px] font-semibold">Indicadores principais</p>
+            <div className="mt-4 rounded-[12px] bg-sell-soft p-4">
+              <p className="text-[15px] font-semibold text-sell">Venda</p>
+              {[
+                ["Valor estimado", "372 000 €"],
+                ["Ganho estimado", "+52 000 €"],
+                ["Valorização", "+16,3 %"],
+              ].map(([k, v]) => (
+                <p key={k} className="mt-2.5 flex justify-between text-[14px]">
+                  <span className="text-ink-2">{k}</span> <b>{v}</b>
+                </p>
+              ))}
+            </div>
+            <div className="mt-3 rounded-[12px] bg-rent-soft p-4">
+              <p className="text-[15px] font-semibold text-rent">Arrendamento</p>
+              {[
+                ["Renda mensal", "1 200 €"],
+                ["Rendas brutas (5 anos)", "72 000 €"],
+                ["TIR", "5,6 % ao ano"],
+                ["VAL", "41 800 €"],
+              ].map(([k, v]) => (
+                <p key={k} className="mt-2.5 flex justify-between text-[14px]">
+                  <span className="text-ink-2">{k}</span> <b>{v}</b>
+                </p>
+              ))}
+            </div>
+          </Card>
+          <div className="rounded-[14px] bg-rent-soft/70 p-5 ring-1 ring-rent/10">
+            <p className="text-[16px] font-semibold">O que significa?</p>
+            <p className="mt-1.5 text-[14px] leading-relaxed text-ink-2">
+              Com estes pressupostos, se a renda descer abaixo de 1 050 €/mês, o valor final de vender passa a ser maior do que o de arrendar.
+            </p>
+          </div>
+        </div>
+      </div>
+    </AppShell>
+  );
+}
+
+/* ——— Passo 1: situação (REII_Ecras p. 1, ecrã inteiro) ——— */
+
 export function OnboardingScreen() {
   const situations = ["Herdei uma casa", "Segunda habitação", "Imóvel vazio", "Sou investidor"];
   const priorities = [
@@ -271,98 +838,63 @@ export function OnboardingScreen() {
     ["Ainda não sei", "Ver as duas opções primeiro"],
   ];
   return (
-    <div className="flex overflow-hidden rounded-[1.25rem] bg-cream ring-1 ring-black/10">
-      <div className="hidden w-[34%] shrink-0 flex-col bg-rent-deep p-6 text-white sm:flex">
-        <Logo className="h-4 text-white" />
-        <p className="mt-auto text-[1.25rem] leading-tight font-semibold tracking-[-0.02em]">Decisões imobiliárias com dados.</p>
-        <p className="mt-2 text-[0.68rem] text-white/65">Perceba se compensa vender ou arrendar o seu imóvel.</p>
+    <div className="flex h-[900px] w-[1440px] bg-cream text-ink">
+      <div className="flex w-[480px] shrink-0 flex-col bg-rent-deep px-14 py-14 text-white">
+        <Logo className="h-[32px] text-white" />
+        <p className="mt-[180px] text-[44px] leading-[1.08] font-semibold tracking-[-0.02em]">Decisões imobiliárias com dados.</p>
+        <p className="mt-6 text-[17px] leading-relaxed text-white/70">Analise, compare e perceba se compensa vender ou arrendar o seu imóvel.</p>
+        <ul className="mt-10 space-y-3 text-[15px] text-white/85">
+          {["Estimativas com fonte e data", "Venda e arrendamento lado a lado", "A decisão é sempre sua"].map((t) => (
+            <li key={t} className="flex items-center gap-3">
+              <Check className="size-4 text-mint" /> {t}
+            </li>
+          ))}
+        </ul>
       </div>
-      <div className="flex-1 p-5 sm:p-7">
-        <div className="flex justify-between text-[0.65rem]">
-          <span className="font-semibold text-ink">Passo 1 de 2</span>
-          <span className="text-ink-3">A seguir: o seu imóvel</span>
+      <div className="flex-1 px-[110px] py-16">
+        <div className="flex justify-between text-[15px]">
+          <span className="font-semibold">Passo 1 de 2</span>
+          <span className="text-ink-2">A seguir: o seu imóvel</span>
         </div>
-        <div className="mt-2 h-1 rounded-full bg-surface-2">
+        <div className="mt-3 h-2 rounded-full bg-surface-2">
           <div className="h-full w-1/2 rounded-full bg-rent" />
         </div>
-        <p className="mt-5 text-[1.05rem] font-semibold tracking-[-0.02em] text-ink">Qual é a sua situação?</p>
-        <div className="mt-3 grid grid-cols-2 gap-2">
+        <p className="mt-12 text-[34px] font-semibold tracking-[-0.02em]">Qual é a sua situação?</p>
+        <div className="mt-6 grid grid-cols-2 gap-4">
           {situations.map((s, i) => (
             <span
               key={s}
               className={cn(
-                "flex items-center justify-between rounded-lg bg-white px-3 py-2.5 text-[0.72rem] font-medium text-ink ring-1",
-                i === 0 ? "ring-rent" : "ring-line",
+                "flex items-center gap-4 rounded-[12px] px-6 py-6 text-[17px] font-semibold ring-1",
+                i === 0 ? "bg-rent-soft/60 ring-rent" : "bg-white ring-line",
               )}
             >
+              <IconBox>{[<Home key="h" className="size-5" />, <Building2 key="b" className="size-5" />, <Landmark key="l" className="size-5" />, <BarChart3 key="c" className="size-5" />][i]}</IconBox>
               {s}
-              <span className={cn("size-3 rounded-full ring-1", i === 0 ? "bg-rent ring-rent" : "ring-line")} />
+              <span className={cn("ml-auto size-6 rounded-full ring-2", i === 0 ? "bg-white ring-rent ring-offset-0" : "ring-line")}>
+                {i === 0 && <span className="m-1.5 block size-3 rounded-full bg-rent" />}
+              </span>
             </span>
           ))}
         </div>
-        <p className="mt-5 text-[1.05rem] font-semibold tracking-[-0.02em] text-ink">O que mais pesa na sua decisão?</p>
-        <div className="mt-3 grid grid-cols-3 gap-2">
+        <p className="mt-12 text-[34px] font-semibold tracking-[-0.02em]">O que mais pesa na sua decisão?</p>
+        <p className="mt-2 text-[15px] text-ink-2">Não há resposta certa. Usamos isto só para mostrar primeiro a informação que mais lhe interessa.</p>
+        <div className="mt-6 grid grid-cols-3 gap-4">
           {priorities.map(([t, d], i) => (
-            <span key={t} className={cn("rounded-lg bg-white p-3 ring-1", i === 2 ? "ring-rent" : "ring-line")}>
-              <span className="block text-[0.72rem] font-semibold text-ink">{t}</span>
-              <span className="mt-1 block text-[0.6rem] text-ink-2">{d}</span>
+            <span key={t} className={cn("rounded-[12px] p-6 ring-1", i === 0 ? "bg-rent-soft/60 ring-rent" : "bg-white ring-line")}>
+              <IconBox>{[<ShoppingBag key="s" className="size-5" />, <Calendar key="c" className="size-5" />, <Eye key="e" className="size-5" />][i]}</IconBox>
+              <span className="mt-5 block text-[18px] font-semibold">{t}</span>
+              <span className="mt-2 block text-[14px] text-ink-2">{d}</span>
             </span>
           ))}
         </div>
-        <div className="mt-5 flex items-center justify-between">
-          <span className="text-[0.68rem] font-semibold text-rent">Já tenho conta · Entrar</span>
-          <span className="inline-flex items-center gap-1.5 rounded-lg bg-rent px-3 py-2 text-[0.72rem] font-semibold text-white">
-            Continuar <ArrowRight className="size-3.5" />
+        <div className="mt-12 flex items-center justify-between">
+          <span className="text-[16px] font-semibold text-rent">Já tenho conta · Entrar</span>
+          <span className="flex items-center gap-2 rounded-[10px] bg-rent px-7 py-4 text-[16px] font-semibold text-white">
+            Continuar <ArrowRight className="size-4" />
           </span>
         </div>
       </div>
     </div>
-  );
-}
-
-/* ——— Passo 3: os dois caminhos (resumo, sem gráficos) ——— */
-export function TwoPathsScreen() {
-  return (
-    <AppShell nav="Análises" header={{ kind: "stepper", current: 3 }}>
-      <PageTitle eyebrow="Resultados da análise" title="Projeção do seu imóvel a 5 anos" text="Os dois caminhos, lado a lado, com os pressupostos que definiu." />
-      <div className="mt-4 grid grid-cols-2 gap-3">
-        <Card className="bg-sell-soft p-4 ring-0">
-          <p className="text-[0.72rem] font-semibold text-sell">Vender</p>
-          <p className="mt-1 text-[0.62rem] text-ink-2">Daqui a 5 anos</p>
-          <p className="text-[1.5rem] font-semibold tracking-[-0.03em] text-ink tabular">{formatEuro(demo.sell.value)}</p>
-          <p className="text-[0.62rem] font-semibold text-success">+52 000 € (+16,3 %)</p>
-        </Card>
-        <Card className="bg-rent-soft p-4 ring-0">
-          <p className="text-[0.72rem] font-semibold text-rent">Arrendar</p>
-          <p className="mt-1 text-[0.62rem] text-ink-2">Renda estimada</p>
-          <p className="text-[1.5rem] font-semibold tracking-[-0.03em] text-ink tabular">{formatEuroMonth(demo.rent.monthly)}</p>
-          <p className="text-[0.62rem] text-ink-2">Rendas brutas em 5 anos: 72 000 €</p>
-        </Card>
-      </div>
-      <div className="mt-3 grid gap-3 sm:grid-cols-2">
-        <Card className="p-4">
-          <dl className="divide-y divide-line text-[0.68rem]">
-            {[
-              ["Rentabilidade anual (TIR)", "5,6 % ao ano"],
-              ["Ganho do arrendamento (VAL)", "41 800 €"],
-              ["Horizonte da análise", "5 anos"],
-              ["Nível de confiança", "Alta, 85 %"],
-            ].map(([k, v]) => (
-              <div key={k} className="flex justify-between gap-3 py-2 first:pt-0 last:pb-0">
-                <dt className="text-ink-2">{k}</dt>
-                <dd className="font-semibold text-ink tabular">{v}</dd>
-              </div>
-            ))}
-          </dl>
-        </Card>
-        <Card className="bg-sell-soft p-4 ring-0">
-          <p className="text-[0.68rem] font-semibold text-sell">Quando é que a resposta muda?</p>
-          <p className="mt-1.5 text-[0.75rem] leading-relaxed text-ink">
-            Se a renda descer abaixo de <b className="tabular">{formatEuroMonth(demo.turningPoint)}</b>, vender passa a compensar mais do que arrendar.
-          </p>
-          <p className="mt-2 text-[0.6rem] text-ink-3">Fontes: INE, SIR e Idealista · 06 mai 2026</p>
-        </Card>
-      </div>
-    </AppShell>
   );
 }
