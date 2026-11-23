@@ -843,7 +843,7 @@ export function OnboardingScreen() {
   return (
     <div className="flex h-[900px] w-[1440px] bg-cream text-ink">
       <div className="relative flex w-[480px] shrink-0 flex-col overflow-hidden bg-rent-deep px-14 py-14 text-white">
-        <Image src={photos.capa} alt="" fill sizes="480px" className="object-cover object-[72%_50%]" />
+        <Image src={photos.palco} alt="" fill sizes="480px" className="object-cover object-[56%_40%]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(10_54_50/0.55)_0%,rgb(10_54_50/0.15)_30%,rgb(10_54_50/0.75)_62%,rgb(10_54_50/0.96)_100%)]" />
         <Logo className="relative h-[32px] text-white" />
         <p className="relative mt-auto text-[44px] leading-[1.08] font-semibold tracking-[-0.02em]">Decisões imobiliárias com dados.</p>

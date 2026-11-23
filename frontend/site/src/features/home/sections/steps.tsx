@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { AnimatePresence, m } from "motion/react";
 import { Pause, Play } from "lucide-react";
 
@@ -8,7 +7,7 @@ import { ProgressFill } from "@/components/motion/progress-line";
 import { Reveal } from "@/components/motion/reveal";
 import { useAutoAdvance } from "@/components/motion/use-auto-advance";
 import { SectionIntro } from "@/components/shared/section-heading";
-import { photos, steps } from "@/content/home";
+import { steps } from "@/content/home";
 import { cn } from "@/lib/utils";
 
 import { ScaledScreen } from "../mockups/scaled-screen";
@@ -80,9 +79,7 @@ export function Steps() {
           </div>
 
           <Reveal className="lg:col-span-8">
-            <div className="relative overflow-hidden rounded-[1.75rem] bg-rent-deep">
-              <Image src={photos.palco} alt="" fill placeholder="blur" sizes="66vw" className="object-cover opacity-70" />
-              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-rent-deep/70 via-rent-deep/25 to-transparent" />
+            <div className="relative overflow-hidden rounded-[1.75rem] bg-[radial-gradient(120%_90%_at_50%_0%,#145a51_0%,var(--rent-deep)_70%)]">
               <div className="relative grid place-items-center p-3 sm:p-8">
                 <AnimatePresence mode="wait">
                   <m.div
