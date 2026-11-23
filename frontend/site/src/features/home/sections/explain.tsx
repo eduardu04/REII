@@ -5,7 +5,7 @@ import { AnimatePresence, m } from "motion/react";
 import { Check } from "lucide-react";
 
 import { Logo } from "@/components/brand/logo";
-import { ProgressLine } from "@/components/motion/progress-line";
+import { ProgressFill } from "@/components/motion/progress-line";
 import { Reveal } from "@/components/motion/reveal";
 import { useAutoAdvance } from "@/components/motion/use-auto-advance";
 import { SectionIntro } from "@/components/shared/section-heading";
@@ -41,14 +41,14 @@ export function Explain() {
               </div>
             </div>
 
-            <ul role="tablist" aria-label="Números da análise">
+            <ul role="tablist" aria-label="Números da análise" className="space-y-2">
               {explain.numbers.map((num, i) => {
                 const on = i === active;
                 return (
                   <li key={num.key}>
-                    <button type="button" role="tab" aria-selected={on} onClick={() => setActive(i)} className="group w-full text-left">
-                      <ProgressLine active={on} running={running} duration={duration} reduce={reduce} resetKey={`${active}-${running}`} />
-                      <span className="flex items-baseline justify-between gap-4 py-6">
+                    <button type="button" role="tab" aria-selected={on} onClick={() => setActive(i)} className={cn("group relative w-full overflow-hidden rounded-[1.25rem] px-5 text-left transition-colors duration-500", on ? "bg-surface" : "hover:bg-surface/60")}>
+                      <ProgressFill active={on} running={running} duration={duration} reduce={reduce} resetKey={`${active}-${running}`} />
+                      <span className="relative flex items-baseline justify-between gap-4 py-5">
                         <span className={cn("text-[0.9rem] transition-colors duration-500", on ? "text-ink" : "text-ink-3")}>{num.label}</span>
                         <span
                           className={cn(
@@ -65,7 +65,7 @@ export function Explain() {
                 );
               })}
             </ul>
-            <ul className="mt-6 space-y-2.5 border-t border-line pt-6">
+            <ul className="mt-8 space-y-2.5 px-5">
               {explain.guarantees.map((g) => (
                 <li key={g} className="flex items-center gap-2.5 text-[0.9rem] text-ink-2">
                   <Check aria-hidden className="size-4 text-rent" strokeWidth={2.5} />
@@ -75,7 +75,7 @@ export function Explain() {
             </ul>
           </Reveal>
 
-          <Reveal index={1} y={32} className="lg:col-span-7">
+          <Reveal index={1} className="lg:col-span-7">
             <div role="tabpanel" className="relative flex h-full min-h-[24rem] flex-col overflow-hidden rounded-[1.75rem] bg-rent-deep p-7 text-white sm:p-10">
               <div className="flex items-center gap-3">
                 <span className="grid size-9 place-items-center rounded-lg bg-white/10 ring-1 ring-white/15">
@@ -89,16 +89,16 @@ export function Explain() {
                 <m.div
                   key={n.key}
                   className="mt-auto pt-14"
-                  initial={{ opacity: 0, y: 24 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12, transition: { duration: 0.25 } }}
-                  transition={{ duration: 0.7, ease: EASE }}
+                  exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                  transition={{ duration: 0.5, ease: EASE }}
                 >
                   <p className="text-[0.85rem] text-mint/80">{n.question}</p>
                   <p className="mt-4 max-w-2xl text-[1.35rem] leading-[1.4] font-medium tracking-[-0.02em] text-white sm:text-[1.6rem]">
                     {n.answer}
                   </p>
-                  <p className="mt-8 flex items-center gap-2 border-t border-white/15 pt-5 text-[0.82rem] text-white/60">
+                  <p className="mt-8 inline-flex items-center gap-2 rounded-full bg-white/8 px-3.5 py-1.5 text-[0.8rem] text-white/70">
                     <span aria-hidden className="size-1.5 rounded-full bg-mint" />
                     {n.source}
                   </p>

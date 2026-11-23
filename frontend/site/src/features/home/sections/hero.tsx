@@ -50,12 +50,15 @@ export function Hero() {
           immediate
           delay={0.2}
           index={4}
-          className="mt-14 flex flex-col gap-5 border-t border-white/15 py-6 sm:flex-row sm:items-center sm:justify-between lg:mt-20"
+          className="mt-14 pb-8 lg:mt-20 lg:pb-10"
         >
-          <p className="flex flex-wrap items-baseline gap-x-7 gap-y-2">
-            <span className="text-[0.75rem] font-medium tracking-[0.08em] text-white/45 uppercase">Dados de</span>
+          <p className="flex flex-wrap items-center gap-2">
+            <span className="mr-2 text-[0.8rem] text-white/55">Com dados de</span>
             {siteConfig.sources.map((s) => (
-              <span key={s} className="text-[0.95rem] font-semibold tracking-[-0.01em] text-white/85">
+              <span
+                key={s}
+                className="rounded-full bg-white/10 px-3.5 py-1.5 text-[0.82rem] font-medium text-white/90 ring-1 ring-white/15 backdrop-blur-md"
+              >
                 {s}
               </span>
             ))}

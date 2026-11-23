@@ -15,18 +15,18 @@ export function Faq() {
           <h2 className="type-h2 max-w-[10ch] text-ink">{faq.title}</h2>
           <p className="type-lead mt-6 text-ink-2">
             {faq.lead}{" "}
-            <a href={`mailto:${faq.email}`} className="border-b-2 border-rent font-semibold text-rent">
+            <a href={`mailto:${faq.email}`} className="font-semibold text-rent hover:underline">
               {faq.email}
             </a>
           </p>
         </Reveal>
 
         <Reveal index={1} className="lg:col-span-7 lg:col-start-6">
-          <Accordion.Root className="border-t border-line" defaultValue={[faq.items[0].q]}>
+          <Accordion.Root className="space-y-2" defaultValue={[faq.items[0].q]}>
             {faq.items.map((item) => (
-              <Accordion.Item key={item.q} value={item.q} className="border-b border-line">
+              <Accordion.Item key={item.q} value={item.q} className="rounded-[1.25rem] bg-surface px-6">
                 <Accordion.Header>
-                  <Accordion.Trigger className="group flex w-full items-center justify-between gap-6 py-6 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rent">
+                  <Accordion.Trigger className="group flex w-full items-center justify-between gap-6 py-5 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rent">
                     <span className="text-[1.1rem] font-semibold tracking-[-0.02em] text-ink sm:text-[1.2rem]">{item.q}</span>
                     <ChevronDown
                       aria-hidden
@@ -35,7 +35,7 @@ export function Faq() {
                   </Accordion.Trigger>
                 </Accordion.Header>
                 <Accordion.Panel className="h-(--accordion-panel-height) overflow-hidden transition-[height] duration-300 ease-out-soft data-[ending-style]:h-0 data-[starting-style]:h-0">
-                  <p className="max-w-2xl pb-6 text-[1rem] leading-relaxed text-ink-2">{item.a}</p>
+                  <p className="max-w-2xl pb-5 text-[1rem] leading-relaxed text-ink-2">{item.a}</p>
                 </Accordion.Panel>
               </Accordion.Item>
             ))}

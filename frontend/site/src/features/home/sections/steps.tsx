@@ -4,7 +4,7 @@ import Image from "next/image";
 import { AnimatePresence, m } from "motion/react";
 import { Pause, Play } from "lucide-react";
 
-import { ProgressLine } from "@/components/motion/progress-line";
+import { ProgressFill } from "@/components/motion/progress-line";
 import { Reveal } from "@/components/motion/reveal";
 import { useAutoAdvance } from "@/components/motion/use-auto-advance";
 import { SectionIntro } from "@/components/shared/section-heading";
@@ -36,8 +36,9 @@ export function Steps() {
                 const on = i === active;
                 return (
                   <li key={s.title}>
-                    <button type="button" role="tab" aria-selected={on} onClick={() => setActive(i)} className="w-full py-5 text-left">
-                      <span className="flex items-baseline gap-4">
+                    <button type="button" role="tab" aria-selected={on} onClick={() => setActive(i)} className={cn("relative w-full overflow-hidden rounded-[1.25rem] px-5 py-5 text-left transition-colors duration-500", on ? "bg-white" : "hover:bg-white/60")}>
+                      <ProgressFill active={on} running={running} duration={duration} reduce={reduce} resetKey={`${active}-${running}`} />
+                      <span className="relative flex items-baseline gap-4">
                         <span className={cn("text-[0.85rem] font-semibold tabular transition-colors duration-500", on ? "text-rent" : "text-ink-3")}>
                           0{i + 1}
                         </span>
@@ -52,15 +53,14 @@ export function Steps() {
                       </span>
                       <span
                         className={cn(
-                          "grid pl-9 transition-[grid-template-rows,opacity] duration-700 ease-out-soft",
+                          "relative grid pl-9 transition-[grid-template-rows,opacity] duration-500 ease-out-soft",
                           on ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
                         )}
                       >
                         <span className="overflow-hidden">
-                          <span className="block pt-2 pb-4 text-[0.98rem] leading-relaxed text-ink-2">{s.text}</span>
+                          <span className="block pt-2 text-[0.98rem] leading-relaxed text-ink-2">{s.text}</span>
                         </span>
                       </span>
-                      <ProgressLine active={on} running={running} duration={duration} reduce={reduce} resetKey={`${active}-${running}`} />
                     </button>
                   </li>
                 );
@@ -70,7 +70,7 @@ export function Steps() {
               <button
                 type="button"
                 onClick={() => setPaused((p) => !p)}
-                className="mt-4 inline-flex items-center gap-1.5 self-start text-[0.8rem] text-ink-3 hover:text-ink"
+                className="mt-4 ml-5 inline-flex items-center gap-1.5 self-start text-[0.8rem] text-ink-3 hover:text-ink"
               >
                 {paused ? <Play aria-hidden className="size-3.5" /> : <Pause aria-hidden className="size-3.5" />}
                 {paused ? "Continuar" : "Pausar"}
@@ -78,7 +78,7 @@ export function Steps() {
             )}
           </div>
 
-          <Reveal y={32} className="lg:col-span-8">
+          <Reveal className="lg:col-span-8">
             <div className="relative overflow-hidden rounded-[1.75rem] bg-rent-deep">
               <Image src={photos.fachadaAzulejo} alt="" fill placeholder="blur" sizes="66vw" className="object-cover opacity-70" />
               <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-rent-deep/70 via-rent-deep/25 to-transparent" />
@@ -87,10 +87,10 @@ export function Steps() {
                   <m.div
                     key={active}
                     className="w-full max-w-[46rem] shadow-[0_40px_80px_-30px_rgb(0_0_0/0.55)]"
-                    initial={{ opacity: 0, y: 40 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -16, transition: { duration: 0.3 } }}
-                    transition={{ duration: 0.8, ease: EASE }}
+                    exit={{ opacity: 0, transition: { duration: 0.25 } }}
+                    transition={{ duration: 0.6, ease: EASE }}
                   >
                     <Screen />
                   </m.div>
