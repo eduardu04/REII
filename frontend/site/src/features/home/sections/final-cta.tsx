@@ -4,11 +4,19 @@ import { Reveal } from "@/components/motion/reveal";
 import { AddressForm } from "@/components/shared/address-form";
 import { finalCta } from "@/content/home";
 
-/** 11 · CTA final: a sala vazia, a luz, e a promessa central. */
+/** 11 · Fecho: a sala vazia, a luz, e a promessa central. (Mantido a pedido.) */
 export function FinalCta() {
   return (
     <section className="relative isolate overflow-hidden bg-rent-deep text-white">
-      <Image src={finalCta.image} alt={finalCta.alt} fill placeholder="blur" sizes="100vw" className="-z-10 object-cover" />
+      <Image
+        src={finalCta.image}
+        alt={finalCta.alt}
+        fill
+        quality={90}
+        placeholder="blur"
+        sizes="100vw"
+        className="-z-10 object-cover"
+      />
       <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-b from-rent-deep/55 via-rent-deep/35 to-rent-deep/85" />
 
       <div className="shell flex min-h-[80vh] flex-col justify-end py-20 sm:py-28">

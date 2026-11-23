@@ -6,25 +6,25 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
 import { demo } from "@/content/home";
+import { formatEuro } from "@/lib/format";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-const H = 240;
-const PAD = { top: 16, right: 12, bottom: 28, left: 46 };
-const MIN = 290;
-const MAX = 500;
-const TICKS = [300, 350, 400, 450, 500];
+const H = 250;
+const PAD = { top: 28, right: 18, bottom: 30, left: 64 };
+const MIN = 300;
+const MAX = 450;
+const TICKS = [300, 350, 400, 450];
 
 const { years, sell, rent } = demo.series;
 
 /**
- * Gráfico vender vs. arrendar (património acumulado, cenário central).
- * Desenha em píxeis reais (mede a largura do contentor), para o texto ter sempre o mesmo tamanho
- * no telemóvel e no computador. As linhas desenham-se com GSAP quando entram no ecrã.
+ * "Quanto vale cada caminho ao longo do tempo" (mockup): as duas linhas partem do mesmo valor,
+ * a área entre elas é o que separa os dois caminhos. Desenha em píxeis reais (mede o contentor).
+ * As linhas desenham-se uma vez com GSAP quando entram no ecrã.
  */
-export function ResultsChart({ horizon = 5 }: { horizon?: number }) {
+export function ResultsChart() {
   const wrap = useRef<HTMLDivElement>(null);
-  const svg = useRef<SVGSVGElement>(null);
   const [width, setWidth] = useState<number | null>(null);
 
   useEffect(() => {
@@ -43,90 +43,77 @@ export function ResultsChart({ horizon = 5 }: { horizon?: number }) {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         const lines = gsap.utils.toArray<SVGPathElement>("[data-line]");
-        lines.forEach((line) => {
-          const len = line.getTotalLength();
-          gsap.set(line, { strokeDasharray: len, strokeDashoffset: len });
+        lines.forEach((l) => {
+          const len = l.getTotalLength();
+          gsap.set(l, { strokeDasharray: len, strokeDashoffset: len });
         });
         gsap
-          .timeline({
-            scrollTrigger: { trigger: svg.current, start: "top 80%", once: true },
-            defaults: { ease: "power3.out" },
-          })
-          .to(lines, {
-            strokeDashoffset: 0,
-            duration: 1.4,
-            stagger: 0.25,
-            clearProps: "strokeDasharray,strokeDashoffset",
-          })
-          .from("[data-area]", { opacity: 0, duration: 0.8 }, "<0.3")
-          .from(
-            "[data-marker]",
-            { opacity: 0, scale: 0.6, transformOrigin: "center", duration: 0.5, stagger: 0.1 },
-            "-=0.4",
-          );
+          .timeline({ scrollTrigger: { trigger: wrap.current, start: "top 80%", once: true } })
+          .to(lines, { strokeDashoffset: 0, duration: 1.3, ease: "power2.out", clearProps: "strokeDasharray,strokeDashoffset" })
+          .from("[data-fade]", { opacity: 0, duration: 0.6 }, "-=0.5");
       });
       return () => mm.revert();
     },
     { scope: wrap, dependencies: [measured] },
   );
 
-  const W = width ?? 560;
-  const narrow = W < 420;
+  const W = width ?? 640;
   const x = (i: number) => PAD.left + (i / (years.length - 1)) * (W - PAD.left - PAD.right);
   const y = (v: number) => PAD.top + (1 - (v - MIN) / (MAX - MIN)) * (H - PAD.top - PAD.bottom);
-  const path = (values: readonly number[]) =>
-    values.map((v, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
-  const hx = x(horizon);
+  const line = (vals: readonly number[]) => vals.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  const area =
+    line(rent) +
+    " " +
+    [...sell]
+      .map((v, i) => [x(i), y(v)] as const)
+      .reverse()
+      .map(([px, py]) => `L${px.toFixed(1)},${py.toFixed(1)}`)
+      .join(" ") +
+    " Z";
+  const last = years.length - 1;
+  const narrow = W < 460;
 
   return (
     <div ref={wrap} className="w-full">
       <svg
-        ref={svg}
         width={W}
         height={H}
         viewBox={`0 0 ${W} ${H}`}
         role="img"
-        aria-label={`Património acumulado em milhares de euros, cenário central. Daqui a ${horizon} anos: vender ${sell[horizon]} mil euros, arrendar ${rent[horizon]} mil euros.`}
-        className="block h-auto max-w-full overflow-visible"
+        aria-label={`Daqui a 5 anos: arrendar ${formatEuro(rent[last] * 1000)}, vender ${formatEuro(sell[last] * 1000)}.`}
+        className="block max-w-full overflow-visible"
         style={{ visibility: measured ? "visible" : "hidden" }}
       >
         {TICKS.map((t) => (
           <g key={t}>
-            <line x1={PAD.left} x2={W - PAD.right} y1={y(t)} y2={y(t)} stroke="var(--line)" strokeDasharray="2 4" />
-            <text x={PAD.left - 8} y={y(t)} dy="0.32em" textAnchor="end" className="fill-ink-3 text-[11px] tabular">
-              {t} k€
+            <line x1={PAD.left} x2={W - PAD.right} y1={y(t)} y2={y(t)} stroke="var(--line)" />
+            <text x={PAD.left - 10} y={y(t)} dy="0.32em" textAnchor="end" className="fill-ink-3 text-[11px] tabular">
+              {formatEuro(t * 1000)}
             </text>
           </g>
         ))}
-        {years.map((yr, i) => {
-          const show = i === horizon || (narrow ? i === 0 || i === 10 : i % 2 === 0);
-          return show ? (
-            <text
-              key={yr}
-              x={x(i)}
-              y={H - 8}
-              textAnchor={i === 0 ? "start" : i === years.length - 1 ? "end" : "middle"} className="fill-ink-3 text-[11px] tabular">
-              {yr === 0 ? "Hoje" : `${yr} anos`}
+        {years.map((yr, i) =>
+          narrow && i !== 0 && i !== last ? null : (
+            <text key={yr} x={x(i)} y={H - 6} textAnchor={i === 0 ? "start" : i === last ? "end" : "middle"} className="fill-ink-3 text-[11px]">
+              {yr === 0 ? "Hoje" : yr === 1 ? "1 ano" : `${yr} anos`}
             </text>
-          ) : null;
-        })}
+          ),
+        )}
 
-        <rect
-          data-area
-          x={hx - 14}
-          y={PAD.top}
-          width={28}
-          height={H - PAD.top - PAD.bottom}
-          rx={6}
-          fill="var(--surface-2)"
-          opacity={0.7}
-        />
+        <path data-fade d={area} fill="var(--rent)" opacity={0.07} />
+        <path data-line d={line(rent)} fill="none" stroke="var(--rent)" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
+        <path data-line d={line(sell)} fill="none" stroke="var(--sell)" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
 
-        <path data-line d={path(sell)} fill="none" stroke="var(--sell)" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
-        <path data-line d={path(rent)} fill="none" stroke="var(--rent)" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
-
-        <circle data-marker cx={hx} cy={y(sell[horizon])} r={5} fill="#fff" stroke="var(--sell)" strokeWidth={2.5} />
-        <circle data-marker cx={hx} cy={y(rent[horizon])} r={5} fill="#fff" stroke="var(--rent)" strokeWidth={2.5} />
+        <g data-fade>
+          <circle cx={x(last)} cy={y(rent[last])} r={5} fill="#fff" stroke="var(--rent)" strokeWidth={2.5} />
+          <circle cx={x(last)} cy={y(sell[last])} r={5} fill="#fff" stroke="var(--sell)" strokeWidth={2.5} />
+          <text x={x(last) - 12} y={y(rent[last]) - 12} textAnchor="end" className="fill-rent text-[13px] font-semibold tabular">
+            {formatEuro(rent[last] * 1000)}
+          </text>
+          <text x={x(last) - 12} y={y(sell[last]) - 12} textAnchor="end" className="fill-sell text-[13px] font-semibold tabular">
+            {formatEuro(sell[last] * 1000)}
+          </text>
+        </g>
       </svg>
     </div>
   );

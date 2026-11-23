@@ -1,69 +1,69 @@
-"use client";
-
 import Link from "next/link";
-import { m } from "motion/react";
-import { ArrowUpRight } from "lucide-react";
 
-import { CountUp } from "@/components/motion/count-up";
 import { Reveal } from "@/components/motion/reveal";
-import { DemoBadge } from "@/components/shared/demo-badge";
-import { SectionHeading } from "@/components/shared/section-heading";
 import { demo, transparency } from "@/content/home";
-import { formatPercent } from "@/lib/format";
+import { formatNumber, formatPercent } from "@/lib/format";
 
-/** 8 · Transparência: um número desmontado em fonte, data, amostra e confiança. */
+/** 8 · Transparência: o que garantimos à esquerda; um número desmontado à direita. */
 export function Transparency() {
+  const filled = Math.round(demo.confidence / 20);
+
   return (
-    <section className="py-24 sm:py-32">
-      <div className="shell">
-        <SectionHeading index="06" label={transparency.label} title={transparency.title} lead={transparency.lead} />
-
-        <div className="mt-14 grid gap-10 lg:mt-20 lg:grid-cols-12 lg:gap-8">
-          <Reveal className="lg:col-span-6 lg:col-start-4">
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-[0.9rem] text-ink-2">{transparency.valueLabel} · {demo.property.title}</p>
-              <DemoBadge />
-            </div>
-            <p className="mt-4 text-[3.5rem] leading-none font-medium tracking-[-0.055em] text-ink tabular sm:text-[5.5rem] lg:text-[6.5rem]">
-              <CountUp value={transparency.value} format="euroMonth" />
-            </p>
-          </Reveal>
-
-          <dl className="border-t border-line lg:col-span-9 lg:col-start-4">
-            {transparency.parts.map((part, i) => (
-              <Reveal key={part.label} index={i} y={12} className="grid gap-1 border-b border-line py-5 sm:grid-cols-[10rem_1fr] sm:gap-8">
-                <dt className="type-label pt-1 text-ink-3">{part.label}</dt>
-                <dd className="text-[1.05rem] font-medium tracking-[-0.01em] text-ink">{part.value}</dd>
-              </Reveal>
+    <section className="bg-white py-24 sm:py-32">
+      <div className="shell grid gap-14 lg:grid-cols-12 lg:gap-8">
+        <Reveal className="lg:col-span-5">
+          <h2 className="type-h2 max-w-[12ch] text-ink">{transparency.title}</h2>
+          <p className="type-lead mt-6 max-w-md text-ink-2">{transparency.lead}</p>
+          <dl className="mt-10 border-t border-line">
+            {transparency.principles.map((p) => (
+              <div key={p.label} className="grid grid-cols-[9.5rem_1fr] gap-4 border-b border-line py-5">
+                <dt className="text-[0.95rem] font-semibold text-ink">{p.label}</dt>
+                <dd className="text-[0.95rem] leading-relaxed text-ink">{p.text}</dd>
+              </div>
             ))}
-            <Reveal index={3} y={12} className="grid gap-3 border-b border-line py-5 sm:grid-cols-[10rem_1fr] sm:items-center sm:gap-8">
-              <dt className="type-label text-ink-3">Confiança</dt>
-              <dd className="flex items-center gap-4">
-                <div className="h-1 flex-1 overflow-hidden rounded-full bg-surface-2">
-                  <m.div
-                    className="h-full origin-left rounded-full bg-rent"
-                    style={{ width: `${demo.confidence}%` }}
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-                  />
-                </div>
-                <span className="text-[1.05rem] font-semibold text-ink tabular">{formatPercent(demo.confidence)}</span>
-              </dd>
-            </Reveal>
           </dl>
+          <Link
+            href={transparency.link.href}
+            className="mt-8 inline-block border-b-2 border-rent pb-0.5 text-[1rem] font-semibold text-rent transition-colors hover:border-rent-deep hover:text-rent-deep"
+          >
+            {transparency.link.label}
+          </Link>
+        </Reveal>
 
-          <Reveal className="lg:col-span-9 lg:col-start-4">
-            <Link
-              href={transparency.link.href}
-              className="group inline-flex items-center gap-1.5 text-[1rem] font-medium text-ink underline decoration-line underline-offset-[6px] transition-colors hover:decoration-ink"
-            >
-              {transparency.link.label}
-              <ArrowUpRight aria-hidden className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
-          </Reveal>
-        </div>
+        <Reveal index={1} className="lg:col-span-6 lg:col-start-7">
+          <div className="rounded-[1.5rem] bg-cream p-7 sm:p-10">
+            <p className="text-[0.85rem] text-ink-2">{transparency.card.caption}</p>
+            <p className="mt-3 flex items-baseline gap-3 text-rent">
+              <span className="text-[4rem] leading-none font-semibold tracking-[-0.05em] tabular sm:text-[5.5rem]">
+                {formatNumber(demo.rent.monthly)}&nbsp;€
+              </span>
+              <span className="text-[1.6rem] font-semibold tracking-[-0.03em] text-ink-2">/mês</span>
+            </p>
+            <dl className="mt-8 border-t border-line text-[0.92rem]">
+              {transparency.card.rows.map((r) => (
+                <div key={r.label} className="grid grid-cols-[7.5rem_1fr] gap-4 border-b border-line py-4">
+                  <dt className="text-ink-2">{r.label}</dt>
+                  <dd className="text-ink">{r.value}</dd>
+                </div>
+              ))}
+              <div className="grid grid-cols-[7.5rem_1fr] items-center gap-4 border-b border-line py-4">
+                <dt className="text-ink-2">Confiança</dt>
+                <dd className="flex items-center gap-3 text-ink">
+                  <span aria-hidden className="flex gap-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <span key={i} className={`h-1.5 w-4 rounded-full ${i < filled ? "bg-rent" : "bg-surface-2"}`} />
+                    ))}
+                  </span>
+                  Alta, {formatPercent(demo.confidence)}
+                </dd>
+              </div>
+              <div className="grid grid-cols-[7.5rem_1fr] gap-4 py-4">
+                <dt className="text-ink-2">Fica de fora</dt>
+                <dd className="text-ink">{transparency.card.excluded}</dd>
+              </div>
+            </dl>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
