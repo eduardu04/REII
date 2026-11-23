@@ -7,7 +7,7 @@ import { assistant, demo } from "@/content/home";
 /** 7 · O assistente: explica e cita fontes; não decide. Conversa estática, como no mockup. */
 export function Assistant() {
   return (
-    <section className="bg-cream py-24 sm:py-32">
+    <section className="bg-white py-24 sm:py-32">
       <div className="shell grid items-center gap-14 lg:grid-cols-12 lg:gap-8">
         <Reveal className="lg:col-span-5">
           <h2 className="type-h2 max-w-[12ch] text-ink">{assistant.title}</h2>
@@ -27,7 +27,7 @@ export function Assistant() {
         </Reveal>
 
         <Reveal index={1} y={28} className="lg:col-span-6 lg:col-start-7">
-          <div className="rounded-[1.5rem] bg-white p-5 shadow-[0_30px_60px_-30px_rgb(15_26_24/0.35)] ring-1 ring-line sm:p-7">
+          <div className="rounded-[1.5rem] bg-white p-5 shadow-[0_30px_60px_-30px_rgb(15_26_24/0.3)] ring-1 ring-line sm:p-7">
             <div className="flex items-center gap-3 border-b border-line pb-5">
               <span className="grid size-10 place-items-center rounded-xl bg-rent text-white">
                 <Logo className="h-[0.55rem]" />

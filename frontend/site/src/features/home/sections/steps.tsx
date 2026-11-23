@@ -6,21 +6,21 @@ import { formatEuro } from "@/lib/format";
 /** 5 · Três passos, cada um com o pedaço da app que lhe corresponde. */
 export function Steps() {
   return (
-    <section className="bg-cream py-24 sm:py-32">
+    <section className="bg-white py-24 sm:py-32">
       <div className="shell">
         <SectionIntro title={steps.title} lead={steps.lead} />
 
         <ol className="mt-16 grid gap-5 lg:grid-cols-3">
           {steps.items.map((step, i) => (
             <li key={step.title}>
-              <Reveal index={i} className="flex h-full flex-col rounded-[1.25rem] bg-white p-7 ring-1 ring-line">
+              <Reveal index={i} className="flex h-full flex-col rounded-[1.25rem] bg-surface p-7">
                 <span className="grid size-9 place-items-center rounded-full bg-rent text-[0.85rem] font-semibold text-white tabular">
                   {i + 1}
                 </span>
                 <h3 className="mt-7 text-[1.35rem] font-semibold tracking-[-0.025em] text-ink">{step.title}</h3>
                 <p className="mt-3 text-[0.95rem] leading-relaxed text-ink-2">{step.text}</p>
                 <div className="mt-auto pt-8">
-                  <div className="rounded-xl bg-surface p-4">{[<Describe key="d" />, <Estimate key="e" />, <Compare key="c" />][i]}</div>
+                  <div className="rounded-xl bg-white p-4 ring-1 ring-line">{[<Describe key="d" />, <Estimate key="e" />, <Compare key="c" />][i]}</div>
                 </div>
               </Reveal>
             </li>

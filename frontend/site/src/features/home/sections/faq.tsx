@@ -9,7 +9,7 @@ import { faq } from "@/content/home";
 /** 10 · Perguntas frequentes. */
 export function Faq() {
   return (
-    <section className="bg-white py-24 sm:py-32">
+    <section className="bg-surface py-24 sm:py-32">
       <div className="shell grid gap-12 lg:grid-cols-12 lg:gap-8">
         <Reveal className="lg:col-span-4">
           <h2 className="type-h2 max-w-[10ch] text-ink">{faq.title}</h2>

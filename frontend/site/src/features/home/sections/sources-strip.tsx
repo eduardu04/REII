@@ -4,7 +4,7 @@ import { sources } from "@/content/home";
 /** 2 · De onde vêm os números: sem clientes ainda, as fontes são a prova. */
 export function SourcesStrip() {
   return (
-    <section aria-label={sources.title} className="border-b border-line bg-cream">
+    <section aria-label={sources.title} className="border-b border-line bg-white">
       <Reveal className="shell grid gap-10 py-14 lg:grid-cols-12 lg:gap-8 lg:py-16">
         <div className="lg:col-span-4">
           <h2 className="text-[1.15rem] font-semibold tracking-[-0.02em] text-ink">{sources.title}</h2>

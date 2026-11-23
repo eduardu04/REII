@@ -8,7 +8,7 @@ import { audience } from "@/content/home";
 /** 4 · Para quem é: quatro situações reais, cada uma com a sua casa. */
 export function Audience() {
   return (
-    <section className="bg-white py-24 sm:py-32">
+    <section className="bg-surface py-24 sm:py-32">
       <div className="shell">
         <SectionIntro title={audience.title} lead={audience.lead} />
 

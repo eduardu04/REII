@@ -9,7 +9,7 @@ export function Transparency() {
   const filled = Math.round(demo.confidence / 20);
 
   return (
-    <section className="bg-white py-24 sm:py-32">
+    <section className="bg-surface py-24 sm:py-32">
       <div className="shell grid gap-14 lg:grid-cols-12 lg:gap-8">
         <Reveal className="lg:col-span-5">
           <h2 className="type-h2 max-w-[12ch] text-ink">{transparency.title}</h2>
@@ -31,7 +31,7 @@ export function Transparency() {
         </Reveal>
 
         <Reveal index={1} className="lg:col-span-6 lg:col-start-7">
-          <div className="rounded-[1.5rem] bg-cream p-7 sm:p-10">
+          <div className="rounded-[1.5rem] bg-white p-7 ring-1 ring-line sm:p-10">
             <p className="text-[0.85rem] text-ink-2">{transparency.card.caption}</p>
             <p className="mt-3 flex items-baseline gap-3 text-rent">
               <span className="text-[4rem] leading-none font-semibold tracking-[-0.05em] tabular sm:text-[5.5rem]">

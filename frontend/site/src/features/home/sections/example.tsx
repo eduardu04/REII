@@ -17,7 +17,7 @@ export function Example() {
   const [tab, setTab] = useState<(typeof TABS)[number]>("Zona e valorização");
 
   return (
-    <section className="bg-cream py-24 sm:py-32">
+    <section className="bg-white py-24 sm:py-32">
       <div className="shell">
         <SectionIntro title={example.title} lead={example.lead} />
 

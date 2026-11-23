@@ -6,7 +6,7 @@ import { problem } from "@/content/home";
 /** 3 · O problema: três vozes interessadas, e a resposta do REII (independência). */
 export function Problem() {
   return (
-    <section className="bg-cream py-24 sm:py-32">
+    <section className="bg-white py-24 sm:py-32">
       <div className="shell">
         <SectionIntro title={problem.title} lead={problem.lead} />
 
