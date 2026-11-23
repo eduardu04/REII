@@ -1,6 +1,11 @@
 "use client";
 
-import { LazyMotion, MotionConfig, domAnimation } from "motion/react";
+import { LazyMotion, MotionConfig, MotionGlobalConfig, domAnimation } from "motion/react";
+
+// `?static` no endereço salta todas as animações (para rever conteúdo e para capturas).
+if (typeof window !== "undefined" && new URLSearchParams(window.location.search).has("static")) {
+  MotionGlobalConfig.skipAnimations = true;
+}
 
 /**
  * LazyMotion carrega só as funcionalidades de animação usadas (≈15 KB em vez de ≈34 KB).

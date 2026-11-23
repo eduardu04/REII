@@ -1,58 +1,67 @@
-import { Reveal } from "@/components/motion/reveal";
-import { SectionIntro } from "@/components/shared/section-heading";
-import { result } from "@/content/home";
+"use client";
 
-import { AppShell } from "../mockups/app-shell";
-import { ResultsPanel } from "../mockups/results-panel";
+import { AnimatePresence, m } from "motion/react";
+
+import { ProgressLine } from "@/components/motion/progress-line";
+import { Reveal } from "@/components/motion/reveal";
+import { useAutoAdvance } from "@/components/motion/use-auto-advance";
+import { SectionIntro } from "@/components/shared/section-heading";
+import { product } from "@/content/home";
+import { cn } from "@/lib/utils";
+
+import { ComparablesScreen, MyPropertiesScreen, ReportScreen } from "../mockups/screens";
+
+const SCREENS = [MyPropertiesScreen, ComparablesScreen, ReportScreen];
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 /**
- * 6 · O resultado, num só ecrã. Secção verde (mockup) com o ecrã real da app
- * e três notas presas aos sítios que explicam.
+ * 5 · O produto. Secção verde com a app real a trocar de ecrã sozinha
+ * (Os meus imóveis → Mercado comparativo → Relatório), com separadores e progresso.
  */
 export function Result() {
+  const { active, setActive, running, reduce, bind, duration } = useAutoAdvance(SCREENS.length, 7000);
+  const Screen = SCREENS[active];
+
   return (
     <section className="bg-rent-deep py-24 text-white sm:py-32">
       <div className="shell">
-        <SectionIntro title={result.title} lead={result.lead} tone="light" />
+        <SectionIntro title={product.title} lead={product.lead} tone="light" />
 
-        <Reveal y={32} className="relative mt-16">
-          <Callout n={1} className="left-4 -top-4 sm:left-8">
-            {result.callouts[0]}
-          </Callout>
-          <Callout n={2} className="right-4 -top-4 hidden md:flex lg:right-[22rem]">
-            {result.callouts[1]}
-          </Callout>
-          <Callout n={3} className="right-4 -bottom-4 hidden md:flex">
-            {result.callouts[2]}
-          </Callout>
+        <div {...bind} className="mt-14 lg:mt-20">
+          <div role="tablist" aria-label="Ecrãs da app" className="grid gap-x-8 gap-y-2 sm:grid-cols-3">
+            {product.screens.map((s, i) => {
+              const on = i === active;
+              return (
+                <button key={s.label} type="button" role="tab" aria-selected={on} onClick={() => setActive(i)} className="pb-4 text-left">
+                  <ProgressLine active={on} running={running} duration={duration} reduce={reduce} light resetKey={`${active}-${running}`} />
+                  <span className={cn("mt-4 block text-[1.05rem] font-semibold transition-colors duration-500", on ? "text-white" : "text-white/40")}>
+                    {s.label}
+                  </span>
+                  <span className={cn("mt-1 hidden text-[0.88rem] transition-colors duration-500 sm:block", on ? "text-white/65" : "text-white/30")}>
+                    {s.text}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
 
-          <AppShell className="shadow-[0_40px_80px_-30px_rgb(0_0_0/0.6)]">
-            <ResultsPanel />
-          </AppShell>
-        </Reveal>
-
-        <ol className="mt-12 space-y-3 md:hidden">
-          {result.callouts.map((c, i) => (
-            <li key={c} className="flex items-center gap-3 text-[0.95rem] text-white/85">
-              <span className="grid size-6 shrink-0 place-items-center rounded-full bg-sell text-[0.75rem] font-semibold text-white">
-                {i + 1}
-              </span>
-              {c}
-            </li>
-          ))}
-        </ol>
+          <Reveal y={40} className="mt-8">
+            <div className="relative overflow-hidden rounded-[1.5rem] bg-cream/5 p-2 ring-1 ring-white/10 sm:p-3">
+              <AnimatePresence mode="wait" initial={false}>
+                <m.div
+                  key={active}
+                  initial={{ opacity: 0, y: 24, scale: 0.99 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -12, transition: { duration: 0.3 } }}
+                  transition={{ duration: 0.8, ease: EASE }}
+                >
+                  <Screen />
+                </m.div>
+              </AnimatePresence>
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
-  );
-}
-
-function Callout({ n, children, className }: { n: number; children: React.ReactNode; className?: string }) {
-  return (
-    <p
-      className={`absolute z-10 flex items-center gap-2.5 rounded-full bg-white py-1.5 pr-4 pl-1.5 text-[0.8rem] font-semibold text-ink shadow-[0_12px_30px_-12px_rgb(0_0_0/0.45)] ${className ?? ""}`}
-    >
-      <span className="grid size-6 place-items-center rounded-full bg-sell text-[0.72rem] text-white">{n}</span>
-      {children}
-    </p>
   );
 }

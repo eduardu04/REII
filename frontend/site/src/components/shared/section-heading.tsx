@@ -1,3 +1,4 @@
+import { DrawLine, MaskReveal } from "@/components/motion/editorial";
 import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 
@@ -9,23 +10,24 @@ type SectionIntroProps = {
 };
 
 /**
- * Abertura de secção (padrão do mockup): título grande à esquerda, texto de apoio à direita,
- * alinhado pela base. Sem etiquetas nem números decorativos.
+ * Abertura de secção, igual em toda a página: linha fina que se desenha, título grande
+ * que sobe por trás de uma máscara (à esquerda) e texto de apoio à direita, alinhado pela base.
  */
 export function SectionIntro({ title, lead, tone = "dark", className }: SectionIntroProps) {
+  const light = tone === "light";
   return (
-    <Reveal className={cn("grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8", className)}>
-      <h2 className={cn("type-h2 lg:col-span-6", tone === "dark" ? "text-ink" : "text-white")}>{title}</h2>
-      {lead ? (
-        <p
-          className={cn(
-            "type-lead max-w-xl lg:col-span-5 lg:col-start-8 lg:pb-1.5",
-            tone === "dark" ? "text-ink-2" : "text-white/70",
-          )}
-        >
-          {lead}
-        </p>
-      ) : null}
-    </Reveal>
+    <div className={className}>
+      <DrawLine light={light} />
+      <div className="grid gap-6 pt-8 lg:grid-cols-12 lg:items-end lg:gap-8 lg:pt-10">
+        <MaskReveal as="h2" className={cn("type-h2 lg:col-span-7", light ? "text-white" : "text-ink")}>
+          {title}
+        </MaskReveal>
+        {lead ? (
+          <Reveal delay={0.25} className="lg:col-span-4 lg:col-start-9 lg:pb-1.5">
+            <p className={cn("text-[1.05rem] leading-relaxed", light ? "text-white/70" : "text-ink-2")}>{lead}</p>
+          </Reveal>
+        ) : null}
+      </div>
+    </div>
   );
 }

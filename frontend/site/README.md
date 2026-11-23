@@ -20,6 +20,8 @@ npm run lint
 ```
 Variável opcional: `NEXT_PUBLIC_APP_URL` — endereço da app (onboarding). Sem ela, os botões apontam para `#`.
 
+Para rever o conteúdo sem animações (útil em capturas): abrir `http://localhost:3000/?static`.
+
 ## Estrutura
 ```
 src/

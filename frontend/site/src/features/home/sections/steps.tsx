@@ -1,91 +1,105 @@
-import { Reveal } from "@/components/motion/reveal";
-import { SectionIntro } from "@/components/shared/section-heading";
-import { demo, steps } from "@/content/home";
-import { formatEuro } from "@/lib/format";
+"use client";
 
-/** 5 · Três passos, cada um com o pedaço da app que lhe corresponde. */
+import Image from "next/image";
+import { AnimatePresence, m } from "motion/react";
+import { Pause, Play } from "lucide-react";
+
+import { ProgressLine } from "@/components/motion/progress-line";
+import { Reveal } from "@/components/motion/reveal";
+import { useAutoAdvance } from "@/components/motion/use-auto-advance";
+import { SectionIntro } from "@/components/shared/section-heading";
+import { photos, steps } from "@/content/home";
+import { cn } from "@/lib/utils";
+
+import { CharacterizationScreen, OnboardingScreen, TwoPathsScreen } from "../mockups/screens";
+
+const SCREENS = [OnboardingScreen, CharacterizationScreen, TwoPathsScreen];
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+/**
+ * 4 · Três passos (padrão Libra): a lista avança sozinha com uma linha de progresso e,
+ * ao lado, o ecrã real da app correspondente sobe para um palco fotográfico.
+ */
 export function Steps() {
+  const { active, setActive, running, paused, setPaused, reduce, bind, duration } = useAutoAdvance(steps.items.length, 6500);
+  const Screen = SCREENS[active];
+
   return (
-    <section className="bg-white py-24 sm:py-32">
+    <section className="bg-surface py-24 sm:py-32">
       <div className="shell">
         <SectionIntro title={steps.title} lead={steps.lead} />
 
-        <ol className="mt-16 grid gap-5 lg:grid-cols-3">
-          {steps.items.map((step, i) => (
-            <li key={step.title}>
-              <Reveal index={i} className="flex h-full flex-col rounded-[1.25rem] bg-surface p-7">
-                <span className="grid size-9 place-items-center rounded-full bg-rent text-[0.85rem] font-semibold text-white tabular">
-                  {i + 1}
-                </span>
-                <h3 className="mt-7 text-[1.35rem] font-semibold tracking-[-0.025em] text-ink">{step.title}</h3>
-                <p className="mt-3 text-[0.95rem] leading-relaxed text-ink-2">{step.text}</p>
-                <div className="mt-auto pt-8">
-                  <div className="rounded-xl bg-white p-4 ring-1 ring-line">{[<Describe key="d" />, <Estimate key="e" />, <Compare key="c" />][i]}</div>
-                </div>
-              </Reveal>
-            </li>
-          ))}
-        </ol>
+        <div {...bind} className="mt-14 grid gap-8 lg:mt-20 lg:grid-cols-12 lg:gap-8">
+          <div className="flex flex-col lg:col-span-4">
+            <ol className="space-y-1" role="tablist" aria-label="Passos">
+              {steps.items.map((s, i) => {
+                const on = i === active;
+                return (
+                  <li key={s.title}>
+                    <button type="button" role="tab" aria-selected={on} onClick={() => setActive(i)} className="w-full py-5 text-left">
+                      <span className="flex items-baseline gap-4">
+                        <span className={cn("text-[0.85rem] font-semibold tabular transition-colors duration-500", on ? "text-rent" : "text-ink-3")}>
+                          0{i + 1}
+                        </span>
+                        <span
+                          className={cn(
+                            "text-[1.35rem] font-semibold tracking-[-0.025em] transition-colors duration-500 sm:text-[1.5rem]",
+                            on ? "text-ink" : "text-ink/30 hover:text-ink/55",
+                          )}
+                        >
+                          {s.title}
+                        </span>
+                      </span>
+                      <span
+                        className={cn(
+                          "grid pl-9 transition-[grid-template-rows,opacity] duration-700 ease-out-soft",
+                          on ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+                        )}
+                      >
+                        <span className="overflow-hidden">
+                          <span className="block pt-2 pb-4 text-[0.98rem] leading-relaxed text-ink-2">{s.text}</span>
+                        </span>
+                      </span>
+                      <ProgressLine active={on} running={running} duration={duration} reduce={reduce} resetKey={`${active}-${running}`} />
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+            {!reduce && (
+              <button
+                type="button"
+                onClick={() => setPaused((p) => !p)}
+                className="mt-4 inline-flex items-center gap-1.5 self-start text-[0.8rem] text-ink-3 hover:text-ink"
+              >
+                {paused ? <Play aria-hidden className="size-3.5" /> : <Pause aria-hidden className="size-3.5" />}
+                {paused ? "Continuar" : "Pausar"}
+              </button>
+            )}
+          </div>
+
+          <Reveal y={32} className="lg:col-span-8">
+            <div className="relative overflow-hidden rounded-[1.75rem] bg-rent-deep">
+              <Image src={photos.fachadaAzulejo} alt="" fill placeholder="blur" sizes="66vw" className="object-cover opacity-70" />
+              <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-rent-deep/70 via-rent-deep/25 to-transparent" />
+              <div className="relative grid min-h-[30rem] place-items-center p-4 sm:min-h-[34rem] sm:p-10">
+                <AnimatePresence mode="wait">
+                  <m.div
+                    key={active}
+                    className="w-full max-w-[46rem] shadow-[0_40px_80px_-30px_rgb(0_0_0/0.55)]"
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -16, transition: { duration: 0.3 } }}
+                    transition={{ duration: 0.8, ease: EASE }}
+                  >
+                    <Screen />
+                  </m.div>
+                </AnimatePresence>
+              </div>
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
-  );
-}
-
-function Row({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
-  return (
-    <div className="flex items-center justify-between rounded-lg bg-white px-3.5 py-2.5 text-[0.85rem] ring-1 ring-line">
-      <span className="text-ink-2">{label}</span>
-      <span className={accent ? "font-semibold text-rent" : "font-semibold text-ink tabular"}>{value}</span>
-    </div>
-  );
-}
-
-function Describe() {
-  return (
-    <div className="space-y-2">
-      <Row label="Tipologia" value="T2" />
-      <Row label="Área útil" value="88 m²" />
-      <Row label="Localização" value="Sé Nova, Coimbra" />
-      <div className="pt-2">
-        <div className="h-1.5 overflow-hidden rounded-full bg-surface-2">
-          <div className="h-full w-[60%] rounded-full bg-rent" />
-        </div>
-        <p className="mt-2 text-[0.75rem] text-ink-3">Dados preenchidos: 60 %</p>
-      </div>
-    </div>
-  );
-}
-
-function Estimate() {
-  return (
-    <div className="space-y-2">
-      <Row label="Valor estimado hoje" value={formatEuro(demo.valueToday)} />
-      <Row label="Renda mensal estimada" value={formatEuro(demo.rent.monthly)} />
-      <Row label="Casas comparadas" value="6 na zona" />
-      <Row label="Confiança" value="Alta" accent />
-    </div>
-  );
-}
-
-function Compare() {
-  return (
-    <div>
-      <div className="grid grid-cols-2 gap-2">
-        <div className="rounded-lg bg-sell-soft p-3">
-          <p className="text-[0.75rem] font-semibold text-sell">Vender</p>
-          <p className="mt-1 text-[1.2rem] font-semibold tracking-[-0.03em] text-ink tabular">{formatEuro(demo.sell.value)}</p>
-          <p className="text-[0.7rem] text-ink-3">daqui a 5 anos</p>
-        </div>
-        <div className="rounded-lg bg-rent-soft p-3">
-          <p className="text-[0.75rem] font-semibold text-rent">Arrendar</p>
-          <p className="mt-1 text-[1.2rem] font-semibold tracking-[-0.03em] text-ink tabular">{formatEuro(demo.rent.monthly)}</p>
-          <p className="text-[0.7rem] text-ink-3">por mês</p>
-        </div>
-      </div>
-      <svg viewBox="0 0 280 56" className="mt-3 h-14 w-full" aria-hidden>
-        <path d="M4 52 C 90 44, 180 26, 276 6" fill="none" stroke="var(--rent)" strokeWidth="2" strokeLinecap="round" />
-        <path d="M4 52 C 90 48, 180 38, 276 28" fill="none" stroke="var(--sell)" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    </div>
   );
 }

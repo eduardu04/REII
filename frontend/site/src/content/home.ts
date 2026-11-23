@@ -1,7 +1,7 @@
 /**
  * Copy e dados da página Início.
- * Fonte: mockup "REII_Pagina_Inicio_Mockup.pdf" e ecrãs da app "REII_Ecras.pdf".
- * Todos os números são VALORES DE DEMONSTRAÇÃO do exemplo T2 Coimbra, até serem validados.
+ * Fontes: mockup "REII_Pagina_Inicio_Mockup.pdf" e ecrãs da app "REII_Ecras.pdf".
+ * Todos os números são VALORES DE DEMONSTRAÇÃO até serem validados.
  */
 import casaDeBanho from "@/assets/photos/casa-de-banho.jpg";
 import cozinha from "@/assets/photos/cozinha.jpg";
@@ -13,6 +13,8 @@ import salaEstar from "@/assets/photos/sala-estar.jpg";
 import salaJantar from "@/assets/photos/sala-jantar.jpg";
 import salaVazia from "@/assets/photos/sala-vazia-2560.jpg";
 import t2Fachada from "@/assets/photos/t2-coimbra-fachada.jpg";
+import t2Sala from "@/assets/photos/t2-coimbra-sala.jpg";
+import t3Fachada from "@/assets/photos/t3-lisboa-fachada.jpg";
 
 export const photos = {
   lisboaTelhados,
@@ -25,6 +27,8 @@ export const photos = {
   salaEstar,
   cozinha,
   t2Fachada,
+  t2Sala,
+  t3Fachada,
 };
 
 export const demo = {
@@ -41,60 +45,68 @@ export const demo = {
   confidence: 85,
   irr: 5.6,
   npv: 41_800,
-  /** Valor por ano (milhares de €), cenário central, 0 a 5 anos. */
-  series: {
-    years: [0, 1, 2, 3, 4, 5],
-    sell: [320, 330, 340, 350, 361, 372],
-    rent: [320, 343, 366, 389, 412, 435.7],
-  },
 } as const;
+
+/** Imóveis da conta de demonstração ("Os meus imóveis", na app). */
+export const portfolio = [
+  {
+    name: "T2 · Coimbra",
+    place: "Sé Nova, Coimbra",
+    specs: "88 m² · 2 quartos",
+    date: "Última análise: 06 mai 2026",
+    image: t2Fachada,
+    sell: 372_000,
+    sellGain: "+52 000 € (+16,3 %)",
+    rent: 1_200,
+    rentTotal: "72 000 €",
+  },
+  {
+    name: "T3 · Lisboa",
+    place: "Arroios, Lisboa",
+    specs: "120 m² · 3 quartos",
+    date: "Última análise: 28 abr 2026",
+    image: t3Fachada,
+    sell: 735_000,
+    sellGain: "+115 000 € (+18,5 %)",
+    rent: 2_300,
+    rentTotal: "138 000 €",
+  },
+] as const;
 
 export const hero = {
   title: "Vender ou arrendar? Veja os dois caminhos lado a lado.",
   subtitle:
     "Diga-nos onde fica o imóvel e como é. O REII estima quanto vale hoje, quanto pode render em renda e como fica cada opção daqui a 5 ou 10 anos, com a fonte de cada número.",
   // TODO(equipa): condição de entrada (ex.: primeira análise grátis) ainda por definir.
-  notes: ["Cerca de 3 minutos", "Não precisa de saber de finanças", "A decisão é sempre sua"],
-};
-
-export const sources = {
-  title: "De onde vêm os números",
-  lead: "Dados públicos e de mercado, sempre com a data em que foram recolhidos.",
-  items: [
-    { name: "INE", text: "Estatísticas oficiais da habitação e dos preços por zona" },
-    { name: "SIR", text: "Confidencial Imobiliário: vendas e rendas registadas" },
-    { name: "Idealista", text: "Anúncios de venda e arrendamento dos últimos 6 meses" },
-    { name: "Câmaras Municipais", text: "Obras e projetos previstos perto do imóvel" },
-  ],
+  notes: ["Sem compromisso", "Não precisa de saber de finanças", "A decisão é sempre sua"],
 };
 
 export const problem = {
   title: "Toda a gente tem uma opinião sobre a sua casa.",
-  lead: "O difícil é encontrar alguém que compare as duas opções da mesma forma, com os mesmos números, e sem ganhar nada com a sua escolha.",
+  lead: "Quase ninguém compara as duas opções com os mesmos números. E quase todos ganham alguma coisa com a sua escolha.",
   voices: [
     {
       who: "O agente imobiliário",
       says: "“Venda agora, o mercado está no pico.”",
-      note: "Pode ter razão. Mas a comissão dele depende de a casa ser vendida.",
+      note: "Pode ter razão. Mas a comissão depende de a casa ser vendida.",
     },
     {
       who: "A família e os amigos",
       says: "“O meu primo arrendou e está a ganhar bem.”",
-      note: "Nenhuma casa é igual a outra. E quase ninguém conta as despesas nem os meses sem inquilino.",
+      note: "Ninguém conta as despesas, nem os meses sem inquilino.",
     },
     {
       who: "Os anúncios",
-      says: "“Um T2 aqui ao lado está à venda por 390 000 €.”",
-      note: "O preço pedido num anúncio não é o preço a que a casa se vende.",
+      says: "“Um T2 aqui ao lado está à venda por 390 000 €.”",
+      note: "O preço pedido não é o preço a que a casa se vende.",
     },
   ],
   answer: "O REII põe vender e arrendar lado a lado, com o mesmo prazo e as mesmas regras.",
-  answerMuted: "Não recebemos comissões de ninguém, por isso não ganhamos nada com a sua escolha.",
+  answerMuted: "Não recebemos comissões de ninguém. Não ganhamos nada com a sua escolha.",
 };
 
 export const audience = {
-  title: "Para quem tem esta decisão pela frente.",
-  lead: "No primeiro passo escolhe a sua situação. A análise mostra primeiro o que mais lhe interessa.",
+  title: "Cada casa chega a esta decisão por um caminho diferente.",
   items: [
     {
       title: "Herdei uma casa",
@@ -124,93 +136,98 @@ export const audience = {
 };
 
 export const steps = {
-  title: "Três passos. Cerca de três minutos.",
-  lead: "Não precisa de saber o que é uma taxa de desconto. Responde ao que sabe sobre a casa, e o REII trata das contas.",
+  title: "Da morada à resposta, em três passos.",
+  lead: "Não precisa de saber o que é uma taxa de desconto. Responde ao que sabe sobre a casa; o REII trata das contas.",
   items: [
     {
-      title: "Descreva o imóvel",
-      text: "Tipologia, área, estado e localização. Se não souber algum dado, pode avançar na mesma.",
+      title: "Conte-nos a sua situação",
+      text: "Herdou, tem uma segunda casa, um imóvel parado ou vários. A análise começa pelo que mais lhe interessa.",
     },
     {
-      title: "O REII estima o mercado",
-      text: "Calculamos o valor de venda e a renda provável a partir de casas parecidas na mesma zona.",
+      title: "Descreva a casa",
+      text: "Tipologia, área, estado e morada. O que não souber, o REII estima e diz-lhe que estimou.",
     },
     {
-      title: "Compare os dois caminhos",
-      text: "Vender e arrendar lado a lado, a 3, 5, 10 ou 15 anos, com o resultado de cada opção.",
+      title: "Veja os dois caminhos",
+      text: "Vender e arrendar lado a lado, a 3, 5, 10 ou 15 anos, com a fonte e a data de cada número.",
     },
   ],
 };
 
-export const result = {
+export const product = {
   title: "Uma resposta clara, num só ecrã.",
-  lead: "Os dois caminhos no mesmo gráfico, com os números que interessam ao lado. E a informação que mais ajuda a decidir: a partir de que renda a resposta muda.",
-  callouts: ["Os dois caminhos, com as mesmas regras", "Três cenários, não uma única previsão", "O ponto em que vender passa a compensar"],
+  lead: "Todos os seus imóveis num sítio, cada um com os dois caminhos lado a lado. Pode rever, comparar e partilhar quando quiser.",
+  screens: [
+    { label: "Os meus imóveis", text: "Todos os imóveis, cada um com os dois caminhos." },
+    { label: "Mercado comparativo", text: "As casas parecidas que sustentam o valor." },
+    { label: "Relatório", text: "Para guardar, partilhar com a família ou exportar." },
+  ],
 };
 
-export const assistant = {
-  title: "Pergunte o que quiser sobre os números.",
-  lead: "O assistente do REII explica cada valor em português simples e diz de onde veio. Pode perguntar as vezes que precisar.",
-  points: [
-    { ok: true, text: "Explica os cálculos e os termos técnicos" },
-    { ok: true, text: "Mostra a fonte e a data de cada valor" },
-    { ok: false, text: "Não lhe diz o que fazer. A decisão é sua." },
-  ],
-  conversation: [
+export const explain = {
+  title: "Cada número explica-se.",
+  lead: "Toque num valor e o REII diz como lá chegou, de onde vieram os dados e quando foram recolhidos. Explica; não decide por si.",
+  numbers: [
     {
-      q: "Como chegaram aos 1 200 € de renda?",
-      a: "É a renda mais comum de T2 com 80 a 95 m² arrendados na Sé Nova e em Celas nos últimos 6 meses, que ficou entre 1 150 € e 1 350 €. Ajustámos ao seu imóvel porque tem garagem e certificado energético B.",
-      source: "Fontes: Idealista e INE, 6 de maio de 2026",
+      key: "sell",
+      label: "Vender daqui a 5 anos",
+      value: "372 000 €",
+      tone: "sell",
+      question: "Como chegaram aos 372 000 €?",
+      answer:
+        "Partimos do valor de hoje, 320 000 €, estimado a partir de 6 vendas de T2 semelhantes na zona. Aplicámos a valorização média da Sé Nova nos últimos 5 anos, 3,1 % ao ano.",
+      source: "SIR e INE · 6 de maio de 2026",
     },
     {
-      q: "E o que quer dizer o ganho de 41 800 €?",
-      a: "É quanto vale hoje arrendar durante 5 anos e vender no fim, já descontando o que o dinheiro renderia noutro lado, a 5 % ao ano. Como é positivo, nestes pressupostos arrendar rende mais.",
-      source: "",
+      key: "rent",
+      label: "Renda estimada",
+      value: "1 200 €/mês",
+      tone: "rent",
+      question: "Como chegaram aos 1 200 € de renda?",
+      answer:
+        "É a renda mais comum de T2 com 80 a 95 m² arrendados na Sé Nova e em Celas nos últimos 6 meses, entre 1 150 € e 1 350 €. Ajustámos porque tem garagem e certificado B.",
+      source: "Idealista e INE · 6 de maio de 2026",
+    },
+    {
+      key: "npv",
+      label: "Ganho do arrendamento",
+      value: "41 800 €",
+      tone: "ink",
+      question: "O que quer dizer o ganho de 41 800 €?",
+      answer:
+        "É quanto vale hoje arrendar durante 5 anos e vender no fim, já descontando o que o dinheiro renderia noutro lado, a 5 % ao ano. Positivo quer dizer que, nestes pressupostos, arrendar rende mais.",
+      source: "Motor financeiro REII · pressupostos editáveis",
     },
   ],
-  suggestions: ["Porque é que a zona valoriza?", "Comparar com casas parecidas"],
+  guarantees: ["Fonte e data em todos os valores", "Aviso claro quando os dados da zona são poucos", "O que fica de fora, dito por escrito"],
 };
 
-export const transparency = {
-  title: "Cada número diz de onde vem.",
-  lead: "Num valor que vai pesar numa decisão destas, não chega dizer que foi calculado. Mostramos como.",
-  principles: [
-    { label: "Fonte e data", text: "Em todos os valores que vê." },
-    { label: "Nível de confiança", text: "E um aviso claro quando os dados da zona são poucos." },
-    { label: "O que fica de fora", text: "Dito por escrito, como impostos pessoais ou mobília." },
+export const sources = {
+  title: "De onde vêm os números.",
+  lead: "Dados públicos e de mercado, sempre com a data em que foram recolhidos.",
+  items: [
+    { name: "INE", text: "Estatísticas oficiais da habitação e dos preços por zona." },
+    { name: "SIR", text: "Confidencial Imobiliário: vendas e rendas efetivamente registadas." },
+    { name: "Idealista", text: "Anúncios de venda e arrendamento dos últimos 6 meses." },
+    { name: "Câmaras Municipais", text: "Obras e projetos previstos perto do imóvel." },
   ],
-  card: {
-    caption: "Renda mensal estimada, T2 na Sé Nova",
-    rows: [
-      { label: "De onde vem", value: "Rendas de T2 com 80 a 95 m² na Sé Nova e em Celas" },
-      { label: "Intervalo", value: "1 150 € a 1 350 € por mês" },
-      { label: "Fontes", value: "Idealista (anúncios) e INE" },
-      { label: "Data", value: "6 de maio de 2026" },
-    ],
-    excluded: "Mobília, impostos pessoais",
-  },
-  link: { label: "Ver como calculamos", href: "/como-funciona" },
 };
 
 export const example = {
-  title: "Veja uma análise completa antes de começar.",
-  lead: "Sem criar conta. É exatamente o que recebe quando analisa o seu imóvel.",
-  story: "A Francisca herdou este apartamento e não sabia se o devia vender ou arrendar. Foi isto que o REII lhe mostrou.",
-  cta: { label: "Ver a análise completa", href: "/exemplo" },
-  zone: [
-    { name: "Universidade de Coimbra", detail: "1,2 km, 15 min a pé", status: "Confirmado" },
-    { name: "Escola Secundária José Falcão", detail: "850 m, 10 min a pé", status: "Confirmado" },
-    { name: "Paragem de autocarro SMTUC", detail: "350 m, 4 min a pé", status: "Confirmado" },
-    { name: "Estação Coimbra-A", detail: "2,4 km, 8 min de carro", status: "Confirmado" },
-    { name: "Metrobus com ligação à Sé Nova", detail: "Conclusão prevista para 2028. Fonte: Câmara Municipal de Coimbra", status: "A validar" },
+  title: "A Francisca herdou um T2 em Coimbra. Foi isto que o REII lhe mostrou.",
+  lead: "Uma análise completa, aberta a qualquer pessoa, sem criar conta. É exatamente o que recebe quando analisa o seu imóvel.",
+  cta: { label: "Abrir a análise completa", href: "/exemplo" },
+  gallery: [
+    { image: salaEstar, alt: "Sala de estar com varanda" },
+    { image: cozinha, alt: "Cozinha com janela" },
+    { image: casaDeBanho, alt: "Casa de banho com janela" },
   ],
-  comparables: [
-    { name: "T2 · Rua Alexandre Herculano", detail: "84 m² · vendido em mar. 2026", value: "318 000 €" },
-    { name: "T2 · Celas", detail: "91 m² · vendido em jan. 2026", value: "335 000 €" },
-    { name: "T2 · Sé Nova", detail: "86 m² · arrendado em abr. 2026", value: "1 180 €/mês" },
-    { name: "T2 · Praça da República", detail: "90 m² · arrendado em fev. 2026", value: "1 250 €/mês" },
+  figures: [
+    { label: "Valor hoje", value: "320 000 €" },
+    { label: "Vender, daqui a 5 anos", value: "372 000 €" },
+    { label: "Arrendar", value: "1 200 €/mês" },
+    { label: "A resposta muda abaixo de", value: "1 050 €/mês" },
   ],
-  zoneGrowth: 14.8,
 };
 
 export const faq = {

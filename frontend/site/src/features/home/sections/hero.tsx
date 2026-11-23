@@ -1,18 +1,16 @@
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
 import { AddressForm } from "@/components/shared/address-form";
 import { siteConfig } from "@/config/site";
-import { demo, hero, photos } from "@/content/home";
+import { hero, photos } from "@/content/home";
 
 import { HeroBackdrop } from "./hero-backdrop";
 
 /**
  * 1 · Hero em "capa" (referência: Libra, Harvey): fotografia de ponta a ponta,
  * título ancorado em baixo à esquerda, primeiro passo à direita e, no rodapé da capa,
- * as fontes de dados e um atalho discreto para o exemplo. Sem cartões flutuantes.
+ * as fontes de dados. Sem cartões flutuantes.
  */
 export function Hero() {
   return (
@@ -62,18 +60,6 @@ export function Hero() {
               </span>
             ))}
           </p>
-          <Link
-            href="/exemplo"
-            className="group flex shrink-0 items-center gap-3 rounded-full bg-white/10 py-1.5 pr-4 pl-1.5 ring-1 ring-white/15 backdrop-blur-md transition-colors hover:bg-white/15"
-          >
-            <span className="relative size-8 overflow-hidden rounded-full">
-              <Image src={photos.t2Fachada} alt="" fill sizes="32px" className="object-cover" />
-            </span>
-            <span className="text-[0.85rem]">
-              <span className="text-white/60">Exemplo:</span> <span className="font-semibold">{demo.property.title}</span>
-            </span>
-            <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-          </Link>
         </Reveal>
       </div>
     </section>
