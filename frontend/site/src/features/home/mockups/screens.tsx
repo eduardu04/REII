@@ -842,11 +842,13 @@ export function OnboardingScreen() {
   ];
   return (
     <div className="flex h-[900px] w-[1440px] bg-cream text-ink">
-      <div className="flex w-[480px] shrink-0 flex-col bg-rent-deep px-14 py-14 text-white">
-        <Logo className="h-[32px] text-white" />
-        <p className="mt-[180px] text-[44px] leading-[1.08] font-semibold tracking-[-0.02em]">Decisões imobiliárias com dados.</p>
-        <p className="mt-6 text-[17px] leading-relaxed text-white/70">Analise, compare e perceba se compensa vender ou arrendar o seu imóvel.</p>
-        <ul className="mt-10 space-y-3 text-[15px] text-white/85">
+      <div className="relative flex w-[480px] shrink-0 flex-col overflow-hidden bg-rent-deep px-14 py-14 text-white">
+        <Image src={photos.capa} alt="" fill sizes="480px" className="object-cover object-[72%_50%]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(10_54_50/0.55)_0%,rgb(10_54_50/0.15)_30%,rgb(10_54_50/0.75)_62%,rgb(10_54_50/0.96)_100%)]" />
+        <Logo className="relative h-[32px] text-white" />
+        <p className="relative mt-auto text-[44px] leading-[1.08] font-semibold tracking-[-0.02em]">Decisões imobiliárias com dados.</p>
+        <p className="relative mt-6 text-[17px] leading-relaxed text-white/80">Analise, compare e perceba se compensa vender ou arrendar o seu imóvel.</p>
+        <ul className="relative mt-10 space-y-3 text-[15px] text-white/90">
           {["Estimativas com fonte e data", "Venda e arrendamento lado a lado", "A decisão é sempre sua"].map((t) => (
             <li key={t} className="flex items-center gap-3">
               <Check className="size-4 text-mint" /> {t}

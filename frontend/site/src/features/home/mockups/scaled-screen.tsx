@@ -13,8 +13,8 @@ export const DESIGN_W = 1440;
  * Mostra um ecrã da app à largura do desenho original e reduz tudo em proporção ao espaço
  * disponível, para os cartões ficarem alinhados exatamente como na dashboard.
  *
- * Com `viewport` (altura visível, em px do desenho) o ecrã fica parado no topo e pode ser
- * percorrido com a roda do rato ou com o dedo. Com `cursor`, um cursor animado (padrão Libra)
+ * Com `viewport` (altura visível, em px do desenho) o ecrã fica cortado nessa altura e desvanece
+ * na base, como uma captura (sem scroll interno). Com `cursor`, um cursor animado (padrão Libra)
  * passa pelos elementos marcados com `data-cursor`; some quando a pessoa põe o rato em cima.
  */
 export function ScaledScreen({
@@ -48,28 +48,27 @@ export function ScaledScreen({
   }, []);
 
   const visibleH = viewport ? Math.min(viewport, contentH || viewport) : contentH;
-  const scrollable = !!viewport && contentH > viewport;
+  // Ecrã mais alto do que o enquadramento: corta e desvanece na base (como uma captura), sem scroll interno.
+  const cropped = !!viewport && contentH > viewport;
+  const fade = cropped ? "linear-gradient(to bottom, #000 78%, transparent 100%)" : undefined;
 
   return (
     <div
       ref={outer}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className={cn(
-        "relative w-full",
-        scrollable ? "overflow-x-hidden overflow-y-auto [scrollbar-width:thin]" : "overflow-hidden",
-        className,
-      )}
-      style={{ height: scale ? visibleH * scale : undefined, aspectRatio: scale ? undefined : `${DESIGN_W} / ${viewport ?? 900}` }}
-      tabIndex={scrollable ? 0 : undefined}
-      aria-label={scrollable ? "Ecrã da app (pode percorrer)" : undefined}
+      className={cn("relative w-full overflow-hidden", className)}
+      style={{
+        height: scale ? visibleH * scale : undefined,
+        aspectRatio: scale ? undefined : `${DESIGN_W} / ${viewport ?? 900}`,
+        maskImage: fade,
+        WebkitMaskImage: fade,
+      }}
     >
-      <div className="relative" style={{ height: scale ? contentH * scale : undefined }}>
-        <div className="absolute top-0 left-0 origin-top-left" style={{ width: DESIGN_W, transform: `scale(${scale || 0.0001})` }}>
-          <div ref={inner} className="relative">
-            {children}
-            {cursor && scale > 0 && <FakeCursor container={inner} paused={hover} />}
-          </div>
+      <div className="absolute top-0 left-0 origin-top-left" style={{ width: DESIGN_W, transform: `scale(${scale || 0.0001})` }}>
+        <div ref={inner} className="relative">
+          {children}
+          {cursor && scale > 0 && <FakeCursor container={inner} paused={hover} />}
         </div>
       </div>
     </div>
