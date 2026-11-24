@@ -4,12 +4,15 @@ import { Accordion } from "@base-ui/react/accordion";
 import { ChevronDown } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
-import { faq } from "@/content/home";
+import { faq as homeFaq } from "@/content/home";
+import { cn } from "@/lib/utils";
 
-/** 10 · Perguntas frequentes. */
-export function Faq() {
+type FaqData = { title: string; lead: string; email: string; items: { q: string; a: string }[] };
+
+/** Perguntas frequentes. Por omissão as do Início; a página Preços passa as suas. */
+export function Faq({ data: faq = homeFaq, className }: { data?: FaqData; className?: string }) {
   return (
-    <section className="bg-white py-24 sm:py-32">
+    <section className={cn("bg-white py-24 sm:py-32", className)}>
       <div className="shell grid gap-12 lg:grid-cols-12 lg:gap-8">
         <Reveal className="lg:col-span-4">
           <h2 className="type-h2 max-w-[10ch] text-ink">{faq.title}</h2>
