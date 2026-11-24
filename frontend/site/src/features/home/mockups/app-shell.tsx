@@ -65,9 +65,10 @@ export function AppShell({ nav, top, children }: { nav: AppNav; top: AppTop; chi
           ))}
         </nav>
         <div className="mt-auto rounded-[14px] bg-rent-soft p-4">
-          <p className="text-[15px] font-semibold">Plano Profissional</p>
-          <p className="mt-1.5 text-[13px] leading-snug text-ink-2">Análises ilimitadas, cenários e relatórios.</p>
-          <p className="mt-3 text-[13px] font-semibold text-rent">Ver planos →</p>
+          <p className="text-[15px] font-semibold">O seu saldo</p>
+          <p className="mt-1.5 text-[28px] leading-none font-semibold tracking-[-0.02em]">41</p>
+          <p className="mt-1 text-[13px] text-ink-2">créditos disponíveis</p>
+          <p className="mt-3 text-[13px] font-semibold text-rent">Comprar créditos →</p>
         </div>
       </aside>
 

@@ -1,27 +1,27 @@
 /**
- * Copy e valores da página Preços (mockup "REII_Pagina_Precos_Mockup.pdf").
+ * Copy e valores da página Preços. Modelo: pagamento por uso, com pacotes de créditos pré-pagos
+ * (sem subscrição). 1 crédito ≈ 1 €; os pacotes maiores dão créditos de bónus.
  *
- * TODO(equipa): os preços, créditos e prazos abaixo são uma PROPOSTA para a página não ficar com "XX".
- * Estão todos neste ficheiro: mudando aqui, a página inteira (pacotes, tabela, calculadora e FAQ) atualiza-se.
+ * TODO(equipa): preços, créditos e prazos são uma PROPOSTA. Estão todos neste ficheiro: mudando aqui,
+ * a página inteira (pacotes, tabela, calculadora, FAQ) e a página Para quem é atualizam-se.
  */
 
 /** Créditos por operação. */
 export const costs = {
-  analysis: 10,
-  scenarios: 2,
-  details: 3,
-  pdf: 2,
-  refresh: 4,
+  analysis: 19,
+  refresh: 7,
 } as const;
-
-/** Perguntas ao assistente incluídas em cada análise. */
-export const includedQuestions = 20;
 
 /** Validade dos créditos, em meses. */
 export const creditValidityMonths = 24;
+/** Créditos oferecidos na primeira compra e por cada amigo convidado. */
+export const welcomeBonus = 10;
+export const referralBonus = 10;
+
+export type PackId = "uma" | "familia" | "investidor" | "profissional";
 
 export type Pack = {
-  id: string;
+  id: PackId;
   name: string;
   audience: string;
   credits: number;
@@ -32,83 +32,92 @@ export type Pack = {
 
 export const packs: Pack[] = [
   {
-    id: "casa",
-    name: "Uma casa",
+    id: "uma",
+    name: "Uma análise",
     audience: "Para uma casa",
-    credits: 20,
-    price: 29,
-    features: ["Todos os separadores da análise", "Assistente REII", "Relatório em PDF"],
+    credits: 19,
+    price: 19,
+    features: ["Três cenários e ponto de viragem", "Casas comparáveis e cálculos", "Relatório em PDF", "Assistente REII"],
   },
   {
     id: "familia",
     name: "Família",
     audience: "Para 2 ou 3 casas",
     credits: 60,
-    price: 69,
+    price: 49,
     featured: true,
-    features: ["Tudo o do pacote anterior", "Três cenários em cada análise", "Atualizar análises quando o mercado mudar"],
+    features: ["Tudo o da análise avulsa", "Atualizar análises quando o mercado mudar", "Comparar imóveis entre si"],
   },
   {
-    id: "patrimonio",
-    name: "Património",
+    id: "investidor",
+    name: "Investidor",
     audience: "Para quem tem vários imóveis",
     credits: 150,
-    price: 149,
-    features: ["Tudo o do pacote anterior", "Comparar imóveis entre si", "Apoio por email prioritário"],
+    price: 109,
+    features: ["Tudo o do pacote Família", "Todos os imóveis num só ecrã", "Apoio por email prioritário"],
+  },
+  {
+    id: "profissional",
+    name: "Profissional",
+    audience: "Para consultores e imobiliárias",
+    credits: 400,
+    price: 249,
+    features: ["Tudo o do pacote Investidor", "O melhor preço por crédito", "Conta de equipa, a pedido"],
   },
 ];
 
-/** Uma análise completa com relatório: o que cada pacote "dá para". */
-export const analysisWithReport = costs.analysis + costs.pdf;
+export const packById = (id: PackId) => packs.find((p) => p.id === id)!;
 
-const perCredit = (p: Pack) => p.price / p.credits;
-/** Quanto mais barato fica cada crédito face ao primeiro pacote, em %. */
-export const savingVsFirst = (p: Pack) => Math.round((1 - perCredit(p) / perCredit(packs[0])) * 100);
+/** Créditos de bónus face a 1 crédito = 1 €, em %. */
+export const bonusPercent = (p: Pack) => Math.round((p.credits / p.price - 1) * 100);
+/** Para quantas análises completas dá o pacote. */
+export const analysesIn = (p: Pack) => Math.floor(p.credits / costs.analysis);
 
 export const pricingHero = {
   title: "Pague só o que usar.",
   lead: "Sem mensalidades nem fidelização. Compra créditos e usa-os quando precisar, numa casa ou em várias.",
-  points: ["Vê o custo antes de cada análise", "Fatura com NIF"],
+  points: ["Primeira estimativa grátis", "Vê o custo antes de cada análise", "Fatura com NIF"],
 };
 
 export const pricingPacks = {
   title: "Escolha um pacote de créditos.",
-  lead: "Quanto maior o pacote, mais barato fica cada crédito. Em cada pacote dizemos o que dá para fazer, em análises reais.",
+  lead: "Cada crédito vale cerca de 1 €. Nos pacotes maiores recebe créditos de bónus, e dizemos sempre para quantas análises dá.",
+  offer: `Na primeira compra, oferecemos ${welcomeBonus} créditos.`,
 };
 
 export const pricingTable = {
   title: "Quanto custa cada operação.",
   lead: "Sem surpresas. Antes de confirmar qualquer operação, a app mostra quantos créditos vai gastar e o saldo que fica.",
   rows: [
-    { id: "analysis", name: "Análise completa", includes: "Estimativa de mercado e resultados no cenário central", credits: costs.analysis },
-    { id: "scenarios", name: "Cenários prudente e otimista", includes: "Por análise", credits: costs.scenarios },
-    { id: "details", name: "Detalhes completos", includes: "Cálculos, zona e casas comparáveis", credits: costs.details },
-    { id: "pdf", name: "Relatório em PDF", includes: "Para partilhar com a família ou um consultor", credits: costs.pdf },
+    { id: "quick", name: "Estimativa rápida", includes: "Valor hoje e renda provável. Uma por conta, sem cartão", credits: 0 },
+    {
+      id: "analysis",
+      name: "Análise completa",
+      includes: "Três cenários, ponto de viragem, comparáveis, cálculos e relatório em PDF",
+      credits: costs.analysis,
+    },
     { id: "refresh", name: "Atualizar uma análise", includes: "Com os dados de mercado mais recentes", credits: costs.refresh },
-    { id: "questions", name: "Perguntas ao assistente", includes: `Incluídas, até ${includedQuestions} por análise`, credits: 0 },
+    { id: "questions", name: "Perguntas ao assistente", includes: "Incluídas em cada análise", credits: 0 },
+    { id: "compare", name: "Comparar imóveis", includes: "Entre as análises que já fez", credits: 0 },
   ],
 };
 
 export const pricingCalculator = {
   title: "Não sabe de quantos créditos precisa?",
-  lead: "Diga quantas casas quer analisar e o que quer receber. Nós sugerimos o pacote certo.",
-  options: [
-    { id: "pdf", label: "Relatório em PDF de cada uma", cost: costs.pdf, default: true },
-    { id: "scenarios", label: "Três cenários", cost: costs.scenarios, default: true },
-    { id: "refresh", label: "Atualizar daqui a uns meses", cost: costs.refresh, default: false },
-  ],
+  lead: "Diga quantas casas quer analisar. Nós sugerimos o pacote certo e mostramos a conta.",
+  refreshLabel: "Atualizar cada uma daqui a uns meses",
 };
 
-export const pricingInvestors = {
-  title: "Analisa imóveis todos os meses?",
-  lead: "Para investidores, consultores e gestores de património, há uma opção com créditos mensais.",
-  points: ["Créditos todos os meses, a preço mais baixo", "Vários utilizadores na mesma conta", "Relatórios com a marca da sua empresa"],
+export const pricingPros = {
+  title: "Analisa imóveis todos os dias?",
+  lead: "Para consultores, imobiliárias e gestores de património, o pacote Profissional dá o melhor preço por crédito. Continua a pagar só o que usa.",
+  points: ["Créditos ao melhor preço", "Conta de equipa, com vários utilizadores", "Relatórios com a marca da sua empresa"],
   cta: "Falar connosco",
 };
 
 export const pricingValue = {
   title: "Quanto pode valer uma boa decisão?",
-  lead: "No exemplo do T2 na Sé Nova, a diferença entre os dois caminhos ao fim de 5 anos é de dezenas de milhares de euros. Um pacote de créditos custa uma pequena parte disso.",
+  lead: "No exemplo do T2 na Sé Nova, a diferença entre os dois caminhos ao fim de 5 anos é de dezenas de milhares de euros. Uma análise custa uma pequena parte disso.",
   rent: 435_700,
   sell: 372_000,
   note: "Valores de demonstração, cenário central, antes de impostos pessoais.",
@@ -120,6 +129,10 @@ export const pricingFaq = {
   // TODO(equipa): confirmar o endereço de apoio.
   email: "ajuda@reii.pt",
   items: [
+    {
+      q: "Há alguma coisa grátis?",
+      a: "Sim. A primeira estimativa rápida (valor hoje e renda provável) é grátis e não pede cartão. Também pode ver a análise completa do exemplo T2 em Coimbra.",
+    },
     {
       q: "Os créditos expiram?",
       a: `Os créditos são válidos durante ${creditValidityMonths} meses. Sabemos que uma decisão destas pode demorar.`,
@@ -134,6 +147,10 @@ export const pricingFaq = {
       q: "Posso usar os créditos nas casas da família?",
       a: "Sim. Os créditos são da sua conta e pode usá-los em qualquer imóvel, seu ou da família.",
     },
+    {
+      q: "Ganho créditos se recomendar o REII?",
+      a: `Sim. Por cada amigo que faça a primeira compra, os dois recebem ${referralBonus} créditos.`,
+    },
     // TODO(equipa): confirmar os meios de pagamento.
     { q: "Que formas de pagamento aceitam?", a: "Cartão de crédito ou débito e MB WAY." },
   ],
@@ -141,5 +158,5 @@ export const pricingFaq = {
 
 export const pricingCta = {
   title: "Comece pela sua casa.",
-  lead: "Basta a morada para começar. Só escolhe um pacote quando confirmar a análise.",
+  lead: "A primeira estimativa é grátis. Só escolhe um pacote quando quiser a análise completa.",
 };

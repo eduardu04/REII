@@ -3,9 +3,9 @@ import { Check } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
 import { photos } from "@/content/home";
-import { analysisWithReport, costs, packs, pricingHero } from "@/content/pricing";
+import { costs, packById, pricingHero } from "@/content/pricing";
 
-const balance = packs[1].credits;
+const balance = packById("familia").credits;
 
 /**
  * 1 · Pague só o que usar: o modelo numa frase e, à direita, a janela real de confirmação
@@ -13,9 +13,8 @@ const balance = packs[1].credits;
  */
 export function PricingHero() {
   const rows = [
-    { k: "Análise completa", v: costs.analysis },
-    { k: "Relatório em PDF", v: costs.pdf },
-    { k: "Saldo depois desta análise", v: balance - analysisWithReport },
+    { k: "Análise completa, com relatório", v: costs.analysis },
+    { k: "Saldo depois desta análise", v: balance - costs.analysis },
   ];
 
   return (

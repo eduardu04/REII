@@ -1,26 +1,26 @@
 import { Check } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
-import { pricingFaq, pricingInvestors } from "@/content/pricing";
+import { pricingFaq, pricingPros } from "@/content/pricing";
 import { ScaledScreen } from "@/features/home/mockups/scaled-screen";
 import { ComparablesScreen } from "@/features/home/mockups/screens";
 
-/** 5 · Para investidores: faixa verde com o ecrã das casas comparáveis a sair pela direita. */
+/** 5 · Para profissionais: faixa verde com o ecrã das casas comparáveis a sair pela direita. */
 export function PricingInvestors() {
   return (
-    <section id="investidores" className="scroll-mt-24 bg-white py-24 sm:py-32">
+    <section id="profissionais" className="scroll-mt-24 bg-white py-24 sm:py-32">
       <div className="shell">
         <div className="grid overflow-hidden rounded-[2rem] bg-rent-deep text-white lg:grid-cols-12">
           <div className="p-8 sm:p-14 lg:col-span-5 lg:py-20">
             <Reveal>
-              <h2 className="type-h2 max-w-[12ch] text-white">{pricingInvestors.title}</h2>
+              <h2 className="type-h2 max-w-[12ch] text-white">{pricingPros.title}</h2>
             </Reveal>
             <Reveal index={1}>
-              <p className="mt-6 text-[1.05rem] leading-relaxed text-white/70">{pricingInvestors.lead}</p>
+              <p className="mt-6 text-[1.05rem] leading-relaxed text-white/70">{pricingPros.lead}</p>
             </Reveal>
             <Reveal index={2}>
               <ul className="mt-8 space-y-3">
-                {pricingInvestors.points.map((p) => (
+                {pricingPros.points.map((p) => (
                   <li key={p} className="flex gap-3 text-[1rem] text-white/90">
                     <Check aria-hidden className="mt-0.5 size-5 shrink-0 text-mint" strokeWidth={2.5} /> {p}
                   </li>
@@ -29,10 +29,10 @@ export function PricingInvestors() {
             </Reveal>
             <Reveal index={3}>
               <a
-                href={`mailto:${pricingFaq.email}?subject=REII%20para%20investidores`}
+                href={`mailto:${pricingFaq.email}?subject=REII%20para%20profissionais`}
                 className="mt-10 inline-flex h-12 items-center rounded-full bg-cream px-6 text-[0.95rem] font-semibold text-rent-deep transition-colors hover:bg-white"
               >
-                {pricingInvestors.cta}
+                {pricingPros.cta}
               </a>
             </Reveal>
           </div>

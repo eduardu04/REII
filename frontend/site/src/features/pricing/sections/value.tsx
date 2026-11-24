@@ -4,7 +4,7 @@ import { m, useReducedMotion } from "motion/react";
 
 import { CountUp } from "@/components/motion/count-up";
 import { Reveal } from "@/components/motion/reveal";
-import { packs, pricingValue as v } from "@/content/pricing";
+import { packById, pricingValue as v } from "@/content/pricing";
 import { formatEuro } from "@/lib/format";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -60,8 +60,8 @@ export function PricingValue() {
               />
             </div>
             <div className="sm:text-right">
-              <p className="text-[0.88rem] text-ink-2">Um pacote para uma casa</p>
-              <p className="mt-1 text-[1.6rem] leading-none font-semibold tracking-[-0.03em] tabular">{formatEuro(packs[0].price)}</p>
+              <p className="text-[0.88rem] text-ink-2">Uma análise completa</p>
+              <p className="mt-1 text-[1.6rem] leading-none font-semibold tracking-[-0.03em] tabular">{formatEuro(packById("uma").price)}</p>
             </div>
           </div>
           <p className="mt-4 text-[0.8rem] text-ink-3">{v.note}</p>
