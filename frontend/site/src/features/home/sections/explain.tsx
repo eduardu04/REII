@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { AnimatePresence, m } from "motion/react";
-import { ArrowRight, Calendar, FileText, TrendingUp } from "lucide-react";
 
 import { Logo } from "@/components/brand/logo";
 import { ProgressFill } from "@/components/motion/progress-line";
@@ -51,7 +50,7 @@ export function Explain() {
                   <p className="mt-2 text-[0.85rem] text-ink-2">Daqui a 5 anos</p>
                   <p className="mt-1 text-[2rem] font-semibold tracking-[-0.03em] text-ink tabular">372&nbsp;000&nbsp;€</p>
                   <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#e3f1e7] px-2.5 py-1 text-[0.8rem] font-semibold text-success">
-                    <TrendingUp className="size-3.5" /> +52&nbsp;000&nbsp;€ (+16,3&nbsp;%)
+                    +52&nbsp;000&nbsp;€ (+16,3&nbsp;%)
                   </span>
                 </Figure>
                 <Figure on={isOn("rent")} onClick={() => setActive(1)} className="bg-rent-soft" ring="ring-rent">
@@ -61,7 +60,7 @@ export function Explain() {
                   <p className="mt-2 text-[0.85rem] text-ink-2">Renda estimada</p>
                   <p className="mt-1 text-[2rem] font-semibold tracking-[-0.03em] text-ink tabular">1&nbsp;200&nbsp;€/mês</p>
                   <p className="mt-2 flex items-center gap-1.5 text-[0.82rem] text-ink-2">
-                    <Calendar className="size-3.5" /> Total em 5 anos: <b className="text-ink">72&nbsp;000&nbsp;€</b>
+                    Total em 5 anos: <b className="text-ink">72&nbsp;000&nbsp;€</b>
                   </p>
                 </Figure>
               </div>
@@ -119,7 +118,7 @@ export function Explain() {
                   <div className="mt-3 rounded-2xl bg-cream px-5 py-4">
                     <p className="text-[0.98rem] leading-relaxed text-ink">{n.answer}</p>
                     <p className="mt-3 flex items-center gap-2 text-[0.8rem] text-ink-2">
-                      <FileText className="size-3.5" /> {n.source}
+                      {n.source}
                     </p>
                   </div>
                 </m.div>
@@ -135,7 +134,6 @@ export function Explain() {
                       className="group relative flex w-full items-center justify-between gap-3 overflow-hidden rounded-xl px-4 py-3 text-left text-[0.9rem] font-medium text-rent ring-1 ring-line transition-colors hover:bg-surface"
                     >
                       {q.question}
-                      <ArrowRight className="size-4 shrink-0 transition-transform group-hover:translate-x-0.5" />
                     </button>
                   ),
                 )}

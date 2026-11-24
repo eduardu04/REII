@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, m } from "motion/react";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
 import { siteConfig } from "@/config/site";
@@ -72,17 +71,13 @@ export function Audience() {
                           </span>
                         </span>
                       </span>
-                      <ArrowUpRight
-                        aria-hidden
-                        className={cn("size-5 shrink-0 self-center transition-opacity duration-500", on ? "text-rent opacity-100" : "opacity-0")}
-                      />
                     </button>
                   </li>
                 );
               })}
             </ul>
             <Link href="/para-quem" className="mt-6 ml-5 inline-flex items-center gap-2 text-[0.98rem] font-semibold text-rent hover:underline">
-              Ver o que o REII mostra em cada situação <ArrowRight aria-hidden className="size-4" />
+              Ver o que o REII mostra em cada situação
             </Link>
           </Reveal>
 
@@ -102,9 +97,8 @@ export function Audience() {
                   </m.div>
                 </AnimatePresence>
               </div>
-              <a href={siteConfig.appUrl} className="mt-5 inline-flex items-center gap-2 text-[0.95rem] font-semibold text-rent">
+              <a href={siteConfig.appUrl} className="mt-5 inline-flex text-[0.95rem] font-semibold text-rent underline-offset-4 hover:underline">
                 Começar com esta situação
-                <ArrowUpRight aria-hidden className="size-4" />
               </a>
             </div>
           </div>

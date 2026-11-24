@@ -1,5 +1,4 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import { ArrowUpRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -32,12 +31,6 @@ export function ButtonLink({ className, variant, size, arrow = false, children, 
   return (
     <a className={cn(buttonLink({ variant, size }), className)} {...props}>
       {children}
-      {arrow && (
-        <ArrowUpRight
-          aria-hidden
-          className="size-4 transition-transform duration-300 ease-out-soft group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-        />
-      )}
     </a>
   );
 }

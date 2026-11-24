@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Check } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
 import { SectionIntro } from "@/components/shared/section-heading";
@@ -72,7 +71,7 @@ export function PricingCalculator() {
                   refresh ? "bg-rent text-white" : "bg-white ring-1 ring-line",
                 )}
               >
-                {refresh && <Check className="size-3.5" strokeWidth={3} />}
+                {refresh && <span className="size-2 rounded-[2px] bg-white" />}
               </span>
               {pricingCalculator.refreshLabel}
             </label>

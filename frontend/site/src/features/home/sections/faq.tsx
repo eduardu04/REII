@@ -1,7 +1,6 @@
 "use client";
 
 import { Accordion } from "@base-ui/react/accordion";
-import { ChevronDown } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
 import { faq as homeFaq } from "@/content/home";
@@ -31,10 +30,9 @@ export function Faq({ data: faq = homeFaq, className }: { data?: FaqData; classN
                 <Accordion.Header>
                   <Accordion.Trigger className="group flex w-full items-center justify-between gap-6 py-5 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rent">
                     <span className="text-[1.1rem] font-semibold tracking-[-0.02em] text-ink sm:text-[1.2rem]">{item.q}</span>
-                    <ChevronDown
-                      aria-hidden
-                      className="size-5 shrink-0 text-ink transition-transform duration-300 group-data-[panel-open]:rotate-180"
-                    />
+                    <span aria-hidden className="shrink-0 text-[1.6rem] leading-none font-light text-ink transition-transform duration-300 group-data-[panel-open]:rotate-45">
+                      +
+                    </span>
                   </Accordion.Trigger>
                 </Accordion.Header>
                 <Accordion.Panel className="h-(--accordion-panel-height) overflow-hidden transition-[height] duration-300 ease-out-soft data-[ending-style]:h-0 data-[starting-style]:h-0">

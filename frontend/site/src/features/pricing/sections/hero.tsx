@@ -1,83 +1,63 @@
 import Image from "next/image";
-import { Check } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
 import { photos } from "@/content/home";
-import { costs, packById, pricingHero } from "@/content/pricing";
-
-const balance = packById("familia").credits;
+import { costs, creditValidityMonths, packById, pricingHero } from "@/content/pricing";
+import { HeroBackdrop } from "@/features/home/sections/hero-backdrop";
+import { formatEuro } from "@/lib/format";
 
 /**
- * 1 · Pague só o que usar: o modelo numa frase e, à direita, a janela real de confirmação
- * da app sobre a fachada, com o saldo de créditos. Quem compra vê o custo antes de gastar.
+ * 1 · Pague só o que usar. Capa fotográfica de ponta a ponta (como o Início), com o preço dito
+ * em três números grandes, só tipografia: sem cartões, sem ícones, sem nada sobreposto.
  */
 export function PricingHero() {
-  const rows = [
-    { k: "Análise completa, com relatório", v: costs.analysis },
-    { k: "Saldo depois desta análise", v: balance - costs.analysis },
+  const facts = [
+    { value: formatEuro(0), label: "Primeira estimativa", note: "Valor hoje e renda provável, sem cartão." },
+    { value: formatEuro(packById("uma").price), label: "Análise completa", note: `${costs.analysis} créditos, com relatório em PDF.` },
+    { value: `${creditValidityMonths} meses`, label: "Validade dos créditos", note: "Para qualquer operação, em qualquer imóvel." },
   ];
 
   return (
-    <section className="bg-white pt-32 pb-20 sm:pt-40 sm:pb-28">
-      <div className="shell grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
-        <div className="lg:col-span-6">
-          <Reveal immediate delay={0.1}>
-            <h1 className="type-display max-w-[11ch] text-ink">{pricingHero.title}</h1>
+    <section data-hero-dark className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-rent-deep text-white">
+      <HeroBackdrop>
+        <Image
+          src={photos.t2Fachada}
+          alt=""
+          fill
+          priority
+          quality={90}
+          placeholder="blur"
+          sizes="100vw"
+          className="object-cover object-[50%_40%]"
+        />
+      </HeroBackdrop>
+      <div aria-hidden className="absolute inset-x-0 top-0 -z-10 h-56 bg-gradient-to-b from-rent-deep/80 to-transparent" />
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,rgb(10_54_50/0.97)_0%,rgb(10_54_50/0.88)_34%,rgb(10_54_50/0.4)_64%,transparent_85%)]"
+      />
+
+      <div className="shell mt-auto pt-40 pb-10 lg:pb-14">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-8">
+          <Reveal immediate delay={0.2} className="lg:col-span-7">
+            <h1 className="type-display max-w-[11ch] text-white">{pricingHero.title}</h1>
           </Reveal>
-          <Reveal immediate delay={0.1} index={2}>
-            <p className="type-lead mt-7 max-w-lg text-ink-2">{pricingHero.lead}</p>
-          </Reveal>
-          <Reveal immediate delay={0.1} index={3}>
-            <ul className="mt-8 flex flex-wrap gap-2">
-              {pricingHero.points.map((p) => (
-                <li key={p} className="flex items-center gap-2 rounded-full bg-surface px-4 py-2 text-[0.9rem] font-medium">
-                  <Check aria-hidden className="size-4 text-rent" strokeWidth={2.5} /> {p}
-                </li>
-              ))}
-            </ul>
+          <Reveal immediate delay={0.2} index={2} className="lg:col-span-4 lg:col-start-9 lg:pb-2">
+            <p className="text-[1.05rem] leading-relaxed text-white/75">{pricingHero.lead}</p>
           </Reveal>
         </div>
 
-        <Reveal immediate delay={0.2} index={2} y={32} className="lg:col-span-6">
-          <div className="relative isolate overflow-hidden rounded-[2rem] px-5 pt-10 pb-5 sm:px-10 sm:pt-14 sm:pb-10">
-            <Image
-              src={photos.t2Fachada}
-              alt="Fachada de um prédio em Coimbra"
-              fill
-              priority
-              placeholder="blur"
-              sizes="(min-width: 1024px) 45vw, 100vw"
-              className="-z-10 object-cover"
-            />
-            <div aria-hidden className="absolute inset-0 -z-10 bg-rent-deep/45" />
-
-            {/* Janela de confirmação, como na app */}
-            <div className="max-w-sm rounded-[1.5rem] bg-white p-6 text-ink shadow-[0_30px_60px_-24px_rgb(0_0_0/0.5)]">
-              <p className="text-[1.15rem] font-semibold tracking-[-0.02em]">Confirmar análise</p>
-              <p className="mt-0.5 text-[0.85rem] text-ink-2">T2 na Sé Nova, Coimbra</p>
-              <dl className="mt-5 space-y-1.5">
-                {rows.map((r) => (
-                  <div key={r.k} className="flex items-center justify-between gap-4 rounded-[0.9rem] bg-surface px-4 py-3 text-[0.9rem]">
-                    <dt className="text-ink-2">{r.k}</dt>
-                    <dd className="font-semibold whitespace-nowrap tabular">{r.v} créditos</dd>
-                  </div>
-                ))}
-              </dl>
-              <div className="mt-5 grid grid-cols-2 gap-2 text-[0.9rem] font-semibold">
-                <span className="rounded-full py-3 text-center text-rent ring-1 ring-rent/40">Voltar</span>
-                <span className="rounded-full bg-rent py-3 text-center text-white">Confirmar</span>
-              </div>
-            </div>
-
-            {/* Saldo */}
-            <div className="mt-4 ml-auto w-[13rem] rounded-[1.5rem] bg-cream p-5 text-ink shadow-[0_30px_60px_-24px_rgb(0_0_0/0.5)] sm:-mt-10">
-              <p className="text-[0.85rem] font-semibold">O seu saldo</p>
-              <p className="mt-2 text-[2.4rem] leading-none font-semibold tracking-[-0.04em] tabular">{balance}</p>
-              <p className="mt-1 text-[0.82rem] text-ink-2">créditos disponíveis</p>
-              <p className="mt-3 text-[0.85rem] font-semibold text-rent">Comprar créditos</p>
-            </div>
-          </div>
-        </Reveal>
+        <dl className="mt-14 grid gap-8 sm:grid-cols-3 sm:gap-8 lg:mt-20">
+          {facts.map((f, i) => (
+            <Reveal key={f.label} immediate delay={0.2} index={4 + i}>
+              <dt className="text-[0.9rem] font-medium text-mint">{f.label}</dt>
+              <dd className="mt-2 text-[2.75rem] leading-none font-semibold tracking-[-0.05em] whitespace-nowrap tabular sm:text-[3.25rem]">
+                {f.value}
+              </dd>
+              <dd className="mt-3 text-[0.92rem] leading-relaxed text-white/65">{f.note}</dd>
+            </Reveal>
+          ))}
+        </dl>
       </div>
     </section>
   );

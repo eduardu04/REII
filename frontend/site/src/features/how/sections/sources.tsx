@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Check } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
 import { SectionIntro } from "@/components/shared/section-heading";
@@ -49,7 +48,7 @@ export function HowSources() {
                     "Tendência da zona – Sé Nova",
                   ].map((t) => (
                     <li key={t} className="flex gap-2.5">
-                      <Check aria-hidden className="mt-0.5 size-4 shrink-0 text-rent" /> {t}
+                      {t}
                     </li>
                   ))}
                 </ul>

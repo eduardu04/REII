@@ -1,7 +1,6 @@
 "use client";
 
 import { AnimatePresence, m } from "motion/react";
-import { Pause, Play } from "lucide-react";
 
 import { ProgressFill } from "@/components/motion/progress-line";
 import { Reveal } from "@/components/motion/reveal";
@@ -78,7 +77,6 @@ export function HowSteps() {
                 onClick={() => setPaused((p) => !p)}
                 className="mt-4 ml-5 inline-flex items-center gap-1.5 self-start text-[0.8rem] text-ink-3 hover:text-ink"
               >
-                {paused ? <Play aria-hidden className="size-3.5" /> : <Pause aria-hidden className="size-3.5" />}
                 {paused ? "Continuar" : "Pausar"}
               </button>
             )}

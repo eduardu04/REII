@@ -10,7 +10,7 @@ import { pricingCta } from "@/content/pricing";
 export function PricingFinalCta() {
   return (
     <section className="relative isolate overflow-hidden bg-rent-deep text-white">
-      <Image src={photos.t2Fachada} alt="" fill quality={90} placeholder="blur" sizes="100vw" className="-z-10 object-cover" />
+      <Image src={photos.palco} alt="" fill quality={90} placeholder="blur" sizes="100vw" className="-z-10 object-cover" />
       <div
         aria-hidden
         className="absolute inset-0 -z-10 bg-[linear-gradient(100deg,rgb(10_54_50/0.95)_0%,rgb(10_54_50/0.75)_45%,rgb(10_54_50/0.15)_100%)]"

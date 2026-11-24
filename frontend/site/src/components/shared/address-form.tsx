@@ -1,7 +1,6 @@
 "use client";
 
 import { useId } from "react";
-import { ArrowRight, Search } from "lucide-react";
 
 import { ctaLabel, siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -35,8 +34,7 @@ export function AddressForm({ tone = "light", className }: AddressFormProps) {
       <label htmlFor={id} className="sr-only">
         Morada ou freguesia do imóvel
       </label>
-      <div className="flex flex-1 items-center gap-3 pl-4">
-        <Search aria-hidden className={cn("size-4 shrink-0", dark ? "text-white/70" : "text-ink-3")} />
+      <div className="flex flex-1 items-center pl-5">
         <input
           id={id}
           name="local"
@@ -57,7 +55,6 @@ export function AddressForm({ tone = "light", className }: AddressFormProps) {
         )}
       >
         {ctaLabel}
-        <ArrowRight aria-hidden className="size-4 transition-transform duration-300 ease-out-soft group-hover:translate-x-0.5" />
       </button>
     </form>
   );

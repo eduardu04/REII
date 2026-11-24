@@ -82,7 +82,6 @@ export const analysesIn = (p: Pack) => Math.floor(p.credits / costs.analysis);
 export const pricingHero = {
   title: "Pague só o que usar.",
   lead: "Sem mensalidades nem fidelização. Compra créditos e usa-os quando precisar, numa casa ou em várias.",
-  points: ["Primeira estimativa grátis", "Vê o custo antes de cada análise", "Fatura com NIF"],
 };
 
 export const pricingPacks = {

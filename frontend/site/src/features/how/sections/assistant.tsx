@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Check, Minus } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
 import { SectionIntro } from "@/components/shared/section-heading";
@@ -20,9 +19,6 @@ export function HowAssistant() {
               <ul className="mt-5 space-y-3.5">
                 {howAssistant.does.map((d) => (
                   <li key={d} className="flex gap-3 text-[1rem] leading-snug">
-                    <span className="grid size-6 shrink-0 place-items-center rounded-full bg-rent text-white">
-                      <Check aria-hidden className="size-3.5" strokeWidth={3} />
-                    </span>
                     {d}
                   </li>
                 ))}
@@ -33,9 +29,6 @@ export function HowAssistant() {
               <ul className="mt-5 space-y-3.5">
                 {howAssistant.doesNot.map((d) => (
                   <li key={d} className="flex gap-3 text-[1rem] leading-snug text-ink-2">
-                    <span className="grid size-6 shrink-0 place-items-center rounded-full bg-white text-ink-2 ring-1 ring-line">
-                      <Minus aria-hidden className="size-3.5" strokeWidth={3} />
-                    </span>
                     {d}
                   </li>
                 ))}

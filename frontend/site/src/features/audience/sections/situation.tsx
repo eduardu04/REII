@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Info } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
 import type { Situation as SituationData } from "@/content/audience";
@@ -58,25 +57,19 @@ export function Situation({ data: s, index }: { data: SituationData; index: numb
           </Reveal>
 
           <Reveal index={3} className="mt-3">
-            <p className="flex gap-3 rounded-[1.25rem] bg-sell-soft p-5 text-[0.95rem] leading-relaxed text-ink-2">
-              <Info aria-hidden className="mt-0.5 size-5 shrink-0 text-sell" />
-              <span>
-                <b className="font-semibold text-ink">O que fica fora. </b>
-                {s.limit}
-              </span>
+            <p className="rounded-[1.25rem] bg-sell-soft p-5 text-[0.95rem] leading-relaxed text-ink-2">
+              <b className="font-semibold text-ink">O que fica fora. </b>
+              {s.limit}
             </p>
           </Reveal>
 
           <Reveal index={4} className="mt-8">
             <Link
               href="/precos#pacotes"
-              className="group inline-flex items-center gap-3 rounded-full bg-rent-soft py-2 pr-2 pl-5 text-[0.95rem] text-ink transition-colors hover:bg-mint"
+              className="inline-flex items-center rounded-full bg-rent-soft px-5 py-3 text-[0.95rem] text-ink underline-offset-4 transition-colors hover:bg-mint hover:underline"
             >
               <span>
                 Indicado: <b className="font-semibold">{pack.name}</b>, {formatEuro(pack.price)}
-              </span>
-              <span className="grid size-8 place-items-center rounded-full bg-rent text-white transition-transform group-hover:translate-x-0.5">
-                <ArrowRight aria-hidden className="size-4" />
               </span>
             </Link>
           </Reveal>

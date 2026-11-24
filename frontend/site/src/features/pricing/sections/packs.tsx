@@ -1,5 +1,3 @@
-import { Check, Gift } from "lucide-react";
-
 import { Reveal } from "@/components/motion/reveal";
 import { SectionIntro } from "@/components/shared/section-heading";
 import { siteConfig } from "@/config/site";
@@ -67,7 +65,6 @@ export function PricingPacks() {
                     <ul className="mt-3 space-y-2.5">
                       {p.items.map((f, j) => (
                         <li key={f} className={cn("flex gap-2.5 text-[0.9rem] leading-snug", dark ? "text-white/85" : "text-ink-2")}>
-                          <Check aria-hidden className={cn("mt-0.5 size-4 shrink-0", dark ? "text-mint" : "text-rent")} strokeWidth={2.5} />
                           {j === 0 ? <b className={cn("font-semibold", dark ? "text-white" : "text-ink")}>{f}</b> : f}
                         </li>
                       ))}
@@ -80,10 +77,7 @@ export function PricingPacks() {
         </ul>
 
         <Reveal className="mt-6 flex flex-col items-center justify-center gap-1.5 text-center text-[0.95rem] text-ink-2">
-          <p className="flex items-center gap-2.5">
-            <Gift aria-hidden className="size-5 shrink-0 text-rent" />
-            {pricingPacks.offer}
-          </p>
+          <p>{pricingPacks.offer}</p>
           <p className="text-[0.85rem] text-ink-3">{pricingPacks.note}</p>
         </Reveal>
       </div>

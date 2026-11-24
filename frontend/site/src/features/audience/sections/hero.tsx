@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ArrowDown } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
 import { audienceHero, situations } from "@/content/audience";
@@ -38,9 +37,6 @@ export function AudienceHero() {
                   <span aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-rent-deep/85 via-rent-deep/15 to-transparent" />
                   <span className="flex items-end justify-between gap-3">
                     <span className="text-[1.05rem] leading-tight font-semibold tracking-[-0.02em] sm:text-[1.3rem]">{s.label}</span>
-                    <span className="grid size-9 shrink-0 place-items-center rounded-full bg-white/15 ring-1 ring-white/25 backdrop-blur-md transition-colors group-hover:bg-white group-hover:text-rent-deep">
-                      <ArrowDown aria-hidden className="size-4" />
-                    </span>
                   </span>
                 </a>
               </Reveal>
