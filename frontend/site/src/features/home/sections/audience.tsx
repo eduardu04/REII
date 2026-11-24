@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, m } from "motion/react";
-import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
 import { siteConfig } from "@/config/site";
@@ -43,7 +44,9 @@ export function Audience() {
                         on ? "bg-surface" : "hover:bg-surface/60",
                       )}
                     >
-                      <span className={cn("w-6 text-[0.85rem] font-semibold tabular transition-colors duration-500", on ? "text-rent" : "text-ink-3")}>
+                      <span
+                        className={cn("w-6 text-[0.85rem] font-semibold tabular transition-colors duration-500", on ? "text-rent" : "text-ink-3")}
+                      >
                         0{i + 1}
                       </span>
                       <span className="flex-1">
@@ -78,6 +81,9 @@ export function Audience() {
                 );
               })}
             </ul>
+            <Link href="/para-quem" className="mt-6 ml-5 inline-flex items-center gap-2 text-[0.98rem] font-semibold text-rent hover:underline">
+              Ver o que o REII mostra em cada situação <ArrowRight aria-hidden className="size-4" />
+            </Link>
           </Reveal>
 
           <div className="hidden lg:col-span-5 lg:block">

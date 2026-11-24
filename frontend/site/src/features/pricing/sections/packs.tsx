@@ -3,7 +3,7 @@ import { Check, Gift } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { SectionIntro } from "@/components/shared/section-heading";
 import { siteConfig } from "@/config/site";
-import { analysesIn, bonusPercent, costs, packs, pricingPacks } from "@/content/pricing";
+import { analysesIn, bonusPercent, costs, includedInAll, packs, pricingPacks } from "@/content/pricing";
 import { formatEuro } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -66,7 +66,7 @@ export function PricingPacks() {
                   </div>
 
                   <ul className="mt-6 flex-1 space-y-2.5">
-                    {p.features.map((f) => (
+                    {p.extras.map((f) => (
                       <li key={f} className={cn("flex gap-2.5 text-[0.92rem]", dark ? "text-white/85" : "text-ink-2")}>
                         <Check aria-hidden className={cn("mt-0.5 size-4 shrink-0", dark ? "text-mint" : "text-rent")} strokeWidth={2.5} /> {f}
                       </li>
@@ -87,6 +87,17 @@ export function PricingPacks() {
             );
           })}
         </ul>
+
+        <Reveal className="mt-3 grid gap-6 rounded-[1.75rem] bg-white p-7 sm:p-8 lg:grid-cols-12 lg:items-center lg:gap-8">
+          <p className="text-[1.15rem] font-semibold tracking-[-0.02em] lg:col-span-3">Em todos os pacotes, cada análise inclui</p>
+          <ul className="flex flex-wrap gap-2 lg:col-span-9">
+            {includedInAll.map((f) => (
+              <li key={f} className="flex items-center gap-2 rounded-full bg-surface px-4 py-2 text-[0.9rem]">
+                <Check aria-hidden className="size-4 text-rent" strokeWidth={2.5} /> {f}
+              </li>
+            ))}
+          </ul>
+        </Reveal>
 
         <Reveal className="mt-6 flex items-center justify-center gap-2.5 text-center text-[0.95rem] text-ink-2">
           <Gift aria-hidden className="size-5 shrink-0 text-rent" />

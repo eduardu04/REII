@@ -9,13 +9,32 @@ import { FakeCursor } from "./fake-cursor";
 /** Largura a que os ecrãs da app são desenhados (igual ao ficheiro da dashboard). */
 export const DESIGN_W = 1440;
 
+/** Abaixo desta largura (px reais), o ecrã inteiro ficaria ilegível: mostra-se só o cartão marcado com `data-focus`. */
+const FOCUS_BELOW = 560;
+
+type Focus = { x: number; y: number; w: number; h: number };
+
+/** Posição de um elemento dentro do ecrã, em px do desenho (soma dos offsets até ao contentor). */
+function offsetWithin(el: HTMLElement, container: HTMLElement): Focus {
+  let x = 0;
+  let y = 0;
+  let node: HTMLElement | null = el;
+  while (node && node !== container) {
+    x += node.offsetLeft;
+    y += node.offsetTop;
+    node = node.offsetParent as HTMLElement | null;
+  }
+  return { x, y, w: el.offsetWidth, h: el.offsetHeight };
+}
+
 /**
  * Mostra um ecrã da app à largura do desenho original e reduz tudo em proporção ao espaço
  * disponível, para os cartões ficarem alinhados exatamente como na dashboard.
  *
- * Com `viewport` (altura visível, em px do desenho) o ecrã fica cortado nessa altura e desvanece
- * na base, como uma captura (sem scroll interno). Com `cursor`, um cursor animado (padrão Libra)
- * passa pelos elementos marcados com `data-cursor`; some quando a pessoa põe o rato em cima.
+ * - `viewport`: altura visível (px do desenho); o ecrã fica cortado e desvanece na base, sem scroll interno.
+ * - `cursor`: um cursor animado (padrão Libra) passa pelos elementos com `data-cursor`.
+ * - No telemóvel, o ecrã inteiro ficaria com texto de ~3 px. Em vez disso, mostra-se ampliado
+ *   só o cartão marcado com `data-focus` (padrão Stripe/Apple: um recorte legível, não a captura toda).
  */
 export function ScaledScreen({
   children,
@@ -30,45 +49,62 @@ export function ScaledScreen({
 }) {
   const outer = useRef<HTMLDivElement>(null);
   const inner = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(0);
+  const [width, setWidth] = useState(0);
   const [contentH, setContentH] = useState(0);
+  const [focus, setFocus] = useState<Focus | null>(null);
   const [hover, setHover] = useState(false);
 
   useEffect(() => {
     const o = outer.current;
     const i = inner.current;
     if (!o || !i) return;
-    const ro = new ResizeObserver(() => {
-      setScale(o.clientWidth / DESIGN_W);
+    const measure = () => {
+      setWidth(o.clientWidth);
       setContentH(i.offsetHeight);
-    });
+      const target = i.querySelector<HTMLElement>("[data-focus]");
+      setFocus(target && o.clientWidth < FOCUS_BELOW ? offsetWithin(target, i) : null);
+    };
+    const ro = new ResizeObserver(measure);
     ro.observe(o);
     ro.observe(i);
     return () => ro.disconnect();
   }, []);
 
-  const visibleH = viewport ? Math.min(viewport, contentH || viewport) : contentH;
-  // Ecrã mais alto do que o enquadramento: corta e desvanece na base (como uma captura), sem scroll interno.
-  const cropped = !!viewport && contentH > viewport;
-  const fade = cropped ? "linear-gradient(to bottom, #000 78%, transparent 100%)" : undefined;
+  let height: number | undefined;
+  let transform: string;
+  let fade: string | undefined;
+
+  if (focus) {
+    // Recorte: o cartão ocupa a largura toda (pode ampliar até 1,4×, para não espreitar o cartão ao lado).
+    const scale = Math.min(1.4, width / focus.w);
+    height = focus.h * scale;
+    transform = `scale(${scale}) translate(${-focus.x}px, ${-focus.y}px)`;
+  } else {
+    const scale = width / DESIGN_W;
+    const visibleH = viewport ? Math.min(viewport, contentH || viewport) : contentH;
+    height = width ? visibleH * scale : undefined;
+    transform = `scale(${scale || 0.0001})`;
+    // Ecrã mais alto do que o enquadramento: corta e desvanece na base, como uma captura.
+    if (viewport && contentH > viewport) fade = "linear-gradient(to bottom, #000 78%, transparent 100%)";
+  }
 
   return (
     <div
       ref={outer}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className={cn("relative w-full overflow-hidden", className)}
+      className={cn("relative w-full overflow-hidden", focus && "bg-cream", className)}
       style={{
-        height: scale ? visibleH * scale : undefined,
-        aspectRatio: scale ? undefined : `${DESIGN_W} / ${viewport ?? 900}`,
+        height,
+        aspectRatio: width ? undefined : `${DESIGN_W} / ${viewport ?? 900}`,
         maskImage: fade,
         WebkitMaskImage: fade,
       }}
     >
-      <div className="absolute top-0 left-0 origin-top-left" style={{ width: DESIGN_W, transform: `scale(${scale || 0.0001})` }}>
+      <div className="absolute top-0 left-0 origin-top-left" style={{ width: DESIGN_W, transform }}>
         <div ref={inner} className="relative">
           {children}
-          {cursor && scale > 0 && <FakeCursor container={inner} paused={hover} />}
+          {cursor && !focus && width > 0 && <FakeCursor container={inner} paused={hover} />}
         </div>
       </div>
     </div>

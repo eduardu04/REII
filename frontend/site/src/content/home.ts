@@ -47,7 +47,7 @@ export const hero = {
   subtitle:
     "Diga-nos onde fica o imóvel e como é. O REII estima quanto vale hoje, quanto pode render em renda e como fica cada opção daqui a 5 ou 10 anos, com a fonte de cada número.",
   // TODO(equipa): condição de entrada (ex.: primeira análise grátis) ainda por definir.
-  notes: ["Sem mensalidades", "Não precisa de saber de finanças", "A decisão é sempre sua"],
+  notes: ["Primeira estimativa grátis", "Sem mensalidades", "A decisão é sempre sua"],
 };
 
 export const problem = {
@@ -106,20 +106,24 @@ export const audience = {
 };
 
 export const steps = {
-  title: "Da morada à resposta, em três passos.",
+  title: "Da morada à resposta, em 4 passos.",
   lead: "Não precisa de saber o que é uma taxa de desconto. Basta responder ao que sabe sobre a casa; o REII faz as contas.",
   items: [
     {
-      title: "Conte-nos a sua situação",
-      text: "Herdou uma casa, tem uma segunda habitação, um imóvel parado ou vários. A análise começa pelo que mais lhe interessa.",
+      title: "Caracterização",
+      text: "Duas perguntas sobre a sua situação e, depois, a casa: tipologia, área, estado e morada.",
     },
     {
-      title: "Descreva a casa",
-      text: "Tipologia, área, estado e morada. Se não souber algum dado, o REII estima-o e assinala que é uma estimativa.",
+      title: "Pressupostos",
+      text: "Escolha o prazo: 3, 5, 10 ou 15 anos. As taxas técnicas ficam por nossa conta.",
     },
     {
-      title: "Veja os dois caminhos",
-      text: "Vender e arrendar lado a lado, a 3, 5, 10 ou 15 anos, com a fonte e a data de cada número.",
+      title: "Estimativa de mercado",
+      text: "Valor hoje e renda provável, com a fonte, a data e o nível de confiança.",
+    },
+    {
+      title: "Resultados",
+      text: "Vender e arrendar lado a lado, em três cenários, com o ponto de viragem.",
     },
   ],
 };
@@ -208,7 +212,7 @@ export const faq = {
   items: [
     {
       q: "Como funcionam os créditos?",
-      a: "Compra um pacote de créditos e usa-os quando precisar, sem mensalidades. O custo de cada operação está na página Preços.",
+      a: "A primeira estimativa é grátis. Para a análise completa, compra um pacote de créditos e usa-os quando precisar, sem mensalidades. O custo de cada operação está na página Preços.",
     },
     {
       q: "O REII substitui a avaliação de um perito?",

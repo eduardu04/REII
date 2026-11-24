@@ -11,9 +11,10 @@ import { steps } from "@/content/home";
 import { cn } from "@/lib/utils";
 
 import { ScaledScreen } from "../mockups/scaled-screen";
-import { CharacterizationScreen, OnboardingScreen, ResultsScreen } from "../mockups/screens";
+import { OnboardingScreen, ResultsScreen } from "../mockups/screens";
+import { AssumptionsScreen, EstimateScreen } from "../mockups/step-screens";
 
-const SCREENS = [OnboardingScreen, CharacterizationScreen, ResultsScreen];
+const SCREENS = [OnboardingScreen, AssumptionsScreen, EstimateScreen, ResultsScreen];
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 /**
@@ -36,7 +37,16 @@ export function Steps() {
                 const on = i === active;
                 return (
                   <li key={s.title}>
-                    <button type="button" role="tab" aria-selected={on} onClick={() => setActive(i)} className={cn("relative w-full overflow-hidden rounded-[1.25rem] px-5 py-5 text-left transition-colors duration-500", on ? "bg-white" : "hover:bg-white/60")}>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={on}
+                      onClick={() => setActive(i)}
+                      className={cn(
+                        "relative w-full overflow-hidden rounded-[1.25rem] px-5 py-5 text-left transition-colors duration-500",
+                        on ? "bg-white" : "hover:bg-white/60",
+                      )}
+                    >
                       <ProgressFill active={on} running={running} duration={duration} reduce={reduce} resetKey={`${active}-${running}`} />
                       <span className="relative flex items-baseline gap-4">
                         <span className={cn("text-[0.85rem] font-semibold tabular transition-colors duration-500", on ? "text-rent" : "text-ink-3")}>
@@ -90,7 +100,7 @@ export function Steps() {
                     exit={{ opacity: 0, transition: { duration: 0.25 } }}
                     transition={{ duration: 0.6, ease: EASE }}
                   >
-                    <ScaledScreen viewport={900} cursor>
+                    <ScaledScreen viewport={900}>
                       <Screen />
                     </ScaledScreen>
                   </m.div>

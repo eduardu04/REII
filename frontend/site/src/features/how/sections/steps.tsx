@@ -95,7 +95,7 @@ export function HowSteps() {
                   exit={{ opacity: 0, transition: { duration: 0.25 } }}
                   transition={{ duration: 0.6, ease: EASE }}
                 >
-                  <ScaledScreen viewport={900} cursor>
+                  <ScaledScreen viewport={900}>
                     <Screen />
                   </ScaledScreen>
                 </m.div>

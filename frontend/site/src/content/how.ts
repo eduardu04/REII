@@ -6,7 +6,7 @@
 
 export const howHero = {
   title: "Cada número tem uma origem. Mostramos todas.",
-  lead: "Esta página explica, sem letras pequenas, de onde vêm os dados, como fazemos as contas e onde estão os limites da análise.",
+  lead: "De onde vêm os dados, como fazemos as contas e onde estão os limites. Sem letras pequenas.",
   anchors: [
     { label: "Os 4 passos", href: "#passos" },
     { label: "As fontes", href: "#fontes" },
@@ -18,7 +18,7 @@ export const howHero = {
 
 export const howSteps = {
   title: "Os 4 passos de uma análise.",
-  lead: "É o mesmo percurso que vai fazer na app. Em cada passo sabe o que está a acontecer e o que falta.",
+  lead: "O mesmo percurso que vai fazer na app, passo a passo.",
   items: [
     {
       title: "Caracterização",
@@ -41,14 +41,14 @@ export const howSteps = {
 
 export const howSources = {
   title: "De onde vêm os dados.",
-  lead: "Fontes públicas e de mercado conhecidas em Portugal. Em cada valor da análise vê qual delas foi usada e em que data.",
+  lead: "Fontes públicas e de mercado. Cada valor diz qual foi usada e em que data.",
   items: [
     {
       name: "INE",
       text: "Preços medianos da habitação por freguesia e a sua evolução.",
     },
     {
-      name: "SIR, Confidencial Imobiliário",
+      name: "SIR – Confidencial Imobiliário",
       text: "Valores de venda e de renda registados: a que preço as casas mudam mesmo de mãos.",
     },
     {
@@ -69,7 +69,7 @@ export const howSources = {
 
 export const howMath = {
   title: "As contas, em português simples.",
-  lead: "Os mesmos indicadores que um analista financeiro usa. O nome técnico fica entre parênteses, para quem quiser comparar.",
+  lead: "Os indicadores de um analista, explicados. O nome técnico fica entre parênteses.",
   items: [
     {
       value: "+16,3 %",
@@ -123,12 +123,12 @@ export const howScenarios = {
     },
   ],
   chartTitle: "Valor do imóvel daqui a 5 anos, por cenário",
-  chartNote: "Exemplo T2 na Sé Nova. Valor hoje: 320 000 €.",
+  chartNote: "Valor do T2 na Sé Nova daqui a 5 anos, em cada cenário. Hoje vale 320 000 €.",
 };
 
 export const howTurning = {
-  title: "O ponto em que a resposta muda.",
-  lead: "É a informação que mais ajuda a decidir, e quase ninguém a mostra. Diz-lhe a partir de que renda vender passa a compensar mais do que arrendar.",
+  title: "Três cenários e o ponto em que a resposta muda.",
+  lead: "Três hipóteses para o mercado e a renda a partir da qual vender passa a compensar mais.",
   context: "No exemplo do T2 na Sé Nova, com os pressupostos do cenário central:",
   min: 800,
   max: 1400,
@@ -148,7 +148,7 @@ export const howTurning = {
 
 export const howAssistant = {
   title: "O que o assistente faz, e o que não faz.",
-  lead: "O assistente do REII usa inteligência artificial para explicar a análise. Dizemos com clareza onde ajuda e onde não deve ser usado.",
+  lead: "Usa inteligência artificial para explicar a análise. Dizemos onde ajuda e onde não deve ser usado.",
   does: [
     "Explica cada número e de onde veio",
     "Traduz termos como VAL e TIR",
@@ -166,7 +166,7 @@ export const howAssistant = {
 
 export const howConfidence = {
   title: "Quando a confiança é baixa, dizemos.",
-  lead: "Cada estimativa tem um nível de confiança. Depende de três coisas, e mostramos sempre qual delas está a pesar.",
+  lead: "Cada estimativa tem um nível de confiança. Depende de três coisas.",
   factors: [
     {
       title: "Quantas casas parecidas encontrámos",
@@ -188,7 +188,7 @@ export const howConfidence = {
   ],
   excluded: {
     title: "O que fica fora da análise",
-    lead: "Para a comparação ser justa e simples, estas coisas não entram nas contas. Se pesam no seu caso, fale com um especialista.",
+    lead: "Estas coisas não entram nas contas. Se pesam no seu caso, fale com um especialista.",
     items: [
       {
         title: "Impostos pessoais",

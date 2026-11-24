@@ -6,7 +6,6 @@ import { HowFinalCta } from "@/features/how/sections/final-cta";
 import { HowHero } from "@/features/how/sections/hero";
 import { HowMath } from "@/features/how/sections/math";
 import { HowPrivacy } from "@/features/how/sections/privacy";
-import { HowScenarios } from "@/features/how/sections/scenarios";
 import { HowSources } from "@/features/how/sections/sources";
 import { HowSteps } from "@/features/how/sections/steps";
 import { HowTurningPoint } from "@/features/how/sections/turning-point";
@@ -24,7 +23,6 @@ export default function HowItWorksPage() {
       <HowSteps />
       <HowSources />
       <HowMath />
-      <HowScenarios />
       <HowTurningPoint />
       <HowAssistant />
       <HowConfidence />

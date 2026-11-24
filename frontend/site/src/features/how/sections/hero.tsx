@@ -1,7 +1,7 @@
 import { Reveal } from "@/components/motion/reveal";
 import { howHero } from "@/content/how";
 import { ScaledScreen } from "@/features/home/mockups/scaled-screen";
-import { ResultsScreen } from "@/features/home/mockups/screens";
+import { EstimateScreen } from "@/features/home/mockups/step-screens";
 
 /**
  * 1 · Abertura em verde: a promessa da página, atalhos para cada parte e o ecrã de resultados
@@ -42,7 +42,7 @@ export function HowHero() {
         <Reveal immediate delay={0.3} index={4} y={32} className="relative lg:mr-[-12vw]">
           <div className="overflow-hidden rounded-t-[1.25rem] shadow-[0_-30px_80px_-30px_rgb(0_0_0/0.5)] ring-1 ring-white/10">
             <ScaledScreen viewport={640} cursor>
-              <ResultsScreen />
+              <EstimateScreen />
             </ScaledScreen>
           </div>
 
@@ -57,7 +57,7 @@ export function HowHero() {
               </div>
               <div className="flex justify-between gap-3">
                 <dt className="text-ink-2">Data</dt>
-                <dd className="font-semibold">6 mai 2026</dd>
+                <dd className="font-semibold">06 mai 2026</dd>
               </div>
               <div className="flex justify-between gap-3">
                 <dt className="text-ink-2">Confiança</dt>

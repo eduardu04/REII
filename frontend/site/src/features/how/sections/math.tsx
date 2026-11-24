@@ -31,7 +31,7 @@ export function HowMath() {
 
         <Reveal className="mt-10 rounded-[1.75rem] bg-[radial-gradient(120%_90%_at_50%_0%,#145a51_0%,var(--rent-deep)_70%)] p-3 sm:p-8">
           <div className="overflow-hidden rounded-[1rem] shadow-[0_40px_80px_-30px_rgb(0_0_0/0.55)] ring-1 ring-black/10">
-            <ScaledScreen viewport={860} cursor>
+            <ScaledScreen viewport={860}>
               <CalculationsScreen />
             </ScaledScreen>
           </div>

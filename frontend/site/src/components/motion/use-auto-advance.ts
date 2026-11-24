@@ -6,7 +6,7 @@ import { useInView, useReducedMotion } from "motion/react";
 /**
  * Avanço automático entre separadores (padrão Libra/Harvey).
  * Só corre com a secção no ecrã; pausa com rato/foco e com o botão (WCAG 2.2.2).
- * Com movimento reduzido não avança sozinho.
+ * Com movimento reduzido, ou no telemóvel (onde a pessoa lê ao seu ritmo), não avança sozinho.
  */
 export function useAutoAdvance(count: number, duration = 6000) {
   const ref = useRef<HTMLDivElement>(null);
@@ -15,7 +15,17 @@ export function useAutoAdvance(count: number, duration = 6000) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [hover, setHover] = useState(false);
-  const running = inView && !paused && !hover && !reduce;
+  const [small, setSmall] = useState(false);
+  const manual = !!reduce || small;
+  const running = inView && !paused && !hover && !manual;
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const update = () => setSmall(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   const next = useCallback(() => setActive((i) => (i + 1) % count), [count]);
 
@@ -33,5 +43,5 @@ export function useAutoAdvance(count: number, duration = 6000) {
     onBlurCapture: () => setHover(false),
   };
 
-  return { active, setActive, running, paused, setPaused, reduce: !!reduce, bind, duration };
+  return { active, setActive, running, paused, setPaused, reduce: manual, bind, duration };
 }

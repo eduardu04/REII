@@ -26,7 +26,8 @@ export type Pack = {
   audience: string;
   credits: number;
   price: number;
-  features: string[];
+  /** Só o que é diferente neste pacote; o resto está em `includedInAll`. */
+  extras: string[];
   featured?: boolean;
 };
 
@@ -37,7 +38,7 @@ export const packs: Pack[] = [
     audience: "Para uma casa",
     credits: 19,
     price: 19,
-    features: ["Três cenários e ponto de viragem", "Casas comparáveis e cálculos", "Relatório em PDF", "Assistente REII"],
+    extras: [],
   },
   {
     id: "familia",
@@ -46,7 +47,7 @@ export const packs: Pack[] = [
     credits: 60,
     price: 49,
     featured: true,
-    features: ["Tudo o da análise avulsa", "Atualizar análises quando o mercado mudar", "Comparar imóveis entre si"],
+    extras: [],
   },
   {
     id: "investidor",
@@ -54,7 +55,7 @@ export const packs: Pack[] = [
     audience: "Para quem tem vários imóveis",
     credits: 150,
     price: 109,
-    features: ["Tudo o do pacote Família", "Todos os imóveis num só ecrã", "Apoio por email prioritário"],
+    extras: ["Apoio por email prioritário"],
   },
   {
     id: "profissional",
@@ -62,8 +63,17 @@ export const packs: Pack[] = [
     audience: "Para consultores e imobiliárias",
     credits: 400,
     price: 249,
-    features: ["Tudo o do pacote Investidor", "O melhor preço por crédito", "Conta de equipa, a pedido"],
+    extras: ["Apoio por email prioritário", "Conta de equipa, a pedido"],
   },
+];
+
+/** O que cada análise inclui, seja qual for o pacote: os pacotes só mudam em créditos e bónus. */
+export const includedInAll = [
+  "Três cenários e ponto de viragem",
+  "Casas comparáveis e cálculos",
+  "Relatório em PDF",
+  "Assistente REII",
+  "Comparar imóveis",
 ];
 
 export const packById = (id: PackId) => packs.find((p) => p.id === id)!;
@@ -81,7 +91,7 @@ export const pricingHero = {
 
 export const pricingPacks = {
   title: "Escolha um pacote de créditos.",
-  lead: "Cada crédito vale cerca de 1 €. Nos pacotes maiores recebe créditos de bónus, e dizemos sempre para quantas análises dá.",
+  lead: "Cada crédito vale cerca de 1 €. Os pacotes maiores dão créditos de bónus. A análise é a mesma em todos.",
   offer: `Na primeira compra, oferecemos ${welcomeBonus} créditos.`,
 };
 

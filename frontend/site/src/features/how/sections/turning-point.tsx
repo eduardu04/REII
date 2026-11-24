@@ -1,6 +1,6 @@
 import { Reveal } from "@/components/motion/reveal";
 import { SectionIntro } from "@/components/shared/section-heading";
-import { howTurning as t } from "@/content/how";
+import { howScenarios, howTurning as t } from "@/content/how";
 import { formatEuro } from "@/lib/format";
 
 const pos = (v: number) => `${((v - t.min) / (t.max - t.min)) * 100}%`;
@@ -15,7 +15,24 @@ export function HowTurningPoint() {
       <div className="shell">
         <SectionIntro tone="light" title={t.title} lead={t.lead} />
 
-        <Reveal className="mt-14 rounded-[1.75rem] bg-white/[0.06] p-7 ring-1 ring-white/10 sm:p-12 lg:mt-20">
+        {/* Três cenários: valor do imóvel daqui a 5 anos */}
+        <ul className="mt-14 grid gap-3 sm:grid-cols-3 lg:mt-20">
+          {howScenarios.items.map((s, i) => (
+            <li key={s.name}>
+              <Reveal index={i} className="h-full rounded-[1.75rem] bg-white/[0.06] p-6 ring-1 ring-white/10 sm:p-7">
+                <p className="flex items-center gap-2.5 text-[0.95rem] text-white/70">
+                  <span aria-hidden className="size-3 rounded-[4px]" style={{ background: s.name === "Central" ? "var(--mint)" : s.color }} />
+                  {s.name}
+                </p>
+                <p className="mt-2 text-[2rem] leading-none font-semibold tracking-[-0.04em] tabular">{formatEuro(s.value)}</p>
+                <p className="mt-3 text-[0.9rem] leading-relaxed text-white/65">{s.text}</p>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 text-[0.85rem] text-white/50">{howScenarios.chartNote}</p>
+
+        <Reveal className="mt-10 rounded-[1.75rem] bg-white/[0.06] p-7 ring-1 ring-white/10 sm:p-12">
           <p className="text-[1rem] text-white/70">{t.context}</p>
 
           <div className="relative mt-24 mb-28 sm:mt-28 sm:mb-20">

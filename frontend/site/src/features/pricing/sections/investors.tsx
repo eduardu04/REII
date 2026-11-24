@@ -38,8 +38,8 @@ export function PricingInvestors() {
           </div>
 
           <Reveal y={0} className="relative min-h-[18rem] lg:col-span-7">
-            <div className="h-full pt-2 pl-8 sm:pl-14 lg:absolute lg:inset-0 lg:pt-14 lg:pl-0">
-              <div className="w-[160%] overflow-hidden rounded-tl-[1rem] shadow-[0_40px_80px_-30px_rgb(0_0_0/0.6)] sm:w-[130%] lg:w-[140%]">
+            <div className="h-full px-5 pb-5 sm:px-0 sm:pb-0 sm:pl-14 lg:absolute lg:inset-0 lg:pt-14 lg:pl-0">
+              <div className="w-full overflow-hidden rounded-[1rem] sm:w-[130%] sm:rounded-r-none lg:w-[140%] shadow-[0_40px_80px_-30px_rgb(0_0_0/0.6)]">
                 <ScaledScreen viewport={900} cursor>
                   <ComparablesScreen />
                 </ScaledScreen>

@@ -15,8 +15,8 @@ import { cn } from "@/lib/utils";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 /**
- * 6 · O assistente, como na app (painel "Agente REII" da dashboard).
- * À esquerda, um excerto do relatório; à direita, o agente explica o valor destacado,
+ * 6 · O assistente, como na app (painel do assistente da dashboard).
+ * À esquerda, um excerto do relatório; à direita, o assistente explica o valor destacado,
  * com a fonte. As outras perguntas ficam como botões, tal como no produto.
  */
 export function Explain() {
@@ -94,14 +94,14 @@ export function Explain() {
               </ul>
             </div>
 
-            {/* Painel do agente (como na app) */}
+            {/* Painel do assistente (como na app) */}
             <div className="flex flex-col rounded-[1.5rem] bg-white p-5 ring-1 ring-line sm:p-8 lg:col-span-5">
               <div className="flex items-center gap-3">
                 <span className="grid size-11 place-items-center rounded-xl bg-rent text-white">
                   <Logo className="h-[0.55rem]" />
                 </span>
                 <div>
-                  <p className="text-[1.05rem] font-semibold text-ink">Agente REII</p>
+                  <p className="text-[1.05rem] font-semibold text-ink">Assistente REII</p>
                   <p className="text-[0.82rem] text-ink-2">Explica a análise. Não decide por si.</p>
                 </div>
               </div>

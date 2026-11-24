@@ -43,10 +43,10 @@ export function HowSources() {
                 <p className="text-[1rem] font-semibold">Fontes e referências</p>
                 <ul className="mt-3 space-y-2 text-[0.9rem] text-ink-2">
                   {[
-                    "INE, estatísticas da habitação",
-                    "SIR, Confidencial Imobiliário",
+                    "INE – Estatísticas da habitação",
+                    "SIR – Confidencial Imobiliário",
                     "Anúncios comparáveis (últimos 6 meses)",
-                    "Tendência da zona, Sé Nova",
+                    "Tendência da zona – Sé Nova",
                   ].map((t) => (
                     <li key={t} className="flex gap-2.5">
                       <Check aria-hidden className="mt-0.5 size-4 shrink-0 text-rent" /> {t}
@@ -56,7 +56,7 @@ export function HowSources() {
                 <div className="mt-4 grid grid-cols-2 gap-2">
                   <p className="rounded-[0.9rem] bg-surface p-3">
                     <span className="block text-[0.75rem] text-ink-2">Data da estimativa</span>
-                    <span className="mt-0.5 block text-[0.95rem] font-semibold">6 mai 2026</span>
+                    <span className="mt-0.5 block text-[0.95rem] font-semibold">06 mai 2026</span>
                   </p>
                   <p className="rounded-[0.9rem] bg-surface p-3">
                     <span className="block text-[0.75rem] text-ink-2">Nível de confiança</span>

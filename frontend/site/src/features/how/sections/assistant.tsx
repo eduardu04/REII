@@ -58,7 +58,7 @@ export function HowAssistant() {
                     o arrendamento rende mais do que essa taxa.
                   </p>
                   <p className="mt-3 rounded-[0.8rem] bg-surface px-3.5 py-2.5 text-[0.8rem] leading-relaxed text-ink-2">
-                    <b className="text-ink">Fonte:</b> Motor financeiro REII · 6 mai 2026
+                    <b className="text-ink">Fonte:</b> Motor financeiro REII · 06 mai 2026
                     <br />
                     <b className="text-ink">Pressuposto:</b> taxa de desconto 5,0&nbsp;%; renda 1&nbsp;200&nbsp;€/mês
                   </p>

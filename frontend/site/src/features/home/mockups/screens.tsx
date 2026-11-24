@@ -104,7 +104,7 @@ function RentCard({ big = false }: { big?: boolean }) {
         1 200 €/mês <I />
       </p>
       <p className="mt-3 flex items-center gap-2 text-[14px] text-ink-2">
-        <Calendar className="size-4" /> Total em 5 anos: <b className="text-ink">72 000 €</b>
+        <Calendar className="size-4" /> Rendas brutas em 5 anos: <b className="text-ink">72 000 €</b>
       </p>
     </div>
   );
@@ -232,7 +232,7 @@ export function MyPropertiesScreen() {
                 <Calendar className="size-4" /> {p.date}
               </p>
             </div>
-            <div data-cursor={pi === 0 ? "2" : undefined} className="flex-1 rounded-[12px] bg-sell-soft p-5 ring-1 ring-sell/10">
+            <div data-cursor={pi === 0 ? "2" : undefined} data-focus={pi === 0 ? "" : undefined} className="flex-1 rounded-[12px] bg-sell-soft p-5 ring-1 ring-sell/10">
               <Pill tone="sell">Vender</Pill>
               <p className="mt-3 text-[14px] text-ink-2">Daqui a 5 anos</p>
               <p className="mt-1 flex items-center gap-2 text-[26px] font-semibold tracking-[-0.02em]">
@@ -249,7 +249,7 @@ export function MyPropertiesScreen() {
                 {p.rent} <I />
               </p>
               <p className="mt-2 text-[13px] text-ink-2">
-                Rendimento em 5 anos: <b className="text-ink">{p.total}</b>
+                Rendas brutas em 5 anos: <b className="text-ink">{p.total}</b>
               </p>
             </div>
             <span data-cursor={pi === 1 ? "4" : undefined} className="grid size-11 place-items-center rounded-[10px] ring-1 ring-line">
@@ -401,7 +401,7 @@ export function ComparablesScreen() {
             <Pill>Explicação da IA</Pill>
           </div>
         </Card>
-        <Card className="p-6">
+        <Card data-focus className="p-6">
           <p className="text-[19px] font-semibold">Origem e fiabilidade dos dados</p>
           <div className="mt-4 space-y-4">
             {[
@@ -479,7 +479,7 @@ export function ReportScreen() {
             <Calendar className="size-4" /> Analisado em 06 mai 2026
           </p>
         </div>
-        <div data-cursor="2" className="flex-1 rounded-[14px] bg-rent-soft/70 p-6 ring-1 ring-rent/10">
+        <div data-cursor="2" data-focus className="flex-1 rounded-[14px] bg-rent-soft/70 p-6 ring-1 ring-rent/10">
           <p className="flex items-center gap-2 text-[16px] font-semibold text-rent">
             <BarChart3 className="size-4" /> O que os números mostram
           </p>
@@ -711,7 +711,7 @@ export function CharacterizationScreen() {
             </div>
             <p className="mt-3 text-[12px] leading-relaxed text-ink-2">Faltam: estado da cozinha e número de casas de banho (opcionais).</p>
           </Card>
-          <Card className="p-6">
+          <Card data-focus className="p-6">
             <p className="text-[21px] font-semibold">Resumo do imóvel</p>
             <Thumb src={photos.t2Fachada} className="mt-4 h-[150px] w-full" sizes="280px" />
             <p className="mt-4 text-[16px] font-semibold">T2 · Coimbra</p>
@@ -786,15 +786,15 @@ export function ResultsScreen() {
           <Card className="p-6">
             <p className="text-[19px] font-semibold">Cenário de análise</p>
             <div className="mt-4 grid grid-cols-3 rounded-[10px] bg-surface p-1 text-[14px]">
-              {["Conservador", "Central", "Otimista"].map((s) => (
+              {["Prudente", "Central", "Otimista"].map((s) => (
                 <span key={s} data-cursor={s === "Otimista" ? "1" : undefined} className={cn("rounded-[8px] py-2 text-center", s === "Central" ? "bg-white font-semibold shadow-sm ring-1 ring-ink" : "text-ink-2")}>
                   {s}
                 </span>
               ))}
             </div>
-            <p className="mt-3 text-[12px] text-ink-2">Conservador e otimista mudam a valorização anual (±1 p.p.) e a ocupação.</p>
+            <p className="mt-3 text-[12px] text-ink-2">Prudente e otimista mudam a valorização anual (±1 p.p.) e a ocupação.</p>
           </Card>
-          <Card className="p-6">
+          <Card data-focus className="p-6">
             <p className="text-[19px] font-semibold">Indicadores principais</p>
             <div data-cursor="2" className="mt-4 rounded-[12px] bg-sell-soft p-4">
               <p className="text-[15px] font-semibold text-sell">Venda</p>
@@ -845,7 +845,7 @@ export function OnboardingScreen() {
   ];
   return (
     <div className="flex h-[900px] w-[1440px] bg-cream text-ink">
-      <div className="relative flex w-[480px] shrink-0 flex-col overflow-hidden bg-rent-deep px-14 py-14 text-white">
+      <div data-focus className="relative flex h-[900px] w-[480px] shrink-0 flex-col overflow-hidden bg-rent-deep px-14 py-14 text-white">
         <Image src={photos.palco} alt="" fill sizes="480px" className="object-cover object-[56%_40%]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgb(10_54_50/0.55)_0%,rgb(10_54_50/0.15)_30%,rgb(10_54_50/0.75)_62%,rgb(10_54_50/0.96)_100%)]" />
         <Logo className="relative h-[32px] text-white" />
@@ -861,7 +861,7 @@ export function OnboardingScreen() {
       </div>
       <div className="flex-1 px-[110px] py-16">
         <div className="flex justify-between text-[15px]">
-          <span className="font-semibold">Passo 1 de 2</span>
+          <span className="font-semibold">Antes de começar</span>
           <span className="text-ink-2">A seguir: o seu imóvel</span>
         </div>
         <div className="mt-3 h-2 rounded-full bg-surface-2">

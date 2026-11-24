@@ -158,7 +158,7 @@ export function AssumptionsScreen() {
         </div>
 
         <div className="w-[340px] shrink-0 pt-[146px]">
-          <Card className="p-7">
+          <Card data-focus className="p-7">
             <div className="flex items-center gap-4">
               <IconBox>
                 <BarChart3 className="size-5" />
@@ -310,7 +310,7 @@ export function EstimateScreen() {
             ))}
             <p className="mt-2 text-[15px] font-semibold text-rent">Rever pressupostos →</p>
           </Card>
-          <Card data-cursor="3" className="p-7">
+          <Card data-cursor="3" data-focus className="p-7">
             <p className="flex items-center gap-2.5 text-[21px] font-semibold">
               <Landmark className="size-5 text-rent" /> Fontes e referências
             </p>
@@ -400,7 +400,7 @@ export function CalculationsScreen() {
             <p className="mt-2 flex items-center gap-2 text-[30px] font-semibold tracking-[-0.02em]">
               1 200 €/mês <I />
             </p>
-            <p className="mt-1 text-[14px] text-ink-2">72 000 € em 5 anos</p>
+            <p className="mt-1 text-[14px] text-ink-2">72 000 € brutos em 5 anos</p>
           </div>
 
           <Card className="p-7">
@@ -445,7 +445,7 @@ export function CalculationsScreen() {
         </div>
 
         <div className="w-[360px] shrink-0 space-y-5">
-          <Card data-cursor="3" className="p-7">
+          <Card data-cursor="3" data-focus className="p-7">
             <p className="flex items-center justify-between text-[21px] font-semibold">
               Cálculo do VAL (resumo) <I />
             </p>
