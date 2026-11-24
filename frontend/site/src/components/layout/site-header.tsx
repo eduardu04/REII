@@ -56,27 +56,28 @@ export function SiteHeader() {
             : "bg-white/85 shadow-[0_1px_2px_rgb(0_0_0/0.04),0_8px_24px_-12px_rgb(0_0_0/0.15)] ring-1 ring-black/5 backdrop-blur-xl",
         )}
       >
-        <Link
-          href="/"
-          aria-label="REII, página inicial"
-          className={cn("transition-colors duration-300", light ? "text-white" : "text-ink")}
-        >
+        <Link href="/" aria-label="REII, página inicial" className={cn("transition-colors duration-300", light ? "text-white" : "text-ink")}>
           <Logo className="h-[1.05rem]" />
         </Link>
 
         <nav aria-label="Principal" className="hidden items-center gap-1 md:flex">
-          {siteConfig.nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "rounded-full px-4 py-2 text-[0.9rem] font-medium transition-colors duration-200",
-                light ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-ink-2 hover:bg-surface hover:text-ink",
-              )}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {siteConfig.nav.map((item) => {
+            const current = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={current ? "page" : undefined}
+                className={cn(
+                  "rounded-full px-4 py-2 text-[0.9rem] font-medium transition-colors duration-200",
+                  light ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-ink-2 hover:bg-surface hover:text-ink",
+                  current && (light ? "bg-white/12 text-white" : "bg-surface text-ink"),
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="hidden items-center gap-1 md:flex">

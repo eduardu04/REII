@@ -172,6 +172,9 @@ function AnalysisTabs({ active }: { active: string }) {
   );
 }
 
+/** Peças partilhadas com os ecrãs da página Como funciona (step-screens.tsx). */
+export { AnalysisTabs, Card, I, IconBox, Pill, PropertyMini, Thumb };
+
 /* ——— Os meus imóveis (REII_Ecras p. 2) ——— */
 
 const PORTFOLIO = [
