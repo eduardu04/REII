@@ -10,6 +10,7 @@ export const siteConfig = {
   appUrl: process.env.NEXT_PUBLIC_APP_URL ?? "#",
   nav: [
     { label: "Como funciona", href: "/como-funciona" },
+    { label: "Para quem é", href: "/para-quem" },
     { label: "Preços", href: "/precos" },
   ],
   sources: ["INE", "SIR · Confidencial Imobiliário", "Idealista", "Câmaras Municipais"],
