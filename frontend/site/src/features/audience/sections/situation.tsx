@@ -4,7 +4,7 @@ import { ArrowRight, Info } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
 import type { Situation as SituationData } from "@/content/audience";
-import { packs } from "@/content/pricing";
+import { packById } from "@/content/pricing";
 import { formatEuro } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -14,8 +14,7 @@ import { cn } from "@/lib/utils";
  */
 export function Situation({ data: s, index }: { data: SituationData; index: number }) {
   const flip = index % 2 === 1;
-  const pack = packs.find((p) => p.id === s.packId)!;
-  const investor = s.packId === "patrimonio";
+  const pack = packById(s.packId);
 
   return (
     <section id={s.id} className={cn("scroll-mt-24 py-20 sm:py-28", flip ? "bg-surface" : "bg-white")}>
@@ -70,19 +69,11 @@ export function Situation({ data: s, index }: { data: SituationData; index: numb
 
           <Reveal index={4} className="mt-8">
             <Link
-              href={investor ? "/precos#investidores" : "/precos#pacotes"}
+              href="/precos#pacotes"
               className="group inline-flex items-center gap-3 rounded-full bg-rent-soft py-2 pr-2 pl-5 text-[0.95rem] text-ink transition-colors hover:bg-mint"
             >
               <span>
-                {investor ? (
-                  <>
-                    Indicado: <b className="font-semibold">créditos mensais</b> ou o pacote {pack.name}
-                  </>
-                ) : (
-                  <>
-                    Indicado: pacote <b className="font-semibold">{pack.name}</b>, {formatEuro(pack.price)}
-                  </>
-                )}
+                Indicado: <b className="font-semibold">{pack.name}</b>, {formatEuro(pack.price)}
               </span>
               <span className="grid size-8 place-items-center rounded-full bg-rent text-white transition-transform group-hover:translate-x-0.5">
                 <ArrowRight aria-hidden className="size-4" />

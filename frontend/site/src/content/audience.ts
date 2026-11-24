@@ -1,3 +1,4 @@
+import type { PackId } from "@/content/pricing";
 import herdei from "@/assets/photos/situacao-herdei.jpg";
 import vazio from "@/assets/photos/situacao-imovel-vazio.jpg";
 import investidor from "@/assets/photos/situacao-investidor.jpg";
@@ -23,7 +24,7 @@ export type Situation = {
   questions: string[];
   shows: { title: string; text: string }[];
   limit: string;
-  packId: "casa" | "familia" | "patrimonio";
+  packId: PackId;
 };
 
 export const situations: Situation[] = [
@@ -41,7 +42,7 @@ export const situations: Situation[] = [
       { title: "O ponto de viragem", text: "A partir de que renda vender passa a compensar mais." },
     ],
     limit: "Partilhas, escrituras e impostos da herança continuam a precisar de um advogado ou de um solicitador.",
-    packId: "casa",
+    packId: "familia",
   },
   {
     id: "segunda-casa",
@@ -57,7 +58,7 @@ export const situations: Situation[] = [
       { title: "Três cenários", text: "Prudente, central e otimista, para ver o que muda se o mercado mudar." },
     ],
     limit: "O arrendamento de curta duração (alojamento local) tem regras próprias e não entra nesta análise.",
-    packId: "casa",
+    packId: "uma",
   },
   {
     id: "imovel-vazio",
@@ -73,7 +74,7 @@ export const situations: Situation[] = [
       { title: "O estado da casa conta", text: "Pode indicar o estado de conservação; as fotos ajudam a confirmá-lo." },
     ],
     limit: "Se a casa precisa de obras grandes, a análise não as orça: conte com um empreiteiro para isso.",
-    packId: "casa",
+    packId: "uma",
   },
   {
     id: "investidor",
@@ -89,7 +90,7 @@ export const situations: Situation[] = [
       { title: "Casas comparáveis", text: "Os imóveis parecidos que serviram de base a cada estimativa." },
     ],
     limit: "O REII não faz planeamento fiscal nem gere carteiras: para isso, fale com o seu contabilista ou gestor.",
-    packId: "patrimonio",
+    packId: "investidor",
   },
 ];
 
