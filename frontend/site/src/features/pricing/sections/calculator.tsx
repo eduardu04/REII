@@ -29,12 +29,12 @@ export function PricingCalculator() {
   const reserve = pack.credits * times - needed;
 
   return (
-    <section className="bg-surface py-24 sm:py-32">
+    <section className="bg-white py-24 sm:py-32">
       <div className="shell">
         <SectionIntro title={pricingCalculator.title} lead={pricingCalculator.lead} />
 
         <Reveal className="mt-14 grid gap-3 lg:mt-20 lg:grid-cols-2">
-          <div className="rounded-[1.75rem] bg-white p-7 sm:p-10">
+          <div className="rounded-[1.75rem] bg-surface p-7 sm:p-10">
             <label htmlFor="calc-homes" className="text-[0.95rem] text-ink-2">
               Quantos imóveis quer analisar?
             </label>
@@ -60,7 +60,7 @@ export function PricingCalculator() {
             <label
               className={cn(
                 "mt-8 flex cursor-pointer items-center gap-3 rounded-[1rem] px-4 py-3.5 text-[0.98rem] transition-colors",
-                refresh ? "bg-rent-soft" : "bg-surface hover:bg-surface-2",
+                refresh ? "bg-rent-soft" : "bg-white hover:bg-white/70",
               )}
             >
               <input type="checkbox" checked={refresh} onChange={() => setRefresh((r) => !r)} className="peer sr-only" />

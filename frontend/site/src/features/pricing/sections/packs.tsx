@@ -1,84 +1,76 @@
 import { Reveal } from "@/components/motion/reveal";
-import { SectionIntro } from "@/components/shared/section-heading";
 import { siteConfig } from "@/config/site";
 import { bonusPercent, packs, pricingPacks } from "@/content/pricing";
 import { formatEuro } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 /**
- * 2 · Três pacotes pré-pagos, o Família em destaque. Como nos planos do ChatGPT ou do Claude,
- * cada cartão diz o que entrega: o primeiro lista tudo, os seguintes "Tudo do anterior, mais".
+ * 1 · Abertura da página Preços, no padrão das páginas de planos do Claude e do ChatGPT:
+ * título curto ao centro e os três planos logo a seguir, sem imagens. Cada plano diz para quem é,
+ * quanto custa, um botão e o que entrega ("Inclui" / "Tudo do anterior, mais").
  */
 export function PricingPacks() {
   return (
-    <section id="pacotes" className="scroll-mt-24 bg-surface py-24 sm:py-32">
+    <section id="pacotes" className="scroll-mt-24 bg-white pt-36 pb-24 sm:pt-44 sm:pb-32">
       <div className="shell">
-        <SectionIntro title={pricingPacks.title} lead={pricingPacks.lead} />
+        <Reveal immediate delay={0.1} className="mx-auto max-w-2xl text-center">
+          <h1 className="type-display text-ink">{pricingPacks.title}</h1>
+          <p className="type-lead mt-6 text-ink-2">{pricingPacks.lead}</p>
+        </Reveal>
 
-        <ul className="mt-14 grid gap-3 lg:mt-20 lg:grid-cols-3">
+        <ul className="mx-auto mt-14 grid max-w-6xl gap-3 sm:mt-20 lg:grid-cols-3">
           {packs.map((p, i) => {
             const dark = !!p.featured;
             const bonus = bonusPercent(p);
             return (
-              <li key={p.id} className="h-full">
+              <li key={p.id}>
                 <Reveal
+                  immediate
+                  delay={0.2}
                   index={i}
-                  className={cn(
-                    "flex h-full flex-col rounded-[1.75rem] p-7 transition-shadow duration-200",
-                    dark
-                      ? "bg-rent-deep text-white shadow-[0_40px_80px_-40px_rgb(10_54_50/0.7)]"
-                      : "bg-white hover:shadow-[0_30px_60px_-40px_rgb(15_26_24/0.35)]",
-                  )}
+                  className={cn("flex h-full flex-col rounded-[1.75rem] p-8", dark ? "bg-rent-deep text-white" : "bg-surface text-ink")}
                 >
-                  <div className="flex min-h-7 items-center justify-between gap-2">
-                    <p className={cn("text-[0.85rem] font-medium", dark ? "text-mint" : "text-rent")}>{p.audience}</p>
-                    {dark && (
-                      <span className="rounded-full bg-[#e8a27c] px-2.5 py-1 text-[0.72rem] font-semibold whitespace-nowrap text-ink">
-                        O mais escolhido
-                      </span>
-                    )}
+                  <div className="flex min-h-7 items-center justify-between gap-3">
+                    <h2 className="text-[1.5rem] font-semibold tracking-[-0.03em]">{p.name}</h2>
+                    {dark && <span className="rounded-full bg-mint px-3 py-1 text-[0.75rem] font-semibold text-rent-deep">O mais escolhido</span>}
                   </div>
-                  <p className="mt-3 text-[1.5rem] font-semibold tracking-[-0.03em]">{p.name}</p>
+                  <p className={cn("mt-1.5 text-[0.95rem]", dark ? "text-white/70" : "text-ink-2")}>{p.audience}</p>
 
-                  <p className="mt-6 text-[3rem] leading-none font-semibold tracking-[-0.05em] tabular">{formatEuro(p.price)}</p>
-                  <p className={cn("mt-3 flex flex-wrap items-center gap-2 text-[0.9rem]", dark ? "text-white/75" : "text-ink-2")}>
-                    {p.credits} créditos, pagamento único
-                    {bonus > 0 && (
-                      <span className={cn("rounded-full px-2.5 py-0.5 text-[0.78rem] font-semibold", dark ? "bg-mint text-rent-deep" : "bg-rent-soft text-rent")}>
-                        +{bonus} % de bónus
-                      </span>
-                    )}
+                  <p className="mt-8 flex items-baseline gap-2">
+                    <span className="text-[3.25rem] leading-none font-semibold tracking-[-0.05em] tabular">{formatEuro(p.price)}</span>
+                    <span className={cn("text-[0.9rem]", dark ? "text-white/65" : "text-ink-3")}>pagamento único</span>
+                  </p>
+                  <p className={cn("mt-3 text-[0.9rem]", dark ? "text-white/75" : "text-ink-2")}>
+                    {p.credits} créditos
+                    {bonus > 0 && <span className={cn("font-semibold", dark ? "text-mint" : "text-rent")}> · +{bonus} % de bónus</span>}
                   </p>
 
                   <a
                     href={siteConfig.appUrl}
                     className={cn(
-                      "mt-7 flex h-12 items-center justify-center rounded-full text-[0.95rem] font-semibold transition-colors",
-                      dark ? "bg-white text-rent-deep hover:bg-cream" : "text-rent ring-1 ring-rent/40 hover:bg-rent hover:text-white",
+                      "mt-8 flex h-12 items-center justify-center rounded-full text-[0.95rem] font-semibold transition-colors",
+                      dark ? "bg-white text-rent-deep hover:bg-cream" : "bg-rent text-white hover:bg-rent-deep",
                     )}
                   >
                     Escolher {p.name}
                   </a>
 
-                  <div className={cn("mt-7 flex-1 rounded-[1.25rem] p-5", dark ? "bg-white/[0.07]" : "bg-surface")}>
-                    <p className={cn("text-[0.85rem] font-semibold", dark ? "text-white" : "text-ink")}>{p.includesTitle}:</p>
-                    <ul className="mt-3 space-y-2.5">
-                      {p.items.map((f, j) => (
-                        <li key={f} className={cn("flex gap-2.5 text-[0.9rem] leading-snug", dark ? "text-white/85" : "text-ink-2")}>
-                          {j === 0 ? <b className={cn("font-semibold", dark ? "text-white" : "text-ink")}>{f}</b> : f}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <p className={cn("mt-9 text-[0.9rem] font-semibold", dark ? "text-white" : "text-ink")}>{p.includesTitle}:</p>
+                  <ul className="mt-4 flex-1 space-y-3">
+                    {p.items.map((f, j) => (
+                      <li key={f} className={cn("text-[0.95rem] leading-snug", dark ? "text-white/80" : "text-ink-2")}>
+                        {j === 0 ? <b className={cn("font-semibold", dark ? "text-white" : "text-ink")}>{f}</b> : f}
+                      </li>
+                    ))}
+                  </ul>
                 </Reveal>
               </li>
             );
           })}
         </ul>
 
-        <Reveal className="mt-6 flex flex-col items-center justify-center gap-1.5 text-center text-[0.95rem] text-ink-2">
-          <p>{pricingPacks.offer}</p>
-          <p className="text-[0.85rem] text-ink-3">{pricingPacks.note}</p>
+        <Reveal immediate delay={0.4} className="mx-auto mt-10 max-w-3xl text-center text-[0.92rem] leading-relaxed text-ink-2">
+          {pricingPacks.facts.join("  ·  ")}
         </Reveal>
       </div>
     </section>

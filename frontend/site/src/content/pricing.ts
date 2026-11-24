@@ -79,16 +79,15 @@ export const bonusPercent = (p: Pack) => Math.round((p.credits / p.price - 1) * 
 /** Para quantas análises completas dá o pacote. */
 export const analysesIn = (p: Pack) => Math.floor(p.credits / costs.analysis);
 
-export const pricingHero = {
+export const pricingPacks = {
   title: "Pague só o que usar.",
   lead: "Sem mensalidades nem fidelização. Compra créditos e usa-os quando precisar, numa casa ou em várias.",
-};
-
-export const pricingPacks = {
-  title: "Escolha um pacote de créditos.",
-  lead: "Cada crédito vale cerca de 1 €. Os pacotes maiores dão créditos de bónus, e cada um diz o que entrega.",
-  offer: `Na primeira compra, oferecemos ${welcomeBonus} créditos.`,
-  note: `Os créditos valem ${creditValidityMonths} meses e servem para qualquer operação, em qualquer imóvel.`,
+  facts: [
+    "Primeira estimativa grátis",
+    `Créditos válidos ${creditValidityMonths} meses`,
+    `+${welcomeBonus} créditos na primeira compra`,
+    "Fatura com NIF",
+  ],
 };
 
 export const pricingTable = {

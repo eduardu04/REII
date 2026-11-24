@@ -5,11 +5,11 @@ import { pricingTable } from "@/content/pricing";
 /** 3 · Quanto custa cada operação: linhas arredondadas, créditos alinhados à direita. */
 export function PricingCostsTable() {
   return (
-    <section className="bg-white py-24 sm:py-32">
+    <section className="bg-surface py-24 sm:py-32">
       <div className="shell">
         <SectionIntro title={pricingTable.title} lead={pricingTable.lead} />
 
-        <div className="mt-14 rounded-[1.75rem] bg-surface p-2 sm:p-3 lg:mt-20">
+        <div className="mt-14 lg:mt-20">
           <div className="hidden grid-cols-12 gap-4 px-5 pt-3 pb-4 text-[0.8rem] font-medium text-ink-3 sm:grid">
             <span className="col-span-4">Operação</span>
             <span className="col-span-6">O que inclui</span>
