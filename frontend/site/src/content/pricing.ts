@@ -125,10 +125,11 @@ export const pricingCalculator = {
 
 export const pricingValue = {
   title: "Quanto pode valer uma boa decisão?",
-  lead: "No exemplo do T2 na Sé Nova, a diferença entre os dois caminhos ao fim de 5 anos é de dezenas de milhares de euros. Uma análise custa uma pequena parte disso.",
+  before: "No exemplo do T2 na Sé Nova, a diferença entre arrendar e vender ao fim de 5 anos é de",
+  middle: "Saber qual dos dois compensa custa",
   rent: 435_700,
   sell: 372_000,
-  note: "Valores de demonstração, cenário central, antes de impostos pessoais.",
+  note: "Valores de demonstração do exemplo, no cenário central e antes de impostos pessoais. Arrendar: valor do imóvel mais rendas líquidas (435 700 €); vender: valor do imóvel (372 000 €).",
 };
 
 export const pricingFaq = {
