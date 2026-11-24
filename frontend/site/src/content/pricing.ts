@@ -26,8 +26,10 @@ export type Pack = {
   audience: string;
   credits: number;
   price: number;
-  /** Só o que é diferente neste pacote; o resto está em `includedInAll`. */
-  extras: string[];
+  /** Cabeçalho da lista (padrão dos planos: "Inclui" ou "Tudo do X, mais"). */
+  includesTitle: string;
+  /** O que o pacote entrega, a começar pela quantidade. */
+  items: string[];
   featured?: boolean;
 };
 
@@ -38,16 +40,26 @@ export const packs: Pack[] = [
     audience: "Para uma casa",
     credits: 19,
     price: 19,
-    extras: [],
+    includesTitle: "Inclui",
+    items: [
+      "1 análise completa de um imóvel",
+      "Valor hoje e daqui a 5 anos, e renda provável",
+      "Três cenários e o ponto de viragem",
+      "Rentabilidade (TIR), ganho (VAL) e tempo de retorno, explicados",
+      "Casas comparáveis e dados da zona",
+      "Relatório em PDF para partilhar",
+      "Assistente com IA para perguntas sobre a análise",
+    ],
   },
   {
     id: "familia",
     name: "Família",
     audience: "Para 2 ou 3 casas",
-    credits: 60,
+    credits: 64,
     price: 49,
     featured: true,
-    extras: [],
+    includesTitle: "Tudo da Uma análise, mais",
+    items: ["3 análises completas e 1 atualização", "Comparar os imóveis lado a lado", "Todos os imóveis da família num só ecrã"],
   },
   {
     id: "investidor",
@@ -55,7 +67,8 @@ export const packs: Pack[] = [
     audience: "Para quem tem vários imóveis",
     credits: 150,
     price: 109,
-    extras: ["Apoio por email prioritário"],
+    includesTitle: "Tudo do Família, mais",
+    items: ["7 análises completas e 2 atualizações", "Atualizar quando o mercado mudar", "Potencial de valorização da carteira", "Apoio por email prioritário"],
   },
   {
     id: "profissional",
@@ -63,17 +76,9 @@ export const packs: Pack[] = [
     audience: "Para consultores e imobiliárias",
     credits: 400,
     price: 249,
-    extras: ["Apoio por email prioritário", "Conta de equipa, a pedido"],
+    includesTitle: "Tudo do Investidor, mais",
+    items: ["Até 21 análises completas", "O melhor preço por crédito", "Conta de equipa com vários utilizadores, a pedido", "Relatórios com a marca da sua empresa, a pedido"],
   },
-];
-
-/** O que cada análise inclui, seja qual for o pacote: os pacotes só mudam em créditos e bónus. */
-export const includedInAll = [
-  "Três cenários e ponto de viragem",
-  "Casas comparáveis e cálculos",
-  "Relatório em PDF",
-  "Assistente REII",
-  "Comparar imóveis",
 ];
 
 export const packById = (id: PackId) => packs.find((p) => p.id === id)!;
@@ -91,24 +96,35 @@ export const pricingHero = {
 
 export const pricingPacks = {
   title: "Escolha um pacote de créditos.",
-  lead: "Cada crédito vale cerca de 1 €. Os pacotes maiores dão créditos de bónus. A análise é a mesma em todos.",
+  lead: "Cada crédito vale cerca de 1 €. Os pacotes maiores dão créditos de bónus, e cada um diz o que entrega.",
   offer: `Na primeira compra, oferecemos ${welcomeBonus} créditos.`,
+  note: `Os créditos valem ${creditValidityMonths} meses e servem para qualquer operação, em qualquer imóvel.`,
 };
 
 export const pricingTable = {
   title: "Quanto custa cada operação.",
   lead: "Sem surpresas. Antes de confirmar qualquer operação, a app mostra quantos créditos vai gastar e o saldo que fica.",
   rows: [
-    { id: "quick", name: "Estimativa rápida", includes: "Valor hoje e renda provável. Uma por conta, sem cartão", credits: 0 },
+    {
+      id: "quick",
+      name: "Estimativa rápida",
+      includes: "Valor do imóvel hoje e renda provável, com fonte e data. Sem cenários nem relatório. Uma por conta, sem cartão.",
+      credits: 0,
+    },
     {
       id: "analysis",
       name: "Análise completa",
-      includes: "Três cenários, ponto de viragem, comparáveis, cálculos e relatório em PDF",
+      includes: "Valor hoje e daqui a 5 anos, renda provável, três cenários, ponto de viragem, TIR, VAL e tempo de retorno, casas comparáveis, dados da zona e relatório em PDF.",
       credits: costs.analysis,
     },
-    { id: "refresh", name: "Atualizar uma análise", includes: "Com os dados de mercado mais recentes", credits: costs.refresh },
-    { id: "questions", name: "Perguntas ao assistente", includes: "Incluídas em cada análise", credits: 0 },
-    { id: "compare", name: "Comparar imóveis", includes: "Entre as análises que já fez", credits: 0 },
+    { id: "refresh", name: "Atualizar uma análise", includes: "Os mesmos números com os dados de mercado mais recentes, e o que mudou desde a última vez.", credits: costs.refresh },
+    {
+      id: "questions",
+      name: "Assistente com IA",
+      includes: "Explica cada número e de onde veio, traduz termos como VAL e TIR e resume a análise para partilhar.",
+      credits: 0,
+    },
+    { id: "compare", name: "Comparar imóveis", includes: "Valor, renda e rentabilidade das suas análises, lado a lado.", credits: 0 },
   ],
 };
 
