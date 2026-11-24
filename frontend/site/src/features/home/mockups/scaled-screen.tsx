@@ -62,7 +62,9 @@ export function ScaledScreen({
       setWidth(o.clientWidth);
       setContentH(i.offsetHeight);
       const target = i.querySelector<HTMLElement>("[data-focus]");
-      setFocus(target && o.clientWidth < FOCUS_BELOW ? offsetWithin(target, i) : null);
+      // Só recorta quando já há medidas reais (antes do primeiro layout, tudo mede 0 e daria NaN).
+      const narrow = o.clientWidth > 0 && o.clientWidth < FOCUS_BELOW;
+      setFocus(target && narrow && target.offsetWidth > 0 ? offsetWithin(target, i) : null);
     };
     const ro = new ResizeObserver(measure);
     ro.observe(o);
@@ -74,7 +76,7 @@ export function ScaledScreen({
   let transform: string;
   let fade: string | undefined;
 
-  if (focus) {
+  if (focus && width > 0 && focus.w > 0) {
     // Recorte: o cartão ocupa a largura toda (pode ampliar até 1,4×, para não espreitar o cartão ao lado).
     const scale = Math.min(1.4, width / focus.w);
     height = focus.h * scale;
