@@ -6,7 +6,6 @@ import { PricingCalculator } from "@/features/pricing/sections/calculator";
 import { PricingCostsTable } from "@/features/pricing/sections/costs-table";
 import { PricingFinalCta } from "@/features/pricing/sections/final-cta";
 import { PricingHero } from "@/features/pricing/sections/hero";
-import { PricingInvestors } from "@/features/pricing/sections/investors";
 import { PricingPacks } from "@/features/pricing/sections/packs";
 import { PricingValue } from "@/features/pricing/sections/value";
 
@@ -23,7 +22,6 @@ export default function PricingPage() {
       <PricingPacks />
       <PricingCostsTable />
       <PricingCalculator />
-      <PricingInvestors />
       <PricingValue />
       <Faq data={pricingFaq} />
       <PricingFinalCta />

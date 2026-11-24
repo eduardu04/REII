@@ -18,7 +18,7 @@ export const creditValidityMonths = 24;
 export const welcomeBonus = 10;
 export const referralBonus = 10;
 
-export type PackId = "uma" | "familia" | "investidor" | "profissional";
+export type PackId = "uma" | "familia" | "investidor";
 
 export type Pack = {
   id: PackId;
@@ -69,15 +69,6 @@ export const packs: Pack[] = [
     price: 109,
     includesTitle: "Tudo do Família, mais",
     items: ["7 análises completas e 2 atualizações", "Atualizar quando o mercado mudar", "Potencial de valorização da carteira", "Apoio por email prioritário"],
-  },
-  {
-    id: "profissional",
-    name: "Profissional",
-    audience: "Para consultores e imobiliárias",
-    credits: 400,
-    price: 249,
-    includesTitle: "Tudo do Investidor, mais",
-    items: ["Até 21 análises completas", "O melhor preço por crédito", "Conta de equipa com vários utilizadores, a pedido", "Relatórios com a marca da sua empresa, a pedido"],
   },
 ];
 
@@ -132,13 +123,6 @@ export const pricingCalculator = {
   title: "Não sabe de quantos créditos precisa?",
   lead: "Diga quantas casas quer analisar. Nós sugerimos o pacote certo e mostramos a conta.",
   refreshLabel: "Atualizar cada uma daqui a uns meses",
-};
-
-export const pricingPros = {
-  title: "Analisa imóveis todos os dias?",
-  lead: "Para consultores, imobiliárias e gestores de património, o pacote Profissional dá o melhor preço por crédito. Continua a pagar só o que usa.",
-  points: ["Créditos ao melhor preço", "Conta de equipa, com vários utilizadores", "Relatórios com a marca da sua empresa"],
-  cta: "Falar connosco",
 };
 
 export const pricingValue = {

@@ -10,7 +10,7 @@ import { costs, packs, pricingCalculator } from "@/content/pricing";
 import { formatEuro } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
-const MAX = 15;
+const MAX = 10;
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
 /** 4 · Calculadora: casas à esquerda, pacote sugerido com a conta à direita. */
@@ -23,10 +23,11 @@ export function PricingCalculator() {
     ...(refresh ? [{ k: plural(homes, "atualização", "atualizações"), v: homes * costs.refresh }] : []),
   ];
   const needed = lines.reduce((s, l) => s + l.v, 0);
-  // O pacote mais pequeno que chega; se nenhum chegar, o maior e créditos extra.
-  const pack = packs.find((p) => p.credits >= needed) ?? packs[packs.length - 1];
-  const fits = pack.credits >= needed;
-  const reserve = pack.credits - needed;
+  // O pacote mais pequeno que chega; se nenhum chegar, várias vezes o maior.
+  const biggest = packs[packs.length - 1];
+  const pack = packs.find((p) => p.credits >= needed) ?? biggest;
+  const times = pack.credits >= needed ? 1 : Math.ceil(needed / biggest.credits);
+  const reserve = pack.credits * times - needed;
 
   return (
     <section className="bg-surface py-24 sm:py-32">
@@ -80,9 +81,9 @@ export function PricingCalculator() {
 
           <div aria-live="polite" className="flex flex-col rounded-[1.75rem] bg-rent-deep p-7 text-white sm:p-10">
             <p className="text-[0.9rem] text-white/60">Sugerimos</p>
-            <p className="mt-2 text-[2.25rem] leading-tight font-semibold tracking-[-0.04em]">{pack.name}</p>
+            <p className="mt-2 text-[2.25rem] leading-tight font-semibold tracking-[-0.04em]">{times > 1 ? `${times} × ${pack.name}` : pack.name}</p>
             <p className="mt-1 text-[1rem] text-white/70">
-              {pack.credits} créditos, {formatEuro(pack.price)}
+              {pack.credits * times} créditos, {formatEuro(pack.price * times)}
             </p>
 
             <dl className="mt-8 flex-1 space-y-1.5">
@@ -93,8 +94,8 @@ export function PricingCalculator() {
                 </div>
               ))}
               <div className="flex justify-between gap-4 rounded-[0.9rem] px-4 py-3 text-[0.95rem]">
-                <dt className="text-white/75">{fits ? "Ficam de reserva" : "Faltam, a comprar à parte"}</dt>
-                <dd className={cn("font-semibold whitespace-nowrap tabular", fits ? "text-mint" : "text-[#e8a27c]")}>{Math.abs(reserve)} créditos</dd>
+                <dt className="text-white/75">Ficam de reserva</dt>
+                <dd className="font-semibold whitespace-nowrap tabular text-mint">{reserve} créditos</dd>
               </div>
             </dl>
 
@@ -102,7 +103,7 @@ export function PricingCalculator() {
               href={siteConfig.appUrl}
               className="mt-8 flex h-12 items-center justify-center rounded-full bg-white text-[0.95rem] font-semibold text-rent-deep transition-colors hover:bg-cream"
             >
-              Comprar este pacote
+              {times > 1 ? "Comprar estes pacotes" : "Comprar este pacote"}
             </a>
           </div>
         </Reveal>

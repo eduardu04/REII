@@ -8,7 +8,7 @@ import { formatEuro } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 /**
- * 2 · Quatro pacotes pré-pagos, o Família em destaque. Como nos planos do ChatGPT ou do Claude,
+ * 2 · Três pacotes pré-pagos, o Família em destaque. Como nos planos do ChatGPT ou do Claude,
  * cada cartão diz o que entrega: o primeiro lista tudo, os seguintes "Tudo do anterior, mais".
  */
 export function PricingPacks() {
@@ -17,7 +17,7 @@ export function PricingPacks() {
       <div className="shell">
         <SectionIntro title={pricingPacks.title} lead={pricingPacks.lead} />
 
-        <ul className="mt-14 grid gap-3 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
+        <ul className="mt-14 grid gap-3 lg:mt-20 lg:grid-cols-3">
           {packs.map((p, i) => {
             const dark = !!p.featured;
             const bonus = bonusPercent(p);
