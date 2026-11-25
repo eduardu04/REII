@@ -20,6 +20,7 @@ browser (React, Vercel) ──HTTPS──▶ API REST (FastAPI, Render) ──�
 | Pasta | O quê |
 |---|---|
 | `frontend/` | App React + Vite (ecrãs: caracterização do imóvel → pressupostos → resultados) |
+| `frontend/site/` | Site público em Next.js: Início, Como funciona, Para quem é, Preços (ver `frontend/site/README.md`) |
 | `backend/` | API FastAPI + motor financeiro |
 | `docs/` | Decisões, requisitos do MVP (30%), notas técnicas |
 
@@ -38,6 +39,11 @@ cd frontend
 npm install
 cp .env.example .env
 npm run dev                          # http://localhost:5173
+
+# site público
+cd frontend/site
+npm install
+npm run dev                          # http://localhost:3000
 ```
 
 ## Regras do repositório

@@ -2,7 +2,7 @@
 
 Imagens para substituir as atuais, pensadas para cada secção. Os prompts estão em inglês (os geradores respondem melhor), com uma nota em português sobre o que a imagem tem de comunicar.
 
-Depois de gerar, colocar em `site/src/assets/photos/` com o nome indicado e avisar: as referências estão em `site/src/content/home.ts`.
+Depois de gerar, colocar em `frontend/site/src/assets/photos/` com o nome indicado e avisar: as referências estão em `frontend/site/src/content/home.ts`.
 
 ---
 
