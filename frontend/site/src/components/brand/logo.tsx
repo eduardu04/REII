@@ -1,0 +1,16 @@
+import { cn } from "@/lib/utils";
+
+/**
+ * Logótipo REII, vetorizado a partir do ficheiro original da marca (public/brand/reii-logo.svg).
+ * Usa `currentColor`: fica preto no cabeçalho e branco no rodapé escuro.
+ */
+export function Logo({ className, title = "REII" }: { className?: string; title?: string }) {
+  return (
+    <svg viewBox="0 0 792 258" fill="currentColor" role="img" aria-label={title} className={cn("h-5 w-auto", className)}>
+      <path d="M1 2H183A77 80 0 0 1 260 82A77 80 0 0 1 174 162L262 257H183L84 152H71V257H7V165A46 46 0 0 1 53 119H175A30 34 0 0 0 205 85A30 34 0 0 0 175 51H1Z" />
+      <path d="M369 1H558Q561 1 561 4V47Q561 50 558 50H375Q363 50 363 62V105H543V153H363V196Q363 208 375 208H558Q561 208 561 211V254Q561 257 558 257H369C336 257 309 230 309 197V61C309 28 336 1 369 1Z" />
+      <rect x="610" y="1" width="66" height="257" rx="3" />
+      <rect x="725" y="1" width="66" height="257" rx="3" />
+    </svg>
+  );
+}
