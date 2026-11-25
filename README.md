@@ -11,7 +11,7 @@ Projeto de grupo de **CVPBT (Grupo 11)** e **GPTSI (Grupo 9)**, Iscte, 2026/27.
 ```
 website (Next.js, Vercel) ──▶ MVP (Next.js, Vercel) ──HTTPS──▶ API REST (FastAPI, Render) ──▶ PostgreSQL (Supabase)
                                                                    │
-                                                                   ├─ motor de cálculo (Python: calcula todos os valores)
+                                                                   ├─ motores de estimativa e financeiro (Python: calculam todos os valores)
                                                                    ├─ agentes Recolha, Mercado e Explicação (API da Anthropic; não calculam valores)
                                                                    ├─ INE e BPstat (APIs públicas)
                                                                    └─ Stripe em modo de teste (pacotes de créditos)
@@ -25,7 +25,7 @@ Detalhe em [`docs/arquitetura.md`](docs/arquitetura.md).
 |---|---|
 | `frontend/site/` | Website corporativo (Next.js) |
 | `frontend/app/` | MVP (Next.js) |
-| `backend/` | API FastAPI + motor de cálculo |
+| `backend/` | API FastAPI + motores de estimativa e financeiro |
 | `supabase/` | Migrações da base de dados |
 | `docs/` | Arquitetura e MVP |
 
