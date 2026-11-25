@@ -11,7 +11,7 @@ O MVP tem cerca de **30 % das funcionalidades do produto final**, numa zona-pilo
 ## As 3 funcionalidades principais
 
 1. **Análise e estimativa da zona:** dados colaborativos dos utilizadores e dados públicos do INE para estimar a venda e a renda na zona-piloto.
-2. **Análise financeira e comparação:** o motor de cálculo compara vender e arrendar (VAL, TIR, cash flow, payback e os restantes indicadores aplicáveis).
+2. **Análise financeira e comparação:** o motor financeiro compara vender e arrendar (VAL, TIR, cash flow, payback e os restantes indicadores aplicáveis).
 3. **Simulação de cenários com explicação por IA:** alterar pressupostos (por exemplo, a taxa de juro do BPstat) e receber uma explicação em linguagem simples. A IA explica, não escolhe.
 
 O registo do imóvel e o contributo colaborativo são passos separados.
